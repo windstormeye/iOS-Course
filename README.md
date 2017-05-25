@@ -1,3 +1,6 @@
-# My Awesome Book
+# **关于**
 
-This file file serves as your book's preface, a great place to describe your book's content and ideas.
+    本人为[北京信息科技大学网络实践创新联盟](http://iflab.org)（以下简称ifLab）iOS副组长，目前为我校计算机学院软件工程系大二学生。这是我的GitHub连接
+
+    iOS开发这条路是从大一刚开学那会儿开始的，我上大学之前可是一点都没接触过编程之类的东西，不过立志学习计算机这条路早就已经定下来了，在大学之前也经常买计算机相关的书籍，比如电脑爱好者。我这人呢，爱耍小聪明，这是历届班主任跟我爸妈说的，其实我一直都不怎么在意这个
+
