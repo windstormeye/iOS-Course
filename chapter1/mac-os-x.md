@@ -4,13 +4,13 @@
 
 **一.最早期Mac OS**
 
-**1. System 1-6**
+**1. System 1-6**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135211_657.png)
 
 1984年的苹果发布了其第一台Mac个人电脑，与其一起发布的操作系统当时被简单的称为System Software，第一代System 1打破了字符终端的模式，最早使用图形界面和用户交互设计：基于窗口操作并使用了图标，鼠标可以在屏幕上进行移动，并可以通过拖拽来拷贝文件及文件夹。这让它成为图形界面设计的先驱，但后续直到System 7界面始终没有大改变。
 
-**2. System 7**
+**2. System 7**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135226_666.png)
 
@@ -18,13 +18,13 @@
 
 另外从System 7的7.6版本开始被苹果公司改名为Mac OS ，这一年是1997年。
 
-**3. Mac OS 8**
+**3. Mac OS 8**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135226_729.png)
 
 1997年，苹果发布的Mac OS 8开始加入更多的颜色，默认支持256色的图标，并较早的采用了等距风格图标，也称伪3D图标，但整体界面变化依旧不大。
 
-**二. NeXT附体**
+**二. NeXT附体**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135226_907.png)
 
@@ -34,9 +34,9 @@
 
 注：拉茨拉夫，当时Mac OS人机界面设计负责人
 
-**三. 过渡OS X**
+**三. 过渡OS X**
 
-**1. Rhapsody**
+**1. Rhapsody**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135227_18.png)
 
@@ -44,21 +44,21 @@
 
 而代号Rhapsody是依循苹果在1990年代以音乐名词作为操作系统代号的模式所命名的，其他代号包括Harmony \(Mac OS 7.6\)，Tempo \(Mac OS 8\)，Allegro \(Mac OS 8.5\)及Sonata \(Mac OS 9\)。
 
-**2. Mac OS 9**
+**2. Mac OS 9**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135227_125.png)
 
 1999年发布，是乔布斯宣布过渡到Mac OS X阶段路线上最后一个Mac OS系列。
 
-**3. Mac OS X Server 1.0**
+**3. Mac OS X Server 1.0**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135227_231.jpg)
 
 1999年3月苹果发布Mac OS X Server 1.0，即第一个版本的Mac OS X开发者预览版，它是苹果第一个真正基于NeXT的操作系统，和Rhapsody很像。
 
-**四. 早期Mac OS X**
+**四. 早期Mac OS X**
 
-**1. OS X公开测试版**
+**1. OS X公开测试版**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135227_338.png)
 
@@ -76,35 +76,35 @@
 
 One more thing，从Mac OS X苹果开启了以猫科动物系列为代号的命名史。
 
-**3. OS X 10.1 Puma美洲狮**
+**3. OS X 10.1 Puma美洲狮**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135227_566.png)
 
 OS X 10.0半年后即2001年9月，苹果就推出了OS X 10.1美洲狮，没有新增太多功能，主要聚焦于改善系统表现。
 
-**4. OS X 10.2 Jaguar美洲豹**
+**4. OS X 10.2 Jaguar美洲豹**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135227_761.png)
 
 2002年8月发布，在这一版本中Aqua界面的装饰风格达到新高峰：窗口背景底纹，非活动窗口标题栏半透明、滚动条的抽空效果。另外也是从这个版本有了新的起始画面和新的苹果标志，过往Happy Mac的标志不再出现，取而代之的是如今那颗被偷咬了一口的苹果。
 
-**五. 进化Mac OS X**
+**五. 进化Mac OS X**
 
 Aqua的衰退，这种变化事实上从OS X 10.3 Panther就开始了。
 
-**1. OS X 10.3 Panther黑豹**
+**1. OS X 10.3 Panther黑豹**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135227_883.png)
 
 2003年10月发布，在这一版本Aqua界面引入了新的Brush风格，即金属拉丝质感，并在最常用的Finder上使用。
 
-**2. OS X 10.4 Tiger老虎**
+**2. OS X 10.4 Tiger老虎**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135233_221.png)
 
 2005年4月发布，顶栏最右侧新增了一个蓝色的Spotlight搜索按钮。
 
-**3. OS X 10.5 Leopard豹**
+**3. OS X 10.5 Leopard豹**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135233_325.jpg)
 
@@ -112,27 +112,27 @@ Aqua的衰退，这种变化事实上从OS X 10.3 Panther就开始了。
 
 整体来说这一版本的界面相比之前有了翻天覆地的变化。
 
-**4. OS X 10.6 Snow Leopard雪豹**
+**4. OS X 10.6 Snow Leopard雪豹**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135233_415.png)
 
 2009年8月发布，就像雪豹的名字，只比豹多了个雪字，它是以OS X 10.5的版本为基础跟进开发的，不过OS X 10.6还跑去向iOS偷师，引进了Mac App Store即应用商店。
 
-**六. 现代Mac OS X**
+**六. 现代Mac OS X**
 
-**1. OS X 10.7 Lion狮子**
+**1. OS X 10.7 Lion狮子**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135233_560.png)
 
 2011年7月发布，重新设计了Aqua GUI元素、按钮、进度条、滚动条（不使用时会自动隐藏）以及“滑动切换”的选项卡，全新设计了拟物化iCal界面，新的通信录和邮件应用都使用了类似iPad的界面。此外还引进了像iOS那样的应用启动器Lauchpad界面。
 
-**2. OS X 10.8 Mountain Lion美洲狮**
+**2. OS X 10.8 Mountain Lion美洲狮**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135233_634.jpg)
 
 2012年7月发布，和Lion同样的的风格，更多类iPad及iOS的功能界面被引入（一些内置应用程序甚至被更名以与iOS保持一致），整体界面变化不大。
 
-**3. OS X 10.9 Mavericks**
+**3. OS X 10.9 Mavericks**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135233_679.jpg)
 
@@ -140,12 +140,13 @@ Aqua的衰退，这种变化事实上从OS X 10.3 Panther就开始了。
 
 另外从这一版本苹果不再以动物命名Mac OS X，取而代之的是加州地名，如Mavericks就是加州某个冲浪景点。
 
-**4. OS X 10.10 Yosemite优胜美地**
+**4. OS X 10.10 Yosemite优胜美地**
 
 ![](http://img.ithome.com/newsuploadfiles/2015/4/20150420_135233_784.png)
 
 2014年10月发布，苹果历年来变化最大的操作系统，包括趋于扁平化的界面风格、类似iOS7的图标设计、半透明导航栏及全新字体设计等。
 
-  
+**5、至今**
 
+在去年的WWDC大会上Mac OS X正式更名为macOS，同时也在当年的WWDC上把所有的平台的名字都变成了统一的风格。进入到macOS后界面上还是没有多大的变化，不过，比界面上的变化更大的变化那就是苹果把文件管理系统换成了APFS，升级成功后就多了好几个G。这不得不说是一个很大的进步，非常大的进步。
 
