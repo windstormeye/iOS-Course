@@ -22,3 +22,17 @@
 
 // 上图就是约翰·斯卡利在对着镜头演示其最新投产的智能手环产品Misfit，只支持连接iOS系统。“Misfit”这个名称就来自乔布斯及苹果公司最著名的广告《不同凡响》中：“Here’s to the crazy ones. The misfits（致那些疯狂的人们，那些与众不同的人）”。
 
+
+
+推荐大家几个关于苹果公司和乔布斯的资料，经供参考：
+
+1、[乔布斯传](http://list.youku.com/show/id_z1eaf3b7c404c11e2b16f.html?tpa=dW5pb25faWQ9MTAzNzUzXzEwMDAwMV8wMV8wMQ)
+
+2、[成为乔布斯（Kindle）](http://pan.baidu.com/s/1jIKEM7k)
+
+3、
+
+
+
+
+
