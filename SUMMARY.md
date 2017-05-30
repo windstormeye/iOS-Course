@@ -9,7 +9,6 @@
   * [Xcode，我来啦！](di-san-zhang-ff1a-kai-fa-ji-chu/xcodeff0c-wo-lai-la-ff01.md)
   * [来面基啊——GitHub](di-san-zhang-ff1a-kai-fa-ji-chu/lai-mian-ji-a-2014-2014-github.md)
   * 百家汇
-* 程序员面基 —— GitHub
 * [第四章：基础延伸](di-si-zhang-ff1a-ji-chu-yan-shen.md)
 * [第三章：基础知识](di-er-zhang-ff1a-ji-chu-zhi-shi.md)
 * [番外篇一：小项目实践](fan-wai-pian-ff1a-xiao-xiang-mu-shi-jian.md)
