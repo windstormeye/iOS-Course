@@ -10,7 +10,7 @@ Xcode，前身为乔帮主创建NeXT公司时开发的Project Builder，NeXT被�
 
 以上就是Xcode一些简单的背景介绍，目前最新的Xcode版本已经到了8.3.2，可以说Xcode正在变得越来越好，对开发者来说提供了非常多的帮助。接下来，我们将从Xcode的首页开始一步一步与大家一起探索Xcode。
 
- ![](/assets/Xcode.png)上图为Xcode启动完毕后出现的首页界面。在这个页面中，我们看到了有“Get start with a playground” 、“Create a new Xcode project”和“Check out an existing project”三个选项，笼统的来说，“Get start with a playground”的作用有以下几点：
+![](/assets/Xcode.png)上图为Xcode启动完毕后出现的首页界面。在这个页面中，我们看到了有“Get start with a playground” 、“Create a new Xcode project”和“Check out an existing project”三个选项，笼统的来说，“Get start with a playground”的作用有以下几点：
 
 1、让你可以快速的玩玩Swift；
 
@@ -22,9 +22,19 @@ Xcode，前身为乔帮主创建NeXT公司时开发的Project Builder，NeXT被�
 
 既然，我们现在知道了str是个变量，那么还可以玩一些这样的事情，![](/assets/Swiftplayground.png)甚至，你还可以在Swift playground中做这样的事情，![](/assets/import.png)你完全可以在Swift playground中以图形化的方式显示出某个值的变化趋势，对使用Swift语言来调试算法的同学来说是一个莫大的帮助。当然，关于Swift playground还有一堆很好玩的功能，笔者在此把大家领进门，剩下的就靠同学们自己努力了。关于Swift playground，笔者就介绍到这里。苹果推出Swift playground主要目的就是让大家快速的学习Swift语法，用Swift搞点事情。
 
+接下来，我们来看看第二个选项 —— “Create a new Xcode project”，创建一个Xcode工程。  
+这就引入了一个新的问题，什么是工程？工程是什么意思？
 
+百度百科是这么说的，
 
-接下来，我们来看看第二个选项 —— “Create a new Xcode project”，创建一个Xcode工程
+工程是科学和数学的某种应用，通过这一应用，使自然界的物质和能源的特性能够通过各种结构、机器、产品、系统和过程，是以最短的时间和最少的人力、物力做出高效、可靠且对人类有用的东西。
 
+ok，我们要的就是这种效果，Xcode中所指的工程就是计算机科学和数学的应用，通过这一应用，使代码通过各种结构、系统和过程，以最短的时间和最少的人力、物力做出高校、可靠且对人类有用的东西。
 
+上面这段话是笔者按照传统的工程定义上翻译过来对应上Xcode的工程概念，再说的通俗一些，就是你通过创建工程，来缩短各种文件之间的关联关系，缩短开发时间，让开发者把注意力集中在编码而不是各种文件之间的编译和链接上，就Xcode来说，它还提供了一套缩短UI界面搭建时间的工具（这部分的内容我们将在后边讲到）。毕竟我们是在IDE里创建的可是一个工程，工程所具备的属性和功能，IDE都能够提供，比如上文中我们所讲到的通过各种结构帮助开发者更加快速的构建工程，这一点在IDE中，它提供非常多的人性化便捷功能，利用这些IDE开发人员写好的功能，我们在使用IDE时，就能够方便很多。
+
+在了解Xcode中的工程是什么意思后，我们来创建一个工程，![](/assets/xcode project.png)  
+从上图中的红框部分，我们可以看到，其中提供了包括iOS、watchOS、tvOS、macOS这四大系统的模板文件。说到模板文件，这又是一个什么东西呢？模板模板，就是提供了一个系统在你创建文件的时候就给你写好了部分基础内容，如果大家有过一些使用IDE进行编程的实践，应该就能发现，写C、C++或者java程序性的时候，有些IDE会默认自带“hello，world”，这就是模板文件，你创建了一个C、C++或者java工程（使用IDE写代码的时候，都会通过工程文件去编写代码）模板文件，这个工程模板文件里面，带了一个简单的“hello，world”代码。
+
+如果你是一个刚入门的新手，没关系，在你以后的编程生涯中，会经常遇到这种情况，以至于你会特别烦，特别烦了以后你就会像笔者一样，翻各种IDE的应用程序包文件，改它创建各种文件时自带的一些模板内容。或者，你不想翻IDE的应用程序包文件的话，那你就只能创建一个空文件，就好如文本一般，空空如也。
 
