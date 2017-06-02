@@ -6,7 +6,7 @@
   * [macOS（Mac OS X）](chapter1/mac-os-x.md)
   * [iOS（iPhone OS）](chapter1/ios.md)
 * [第二章：开发基础](di-san-zhang-ff1a-kai-fa-ji-chu.md)
-  * [Xcode，我来啦！](di-san-zhang-ff1a-kai-fa-ji-chu/xcodeff0c-wo-lai-la-ff01.md)
+  * [Xcode](di-san-zhang-ff1a-kai-fa-ji-chu/xcodeff0c-wo-lai-la-ff01.md)
   * [来面基啊——GitHub](di-san-zhang-ff1a-kai-fa-ji-chu/lai-mian-ji-a-2014-2014-github.md)
   * 百家汇
 * [第四章：基础延伸](di-si-zhang-ff1a-ji-chu-yan-shen.md)
