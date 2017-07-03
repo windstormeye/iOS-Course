@@ -30,11 +30,7 @@ Objective-C是借鉴Smalltalk这门面向对象编程语言的始祖的设计和
 
 NSLog是OC中的输出语句，与C语言中的printf函数用法类似，但是比printf强大很多。可能你会很奇怪，为什么感觉每个OC的关键字前都放了一个NS呢？这部分内容啊，大家可以看看乔布斯传，感觉有点形式主义了。因为乔布斯被赶出苹果公司创建了NeXT公司后，得到了Objective-C的授权，可以修改部分内容，所以把每个关键字前都加上了NS。以此代表此版本的Objective-C为NeXT公司所有。
 
-
-
 ---
-
-
 
 以上就是关于Objective-C的部分基础内容。给大家一个进行一个快速入门，关于Objective-C更加细致的内容和学习，大家可以参考文末所列出的链接，因为Objective-C经过这么多年的发展，网上的资料非常的多，笔者在此列出当初学习时所用到的资料，供大家参考。
 
@@ -42,5 +38,5 @@ NSLog是OC中的输出语句，与C语言中的printf函数用法类似，但是
 
 2、[Objective-C的Foundation框架学习](https://pan.baidu.com/s/1jIoS8J0)
 
-3、这是一个简单的Objective-C小实验，大家可以跟着走一走（其实基础部分的东西大家都是类似的）
+3、[这是一个简单的Objective-C小实验，大家可以跟着走一走（其实基础部分的东西大家都是类似的）](http://v.youku.com/v_show/id_XMjg2NTg0NTQyMA==.html?spm=a2h3j.8428770.3416059.1)
 
