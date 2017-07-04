@@ -13,7 +13,10 @@
   * [Objective-C](di-er-zhang-ff1a-ji-chu-zhi-shi/objective-c.md)
   * [Swift](di-er-zhang-ff1a-ji-chu-zhi-shi/swift.md)
 * [第四章：基础延伸](di-si-zhang-ff1a-ji-chu-yan-shen.md)
-* [番外篇一：小项目实践](fan-wai-pian-ff1a-xiao-xiang-mu-shi-jian.md)
+  * [什么是UI？](di-si-zhang-ff1a-ji-chu-yan-shen/shi-yao-shi-ui.md)
+  * [StoryBoard](di-si-zhang-ff1a-ji-chu-yan-shen/storyboard.md)
+  * [xib](di-si-zhang-ff1a-ji-chu-yan-shen/xibnib.md)
+  * [小项目实践（计算器）](di-si-zhang-ff1a-ji-chu-yan-shen/xiao-xiang-mu-shi-jian-ff08-mo-fang-ios-zi-dai-ji-suan-qi-ff09.md)
 * 第五章：第三方库
 * Objective-C
 
