@@ -1,12 +1,3 @@
----
-title: macOS开发（词法分析器）
-date: 2018-04-16 10:58:46
-tags:
-- macOS
-- Swift
-- 编译原理
----
-
 这是我的第一个存粹基于Swift的project，重点是用Swift进行macOS的开发，而不是词法分析器。
 
 对于开发桌面应用来说，目前可供参考的框有windows原生“古老的”MFC、常规的跨平台Qt、目前最火的跨平台[electron](https://github.com/electron/electron)，以及macOS原生的Cocoa。

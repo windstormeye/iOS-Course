@@ -1,11 +1,3 @@
----
-title: More-Audio
-date: 2018-01-28 22:22:22
-tags:
-- iOS
-- Audio
----
-
 这段时间陆陆续续的在做一些关于iOS开发细节的东西，先是跟进了音频部分（以下简称为Audio），主要分为以下几大部分：
 1. Audio的架构和框架
 2. 编解码/文件封装格式
@@ -101,10 +93,10 @@ emmm，看到openAL我会想到openGL，openGL主要是用于处理一些3D的�
 
 与iOS Audio有关的framework有：
 
-<!-- | Name | Academy | score | 
-| - | :-: | -: | 
-| Harry Potter | Gryffindor| 90 | 
-| Hermione Granger | Gryffindor | 100 | 
+<!-- | Name | Academy | score |
+| - | :-: | -: |
+| Harry Potter | Gryffindor| 90 |
+| Hermione Granger | Gryffindor | 100 |
 | Draco Malfoy | Slytherin | 90 | -->
 
 | framework Name | uses |
@@ -141,7 +133,7 @@ SystemSound框架用于播放系统声音，比如某些特殊的提示音、震
     } else {
         UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"注意" message:@"您的设备不支持震动" preferredStyle:UIAlertControllerStyleAlert];
         [self presentViewController:alertVC animated:true completion:^{
-            
+
         }];
     }
 ```

@@ -1,11 +1,3 @@
----
-title: More-弹幕
-date: 2018-02-08 18:17:50
-tags:
-- iOS
-- 弹幕
----
-
 这是iOS开发More系列的弹幕练习总结。关于弹幕的实现在GitHub上已经有一堆的实现了，国内外都有大量的第三方库，并且做的都不错，但是给我的感觉弹幕的简单实现并不需要多少精力，遂有了这次练习。
 
 先来看整体实现（可能有些丑😓），
@@ -36,22 +28,22 @@ tags:
 - (void)startAnimation {
     // 根据弹幕长度执行
     // v = s / t
-    
+
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat duration = 4.0f;
     CGFloat wholeWidth = screenWidth + CGRectGetWidth(self.bounds);
-    
+
     // 弹幕开始
     if (self.moveStatusBlock) {
         self.moveStatusBlock(Start);
     }
-    
+
     // t = s / v
     CGFloat speed = wholeWidth / duration;
     CGFloat enterDuration = CGRectGetWidth(self.bounds) / speed;
-    
+
     [self performSelector:@selector(enterScreen) withObject:nil afterDelay:enterDuration];
-    
+
     __block CGRect frame = self.frame;
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         frame.origin.x -= wholeWidth;
@@ -109,18 +101,18 @@ tags:
     if (self.isStopAnimation) {
         return ;
     }
-    
+
     BulletView* bulletView = [[BulletView alloc] initWithComment:comment];
     bulletView.trajectory = trajectory;
     [self.bulletViews addObject:bulletView];
-    
+
     __weak typeof (bulletView) weakBulletView = bulletView;
     __weak typeof (self) weakSelf = self;
     bulletView.moveStatusBlock = ^(MoveStatus status){
         if (self.isStopAnimation) {
             return ;
         }
-        
+
         switch (status) {
             case Start: {
                 // 弹幕开始进入屏幕，将view加入弹幕管理的变量bulletViews中
@@ -150,7 +142,7 @@ tags:
             }
         }
     };
-    
+
     if (self.generateViewBlock) {
         self.generateViewBlock(bulletView);
     }
@@ -190,4 +182,3 @@ tags:
 ---
 
 以上就是本次弹幕练习的总结，只涉及到了核心代码，还有写小的细节没有说到，[详细代码见工程😝](https://github.com/windstormeye/iOSMorePractices/tree/master/liveCommentingPratices)
-

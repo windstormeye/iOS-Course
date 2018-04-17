@@ -1,9 +1,3 @@
----
-title: More-DesignPattern
-date: 2018-02-02 18:38:51
-tags:
----
-
 设计模式，这是一个可以持续投入研究的问题，当初我一直不能理解学长们口中谈论的设计模式到底是什么意思，什么是MVC、MVP、MVVM甚至CDD呢？以及现在层出不穷的MVX等等🙄。有人这么跟我说，“架构，其实是一个设计上的东西，它可以小到类与类之间的一个交互，可以大到不同的模块之间，或者说不同的业务部门之间的交互都可以从架构的层面去理解它。”
 
 好了，说完后我更加懵逼了，这还是没说明白啊。也就一直拖着。随后我开始了第一个自己所谓的“项目”——[“大学+”](https://github.com/windstormeye/CampusPlus)，咱们实话实说，开始大学+之前时间上我有在帮一个学长做他的个人项目一部分，跟我说这个项目整体的架构是MVC，但是当时我哪知道啥是MVC啊，刚开始他丢给我做一个用户登陆模块，我只能依葫芦画瓢，当时根本就不知道啥叫Model，啥叫block，可是当时项目中却充满着大量的Model和block以及各种delegate。😅。迷茫了好几天，最后不管怎么说也是瞎做完了，给学长review的时候居然被他发现了我没用二次封装的AFNetworking网络请求manager，而是自己又搞了一个贼差劲的破东西，被数落了一番后，我当时还是没啥概念，还是不知道为啥要这么做，怎么做。
@@ -79,7 +73,7 @@ tags:
 // 执行Task
 - (void)doPrintTask {
     NSLog(@"finish work!");
-    
+
     Manager *manager = [[Manager alloc] init];
     [manager celebratePrintTask];
 }
@@ -97,9 +91,9 @@ tags:
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.view.backgroundColor = [UIColor lightGrayColor];
-    
+
     // 创建Manage，让Manage制作Task
     Manager *manager = [[Manager alloc] init];
     [manager beginPrintTask];
@@ -150,7 +144,7 @@ worker的改动为：（相当于指定了工作协议）
 
 - (void)doPrintTask {
     NSLog(@"finish work!");
-    
+
     [_workerDelegate donePrintTask];
 }
 
@@ -199,9 +193,9 @@ worker变得简单一些，它只管做东西。而manager变为了，
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.view.backgroundColor = [UIColor lightGrayColor];
-    
+
     delelgateManager *manager = [[delelgateManager alloc] init];
     [manager beginPrintTask];
 }
@@ -302,12 +296,12 @@ MVC为苹果官方推荐的设计模式，其为**Model-View-Controller**的缩�
 ```ObjC
 - (void)initView {
     self.backgroundColor = [UIColor darkGrayColor];
-    
+
     self.tipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 20)];
     [self addSubview:self.tipsLabel];
     self.tipsLabel.font = [UIFont systemFontOfSize:25];
     self.tipsLabel.textAlignment = NSTextAlignmentCenter;
-    
+
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 300, 200, 30)];
     [self addSubview:btn];
     [btn addTarget:self action:@selector(btnClick) forControlEvents:1<<6];
@@ -358,12 +352,12 @@ MVC为苹果官方推荐的设计模式，其为**Model-View-Controller**的缩�
 
 - (void)initView {
     self.backgroundColor = [UIColor darkGrayColor];
-    
+
     self.tipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 20)];
     [self addSubview:self.tipsLabel];
     self.tipsLabel.font = [UIFont systemFontOfSize:25];
     self.tipsLabel.textAlignment = NSTextAlignmentCenter;
-    
+
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 300, 200, 30)];
     [self addSubview:btn];
     [btn addTarget:self action:@selector(btnClick) forControlEvents:1<<6];
@@ -404,18 +398,18 @@ MVC为苹果官方推荐的设计模式，其为**Model-View-Controller**的缩�
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.view.backgroundColor = [UIColor lightGrayColor];
-    
+
     self.model = [[MVCModel alloc] init];
     self.model.contentString = @"MVC model";
-    
+
     self.MVCView = [[MVCView alloc] init];
     self.MVCView.frame = self.view.bounds;
     self.MVCView.model = self.model;
     self.MVCView.viewDelegate = self;
     [self.view addSubview:self.MVCView];
-    
+
 }
 
 - (void)MVCViewBtnClick {
@@ -498,16 +492,16 @@ MVP的全称为Model-View-Presenter，可以看到缺少了Controller，替换�
 
 - (void)initView {
     self.view.backgroundColor = [UIColor lightGrayColor];
-    
+
     self.presenter = [Presenter new];
-    
+
     self.mvpView = [MVPView new];
     self.mvpView.frame = self.view.bounds;
     [self.view addSubview:self.mvpView];
     self.mvpView.viewDelegate = self.presenter;
-    
+
     self.mvpModel = [MVPModel new];
-    
+
     self.presenter.mvpModel = self.mvpModel;
     self.presenter.mvpView = self.mvpView;
     self.mvpModel.contentString = @"2333";
@@ -631,17 +625,17 @@ MVPView和MVCView有一个不一样的地方，
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.mvvmView = [[MVVMView alloc] init];
     self.mvvmView.frame = self.view.bounds;
     [self.view addSubview:self.mvvmView];
-    
+
     self.mvvmModel = [[MVVMModel alloc] init];
     self.mvvmModel.content = @"2333";
-    
+
     self.viewModel = [[MVVMViewModel alloc] init];
     self.viewModel.contentString = self.mvvmModel.content;
-    
+
     [self.mvvmView setWithViewModel:self.viewModel];
     [self.viewModel setWithModel:self.mvvmModel];
 }
@@ -690,12 +684,12 @@ MVPView和MVCView有一个不一样的地方，
 
 - (void)initView {
     self.backgroundColor = [UIColor lightGrayColor];
-    
+
     self.tipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 20)];
     [self addSubview:self.tipsLabel];
     self.tipsLabel.font = [UIFont systemFontOfSize:25];
     self.tipsLabel.textAlignment = NSTextAlignmentCenter;
-    
+
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 300, 200, 30)];
     [self addSubview:btn];
     [btn addTarget:self action:@selector(btnClick) forControlEvents:1<<6];
@@ -713,7 +707,7 @@ MVPView和MVCView有一个不一样的地方，
 
 - (void)setWithViewModel:(MVVMViewModel *)vm {
     self.vm = vm;
-    
+
     [self.KVOController observe:vm keyPath:@"contentString" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld block:^(id  _Nullable observer, id  _Nonnull object, NSDictionary<NSKeyValueChangeKey,id> * _Nonnull change) {
         NSString *newContent = change[NSKeyValueChangeNewKey];
         self.tipsLabel.text = newContent;
@@ -725,7 +719,7 @@ MVVMView中，我们使用了Facebook开源的KVOController封装好的苹果提
 ```ObjC
 - (void)setWithViewModel:(MVVMViewModel *)vm {
     self.vm = vm;
-    
+
     [self.KVOController observe:vm keyPath:@"contentString" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld block:^(id  _Nullable observer, id  _Nonnull object, NSDictionary<NSKeyValueChangeKey,id> * _Nonnull change) {
         NSString *newContent = change[NSKeyValueChangeNewKey];
         self.tipsLabel.text = newContent;
@@ -765,7 +759,7 @@ MVVMView中，我们使用了Facebook开源的KVOController封装好的苹果提
 - (instancetype)init {
     self = [super init];
     if (self) {
-        
+
     }
     return self;
 }
