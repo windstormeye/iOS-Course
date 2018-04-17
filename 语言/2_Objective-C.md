@@ -45,9 +45,10 @@ NSLog是OC中的输出语句，与C语言中的printf函数用法类似，但是
 
 以上就是关于Objective-C的部分基础内容。给大家一个进行一个快速入门，关于Objective-C更加细致的内容和学习，大家可以参考文末所列出的链接，因为Objective-C经过这么多年的发展，网上的资料非常的多，笔者在此列出当初学习时所用到的资料，供大家参考。
 
-1、[Objective-C语言学习](https://pan.baidu.com/s/1pLlu8C7)
+1. [Objective-C语言学习](https://pan.baidu.com/s/1pLlu8C7)
 
-2、[Objective-C的Foundation框架学习](https://pan.baidu.com/s/1jIoS8J0)
+2. [Objective-C的Foundation框架学习](https://pan.baidu.com/s/1jIoS8J0)
 
-3、[这是一个简单的Objective-C小实验，大家可以跟着走一走（其实基础部分的东西大家都是类似的）](http://v.youku.com/v_show/id_XMjg2NTg0NTQyMA==.html?spm=a2h3j.8428770.3416059.1)
+3. [这是一个简单的Objective-C小实验，大家可以跟着走一走（其实基础部分的东西大家都是类似的）](http://v.youku.com/v_show/id_XMjg2NTg0NTQyMA==.html?spm=a2h3j.8428770.3416059.1)
 
+4. [操蛋的block语法](http://fuckingblocksyntax.com/)
