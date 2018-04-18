@@ -1,85 +1,91 @@
-# iOS开发相关内容总结
+<img src="./header.png" width = "100%" height = "100%" align=center />
 
-## 前言
+## 🤘 前言
 
-这是我在学习iOS开发相关内容过程中的总结，欢迎star、fork、PR。[一篇老文](./简介.m)，当初开这个库时的一些想法。
+这是我在学习iOS开发相关内容过程中的总结，包括在日常coding、工作中、灵光一闪后的想法时间等都会在此进行分析总结。因为自己的时间关系，很多想要总结出来的内容往往会拖延一段时间才正式完成，因此设立了以下状态供大家进行参考。
 
-## iOS
+👨🏻‍💻 编写中 | ✅ 已完成
 
-[招一个靠谱的iOS实习生（附参考答案）](./iOS/招一个靠谱的iOS实习生（附参考答案）.md)
+欢迎star、fork、PR。[一篇老文](./简介.md)，当初开这个库时的一些想法。
 
-#### 文化
+##  iOS
 
-[苹果公司的历史](./iOS/文化/2_Apple_History.md)
+[✅ 招一个靠谱的iOS实习生（附参考答案）](./iOS/招一个靠谱的iOS实习生（附参考答案）.md)
 
-[macOS的历史](./iOS/文化/3_Mac_OS_X.md)
+#### 🏯 文化
 
-[iOS的历史](./iOS/文化/4_iOS.md)
+[✅ 苹果公司的历史](./iOS/文化/2_Apple_History.md)
 
-#### 相关工具使用
+[✅ macOS的历史](./iOS/文化/3_Mac_OS_X.md)
 
-[百家汇](./iOS/相关工具使用/2_百家汇.md)
+[✅ iOS的历史](./iOS/文化/4_iOS.md)
 
-[GitHub](./iOS/相关工具使用/3_GitHub.md)
+#### 🛠 相关工具使用
 
-[Xcode](./iOS/相关工具使用/4_Xcode.md)
+[👨🏻‍💻百家汇](./iOS/相关工具使用/2_百家汇.md)
 
-[开发中可能会用到的内容](./iOS/相关工具使用/开发中可能会用到的内容.md)
+[👨🏻‍💻GitHub](./iOS/相关工具使用/3_GitHub.md)
 
-## 语言
+[👨🏻‍💻Xcode](./iOS/相关工具使用/4_Xcode.md)
 
-[Objective-C](./语言/2_Objective-C.md)
+[👨🏻‍💻开发中可能会用到的内容](./iOS/相关工具使用/开发中可能会用到的内容.md)
 
-[Swift](./语言/3_Swift.md)
+## 🗣 语言
 
-[More-页面传值](./语言/More-页面传值.md)
+[👨🏻‍💻Objective-C](./语言/2_Objective-C.md)
 
-[More-架构设计](./语言/More-DesignPattern.md)
+[👨🏻‍💻Swift](./语言/3_Swift.md)
 
-[More-国际化一站式解决方案](./语言/More-iOS国际化一站式解决方案.md)
+[✅More-页面传值](./语言/More-页面传值.md)
 
-## UI
+[✅More-架构设计](./语言/More-DesignPattern.md)
 
-[什么是UI？](./UI/2_什么是UI？.md)
+[✅More-国际化一站式解决方案](./语言/More-iOS国际化一站式解决方案.md)
 
-[StoryBoard](./UI/3_StoryBoard.md)
+## 🔶 UI
 
-[More-弹幕](./UI/More-弹幕.md)
+[👨🏻‍💻什么是UI？](./UI/2_什么是UI？.md)
 
-## 教程
+[👨🏻‍💻StoryBoard](./UI/3_StoryBoard.md)
 
-[计算器](./项目及教程/计算器.md)
+[✅More-弹幕](./UI/More-弹幕.md)
 
-[剪刀石头布](./项目及教程/剪刀石头布.md)
+[👨🏻‍💻UITableView相关使用总结](./UI/UITableView使用相关总结.md)
 
+## 📚 教程
 
-## 项目
+[👨🏻‍💻计算器](./项目及教程/计算器.md)
 
-[iBistu 4.0开发总结](./项目/iBistu4-0（先导篇）.md)
-
-[小程序初探](./项目/小程序初探.md)
-
-[小程序初探（二）](./项目/小程序初探（二）.md)
-
-[React-Native记〇](./项目/React-Native记〇.md)
-
-[React-Native记（一）](./项目/React-Native记（一）.md)
-
-[React-Native记（二）](./项目/React-Native记（二）.md)
-
-## SDK及框架
-
-[More-iOS开发中Audio相关内容](./SDK及框架/More-Audio.md)
-
-[ONEUIKit-ONEProgressHUD](./SDK及框架/ONEUIKit-ONEProgressHUD.md)
+[✅剪刀石头布](./项目及教程/剪刀石头布.md)
 
 
-## macOS
+## 🏗 项目
 
-[macOS开发（词法分析器）](./macOS/macOS开发（词法分析器）.md)
+[✅iBistu 4.0开发总结](./项目/iBistu4-0（先导篇）.md)
+
+[✅小程序初探](./项目/小程序初探.md)
+
+[✅小程序初探（二）](./项目/小程序初探（二）.md)
+
+[✅React-Native记〇](./项目/React-Native记〇.md)
+
+[✅React-Native记（一）](./项目/React-Native记（一）.md)
+
+[✅React-Native记（二）](./项目/React-Native记（二）.md)
+
+## ⚙️ SDK及框架
+
+[✅More-iOS开发中Audio相关内容](./SDK及框架/More-Audio.md)
+
+[✅ONEUIKit-ONEProgressHUD](./SDK及框架/ONEUIKit-ONEProgressHUD.md)
 
 
-## 相关技术博客汇总
+## 💻 macOS
+
+[✅macOS开发（词法分析器）](./macOS/macOS开发（词法分析器）.md)
+
+
+## 🔗 相关技术博客汇总
 
 [sunnyxx、](http://blog.sunnyxx.com/)
 [tutuge、](http://tutuge.me/)
