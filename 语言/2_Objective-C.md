@@ -52,3 +52,7 @@ NSLog是OC中的输出语句，与C语言中的printf函数用法类似，但是
 3. [这是一个简单的Objective-C小实验，大家可以跟着走一走（其实基础部分的东西大家都是类似的）](http://v.youku.com/v_show/id_XMjg2NTg0NTQyMA==.html?spm=a2h3j.8428770.3416059.1)
 
 4. [操蛋的block语法](http://fuckingblocksyntax.com/)
+
+5. [Objective-C的历史](https://zh.wikipedia.org/wiki/Objective-C)
+
+6. [Objective-C的前辈——Smalltalk](http://web.cecs.pdx.edu/~harry/musings/SmalltalkOverview.html)

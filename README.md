@@ -2,7 +2,7 @@
 
 ## 🤘 前言
 
-这是我在学习iOS开发相关内容过程中的总结，包括在日常coding、工作中、灵光一闪后的想法时间等都会在此进行分析总结。因为自己的时间关系，很多想要总结出来的内容往往会拖延一段时间才正式完成，因此设立了以下状态供大家进行参考。
+这是我在学习iOS开发相关内容过程中的总结，包括在日常coding、工作中、灵光一闪后的想法实践等都会在此进行分析总结。因为自己的时间关系，很多想要总结出来的内容往往会拖延一段时间才正式完成，因此设立了以下状态供大家进行参考。
 
 👨🏻‍💻 编写中 | ✅ 已完成
 
@@ -32,9 +32,9 @@
 
 ## 🗣 语言
 
-[👨🏻‍💻Objective-C](./语言/2_Objective-C.md)
+[👨🏻‍💻Objective-C](./语言/Objective-C.md)
 
-[👨🏻‍💻Swift](./语言/3_Swift.md)
+[👨🏻‍💻Swift](./语言/Swift.md)
 
 [✅More-页面传值](./语言/More-页面传值.md)
 
@@ -78,6 +78,10 @@
 [✅More-iOS开发中Audio相关内容](./SDK及框架/More-Audio.md)
 
 [✅ONEUIKit-ONEProgressHUD](./SDK及框架/ONEUIKit-ONEProgressHUD.md)
+
+[👨🏻‍💻Peek——iOS与OpenCV结合]()
+
+[👨🏻‍💻打砖块——Cocos2D-X与iOS结合]()
 
 
 ## 💻 macOS
