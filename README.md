@@ -30,6 +30,9 @@
 
 [👨🏻‍💻开发中可能会用到的内容](./iOS/相关工具使用/开发中可能会用到的内容.md)
 
+#### 系统相关
+[系统相关内容](./iOS/系统相关.md)
+
 ## 🗣 语言
 
 [👨🏻‍💻Objective-C](./语言/Objective-C.md)
@@ -63,7 +66,7 @@
 
 [👨🏻‍💻第三方库管理](./项目/第三方库管理.md)
 
-[👨🏻‍💻上架](./项目/上架.md)
+[👨🏻‍💻上架的相关内容](./项目/上架.md)
 
 [✅iBistu 4.0开发总结（先导篇）](./项目/iBistu4-0（先导篇）.md)
 
@@ -88,6 +91,8 @@
 ## ⚙️ SDK及框架
 
 [✅More-iOS开发中Audio相关内容](./SDK及框架/More-Audio.md)
+
+[👨🏻‍💻More-iOS开发中的视频相关内容](./SDK及框架/More-视频相关.md)
 
 [✅ONEUIKit-ONEProgressHUD](./SDK及框架/ONEUIKit-ONEProgressHUD.md)
 

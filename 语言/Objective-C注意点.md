@@ -110,6 +110,49 @@
     - weak：用于修饰引用类型（弱引用，只能修饰OC对象）；
     - strong：用于修饰引用类型（强引用）；
     - unsafe_unretained：只用于修饰引用类型（弱引用），与weak的区别在于，被unsafe_unretained修饰的对象被销毁后，其指针并不会被自动置空，此时指向了一个野地址。
-9. 
+
+9. `Block`的理解：
+  * Block与函数指针非常类似，但Block能够访问函数以外、词法作用域以外的外部变量的值；
+  * Block不仅实现了函数的功能，还携带了函数的执行环境；
+  * Block实际上是指向结构体的指针；（可参考[这篇文章](https://www.cnblogs.com/yoon/p/4953618.html)）
+  * Block会把进入其内部的基本数据类型变量当做常量处理。】
+  * Block执行的是一个回调，并不知道其中的对象合适被释放，所以为了防止在使用对象之前就被释放掉了，会自动给其内部所使用的对象进行retain一次。
+  * Block使用`copy`修饰符进行修饰，且不能使用`retain`进行修饰，因为`retain`只是进行了一次回调，但block的内存还是放在了栈空间中，在栈上的变量随时会被系统回收，且Block在创建的时候内存默认就已经分配在栈空间中，其本身的作用域限于其创建时，一旦在超出其创建时的作用域之外使用，则会导致程序的崩溃，故使用`copy`修饰，使其拷贝到堆空间中，block有时还会用到一些本地变量，只有将其copy到堆空间中，才能使用这些变量。
+
+10. 循环引用的几种情况：
+  * **NSTimer**：
+  * **block**：
+  * **delegate**：
+
+11. Objective-C中的反射机制
+  Foundation框提供了反射API，可通过API把字符串转为`SEL`操作，且因为OC的动态性，这些操作都发生在**运行时**。我们可以在运行时选择需要创建的实例，并动态的选择调用方法，这些操作可以由服务器下发的参数进行控制。
+
+  什么意思呢？比如说，我们可以通过后台推送过来的数据进行动态跳转，跳转到页面后再根据返回的数据执行对应的操作。比如，
+  ```json
+  // 假设返回了这些数据
+  {
+      "vc" : "homeViewController",
+      "methon" : "reloadData",
+      "propertys" : [
+        {"url" : "www.baidu.com"},
+        {"title" : "百度"},
+      ],
+  }
+  ```
+  我们可以这么写，
+  ```ObjC
+    Class class = NSClassFromString(dict[@"vc"]);
+    UIViewController *vc = [[class alloc] init];
+    NSDictionary *parameter = dict[@"propertys"];
+    [parameter enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([vc respondsToSelector:NSSelectorFromString(key)]) {
+            [vc setValue:obj forKey:key];
+        }
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
+    SEL selector = NSSelectorFromString(dict[@"method"]);
+    [vc performSelector:selector];
+
+  ```
 
 持续更新中.....
