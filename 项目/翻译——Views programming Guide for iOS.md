@@ -22,3 +22,15 @@
 
 `Windows`配合显示你的`views`
 一个window是`UIWindow`类的实例并且能够处理全部呈现于你的应用程序用户界面上的内容。`window`与`view`共同工作（并且还是视图控制器的拥有者），去管理和改变相互之间的等级视图。在大部分的时候，你的应用程序`window`并不会发生改变。`window`创建之后，它不会发生改变，只有通过它显示的`views`才会发生改变。每一个应用程序都只至少有一个`window`在设备的主屏幕上去显示这个应用程序用户界面。如果有外部显示设备连接到了这个设备，应用程序能够较好的在这个外部显示设备上创建第二个window去呈现内容（这句话翻译不确定）。
+
+#### 动画提供了用户可见的界面改变反馈
+
+动画提供了关于你的层级视图用户可见反馈的改变。系统定义了呈现模态视图（或单一视图）和位于不同组合视图之间过渡的动画。不过，`view`有很多能够直接修改动画的属性。例如，通过动画你可以改变`view`的透明度，在屏幕中的位置，大小，背景颜色或者其它的属性。如果你直接使用底层的`Core Animation`层对象进行工作，你能够作出其它很多不错的动画。
+
+#### `interface Builder`的扮演的角色
+
+`interface Builder`是一个图形构造和配置你的应用程序`windows`和`view`的工具。使用`interface Builder`，你能够集中你的`views`并处置它们的在`nib`文件中的位置，它是一个存储了你可以自由移动版本的`view`或其它对象的资源文件，当你在`runtime`加载一个`nib`文件时，你可以使用你的代码去操纵这些位于真实对象中的`view`。
+
+你不得不去进行创建你的应用程序界面工作时，使用`interface Builder`会变得非常简单。因为iOS始终支持并合并进了`interface Builder`和`nib`文件，只需要一点点的时间就可以把你应用程序的设计工作合并到`nib`文件中。
+
+关于更多的如何使用`interface Builder`信息，请看Interface Builder User Guide。关于如何使用`view controller`管理包涵这些view`的`nib`文件，请看[View Controller Programming Guide for iOS](https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/index.html#//apple_ref/doc/uid/TP40007457)中的创建自定义视图控制器。
