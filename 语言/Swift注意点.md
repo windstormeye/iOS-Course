@@ -24,3 +24,9 @@
 4. Swift中的属性相关。神奇的set和get。[https://www.jianshu.com/p/071024b38a8b](https://www.jianshu.com/p/071024b38a8b)
 
 5. **继承**。对于自定义的类而言，Objective-C的类，不能继承自Swift的类，即要混编的OC类不能是Swift类的子类。反过来，需要混编的Swift类可以继承自OC的类。
+
+6. Swift中的方法选择器#selector还是用到了OC的runtime。😔，还是不够Swifty。
+
+7. 混编项目中，如果你的协议是用的Swift写的，而且其中有`option`方法，那就要在对应的方法前面加上`@ObjC`关键词。
+
+8.
