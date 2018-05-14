@@ -29,4 +29,48 @@
 
 7. 混编项目中，如果你的协议是用的Swift写的，而且其中有`option`方法，那就要在对应的方法前面加上`@ObjC`关键词。
 
-8.
+8. 如何用给当前`WKWebView`的request添加`Cookie`?
+    首先是`setCookie`方法，
+    ```Swift
+    private func setCookie() {
+        var ticketCookieProperties = [AnyHashable: Any]()
+        ticketCookieProperties[HTTPCookiePropertyKey.domain]    = "Your hostname"
+        ticketCookieProperties[HTTPCookiePropertyKey.name]      = "Your Cookie.name"
+        ticketCookieProperties[HTTPCookiePropertyKey.value]     = "Your Cookie.value"
+        ticketCookieProperties[HTTPCookiePropertyKey.path]      = "/"
+        ticketCookieProperties[HTTPCookiePropertyKey.expires]   = Date().addingTimeInterval(3600)
+        let ticketCookie = HTTPCookie.init(properties: ticketCookieProperties as! [HTTPCookiePropertyKey : Any] )
+        HTTPCookieStorage.shared.setCookie(ticketCookie!)
+        
+        var usernameCookieProperties = [AnyHashable: Any]()
+        usernameCookieProperties[HTTPCookiePropertyKey.domain]    = "Your hostname"
+        usernameCookieProperties[HTTPCookiePropertyKey.name]      = "Your Cookie.name"
+        usernameCookieProperties[HTTPCookiePropertyKey.value]     = "Your Cookie.value"
+        usernameCookieProperties[HTTPCookiePropertyKey.path]      = "/"
+        usernameCookieProperties[HTTPCookiePropertyKey.expires]   = Date().addingTimeInterval(3600)
+        let usernameCookie = HTTPCookie.init(properties: usernameCookieProperties as! [HTTPCookiePropertyKey : Any] )
+        HTTPCookieStorage.shared.setCookie(usernameCookie!)
+    }
+    ```
+
+    接着是`readCurrentCookie`方法，把之前设置全局`Cookie`取出来，
+    ```Swift
+    private func readCurrentCookie() -> String {
+        let cookieJar = HTTPCookieStorage.shared
+        var cookieString = ""
+        for cookie: HTTPCookie in cookieJar.cookies! as Array {
+            cookieString = cookieString + "\(cookie.name)=\(cookie.value);"
+        }
+        return cookieString
+    }
+    ```
+
+    最后是给当前的`WKWebView`的request添加`Cookie`，
+    ```Swift
+    var request = URLRequest.init(url: URL(string: requestURL!)!)
+    // 注入公网所需Cookie
+    request.addValue(readCurrentCookie(), forHTTPHeaderField: "Cookie")
+    webView?.load(request)
+    ```
+
+    记得使用之前先调用`setCookie()`方法把我们需要的相关`Cookie`给种上。
