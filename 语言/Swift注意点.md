@@ -76,3 +76,26 @@
     记得使用之前先调用`setCookie()`方法把我们需要的相关`Cookie`给种上。
 
 9. 更换当前App的启动图时，如果运行App时未出现，应该删掉App重装一次，强制删除安装App的缓存。
+
+10. 监听系统音量三部曲：
+    ```Swift
+        // 1
+        import AVFoundation
+
+        // 2
+        try! AVAudioSession.sharedInstance().setActive(true)
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(volumeValueChange), name: NSNotification.Name(rawValue: "AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
+
+        // 3 
+        // 在对应的方法中通过AVAudioSession来获取音量
+        var tempVolume = AVAudioSession.sharedInstance().outputVolume
+    ```
+
+11. 想要隐藏系统音量界面，需要在对应VC的`viewDidLoad` or `viewWillAppear`中写下：
+    ```Swift
+    UIApplication.shared.keyWindow?.insertSubview(MPVolumeView(frame: CGRect.init(x: -2000, y: -2000,
+                                                                                  width: 1, height: 1)), at: 0)
+    ```
+    当然，需求前提得是隐藏，如果你要想自定义，那就不要把该视图移除当前可视区域中，如果我们对该视图啥都不做，那就会只出现一条Slider，拖动该Slider即可调节音量。
