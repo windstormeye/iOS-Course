@@ -100,6 +100,8 @@
 
 ## ⚙️ SDK及框架
 
+[✅ More-iOS开发中Ping的相关内容](./SDK及框架/More-iOS上的相机.md)
+
 [✅ More-iOS开发中Ping的相关内容](./SDK及框架/ping.md)
 
 [✅ More-iOS开发中Audio相关内容](./SDK及框架/More-Audio.md)
