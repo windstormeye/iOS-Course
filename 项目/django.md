@@ -169,3 +169,27 @@ def article_list(request):
 $ cd env
 $ source ./bin/activate
 ```
+
+### 内容显示截断。        
+`<p>{{ blog.content|truncatechars:30 }}</p>`，也可以使用`truncatewords`，但是要求词和词中间要有空格，针对的是一个个的词，英文可以直接用。
+
+### 模板文件
+模板文件（一般都是html）如果是跟着项目走，那就应该放到全局模板文件里，如果是跟着app走应该放到app的模板文件里。
+
+### html中标签的id一般写在class前面
+
+### django的命名空间
+在app中新建的static文件夹中再新建一个跟app名字一样的文件夹，然后把需要的静态文件放进行。注意：要重启服务器（CSS没效果也可以重启）
+
+### 加载静态文件的声明
+{% load staticfiles %}要放在需要用到的静态文件之前，而不是拆开。
+```python
+{% load staticfiles %}
+{% block header_extends %}
+    <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+{% endblock %}    
+```
+
+### bootstrap和jquery最好都down下来，毕竟也不是特别大。使用bootstrap推荐直接上官网查资料。www.bootcss.com
+
+### python2的range()出来后是个list，而python3得到的是个生成器

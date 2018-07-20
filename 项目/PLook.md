@@ -29,3 +29,12 @@ override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
 `videoDataOutPut.setSampleBufferDelegate(self, queue: .global())`是这个方法导致的，给output流传入的是一个正常等级全局子线程，故应该合并到主线程中再进行各种操作。如果不想这么做，那就直接丢入主线程`videoDataOutPut.setSampleBufferDelegate(self, queue: DispatchQueue.main)`
 
 6. `NSTimer`和`CADisplayLink`做定时任务时，默认加到的`runloop`是`NSRunLoopDefaultMode`，当视图滑动时，`runloop`只会处理`UITrackingRunLoopMode`，并不会处理`timer`和`CADisplayLink`，可以把`runloop`的`mode`改为`NSRunLoopCommonMode`s即可。[参考文章](https://blog.csdn.net/wzzvictory/article/details/22417181)
+
+7. 遇到一个深浅拷贝的问题。
+```
+vc.imageArray = [self.imageArray mutableCopy];
+……
+[self.imageArray removeAllObjects];
+```
+
+这会引发崩溃，崩溃信息：`*** Terminating app due to uncaught exception 'NSRangeException', reason: '*** -[__NSArrayM objectAtIndexedSubscript:]: index 0 beyond bounds for empty array’`。简单来说就是数组为空，原因是因为之前做的是深拷贝，后续再`remove`的时候数组的里的元素都没了，需要做值引用，`mutableCopy`即可。
