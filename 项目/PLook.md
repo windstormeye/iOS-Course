@@ -38,3 +38,9 @@ vc.imageArray = [self.imageArray mutableCopy];
 ```
 
 这会引发崩溃，崩溃信息：`*** Terminating app due to uncaught exception 'NSRangeException', reason: '*** -[__NSArrayM objectAtIndexedSubscript:]: index 0 beyond bounds for empty array’`。简单来说就是数组为空，原因是因为之前做的是深拷贝，后续再`remove`的时候数组的里的元素都没了，需要做值引用，`mutableCopy`即可。
+
+8. 昨天出现push后原页面数据没了是因为重新addSubview到了下一个页面，导致上一个页面的imageView们都跑到了下一个页面中去了。
+
+9. 遮罩效果的实现可参考文章[https://www.jianshu.com/p/d8f060c21056](https://www.jianshu.com/p/d8f060c21056)
+
+10. 放大缩小、拖动手势结合(UIPinch和UIPan)，如果既要放大也要缩小，记得打开多手势识别

@@ -193,3 +193,21 @@ $ source ./bin/activate
 ### bootstrap和jquery最好都down下来，毕竟也不是特别大。使用bootstrap推荐直接上官网查资料。www.bootcss.com
 
 ### python2的range()出来后是个list，而python3得到的是个生成器
+
+### filter筛选符合条件，exclude筛选不符合条件。
+
+### 条件中的双下划线：字段查询类型、外键拓展（以博客分类为例）、日期拓展（以月份分类为例）、支持链式查询：可以一直链接下去
+
+### 去除该段文本中的h5比标签内容，只保留文本 
+`<p>{{ blog.content|striptags|truncatechars:120 }}</p>。`
+
+### 过滤器safa显示h5标签内容
+`<div class="blog-content">{{ blog.content|safe }}</div>`
+
+### 富文本编辑库。django-ckeditor
+
+### admin中文简体——zh-hans
+
+### django2.0后url的设置可以直接用path
+
+### pypi.org。可以查到相关的pip库
