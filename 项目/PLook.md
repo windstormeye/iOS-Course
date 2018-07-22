@@ -44,3 +44,7 @@ vc.imageArray = [self.imageArray mutableCopy];
 9. 遮罩效果的实现可参考文章[https://www.jianshu.com/p/d8f060c21056](https://www.jianshu.com/p/d8f060c21056)
 
 10. 放大缩小、拖动手势结合(UIPinch和UIPan)，如果既要放大也要缩小，记得打开多手势识别
+
+11. UIImageView拖拽:[http://www.voidcn.com/article/p-tryprmmp-dw.html](http://www.voidcn.com/article/p-tryprmmp-dw.html)。
+
+12. UIPinch和UIPan的问题:[https://blog.csdn.net/gocy015/article/details/22992929](https://blog.csdn.net/gocy015/article/details/22992929)。

@@ -211,3 +211,5 @@ $ source ./bin/activate
 ### django2.0后url的设置可以直接用path
 
 ### pypi.org。可以查到相关的pip库
+
+### 框架引用顺序：先是python自带，后是django自带，最后才是自己写的
