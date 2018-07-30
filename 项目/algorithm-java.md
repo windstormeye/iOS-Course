@@ -5,3 +5,9 @@
 3. `const`和`static`关键词：
 * [http://blog.sina.com.cn/s/blog_668aae780101m4ex.html](http://blog.sina.com.cn/s/blog_668aae780101m4ex.html)
 * [https://www.jianshu.com/p/1598004e8215](https://www.jianshu.com/p/1598004e8215)
+
+4. 如何才能将一个`double`变量初始化为无穷大？使用java内置常数，`Double.POSITIVE_INFINITY`和`Double.NEGATIVE_INFINITY`
+
+5. 能够将`double`类型的值和`int`类型的值相互比较吗？不通过类型转换不行！但是java一般会自动进行所需的类型转换，例如，如果`int x = 3`，则`(x < 3.1)`为`true`，java会在比较前将x转换为`double`类型（因为3.1为`double`类型的字面量）
+
+6. java二维数组表示：`int[][] arr = { {1,2,3}, {4,5,6} };`
