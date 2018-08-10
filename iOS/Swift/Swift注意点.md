@@ -1,6 +1,19 @@
-该篇文章为我在日常coding过程中使用OC进行了一些骚操作或者被虐得很惨的记录，持续更新中.....
+# Swift
 
-1. `Array<[String : String]>`的取key和value问题。
+这篇文章主要记录我在学习Swift的一些记录、Swift是14年的WWDC上苹果推出的一门新语言，这是一门非常新的语言，而且在不停的发展当中，对新手非常的友好，可以断定的是Swift将来一定是苹果推的主流开发语言。Objective-C在五年不会消亡，因为OC的强大不是Swift能一时半会取代的，或者说将来会大量存在由OC和Swift混编的项目吧（虽然说现在也有，但还是比较少，估计以后都会这样了）。
+
+
+1. **mutating**：为了能够在struct和enume中修改方法中修改属性值，可以在方法定义前添加关键字。详见：[https://blog.csdn.net/jeffasd/article/details/55104351](https://blog.csdn.net/jeffasd/article/details/55104351)
+
+2. **@autoclosure**：主要是为了化简闭包嵌套写法，详见：[https://www.jianshu.com/p/99ade4feb8c1](https://www.jianshu.com/p/99ade4feb8c1)
+
+3. Swift注释中的注释写法真的是不停的刷新我的三观。😂。。。详见:[https://blog.csdn.net/ruglcc/article/details/53007850](https://blog.csdn.net/ruglcc/article/details/53007850)和[https://www.jianshu.com/p/eda4a8dc0b3f](https://www.jianshu.com/p/eda4a8dc0b3f)
+
+4. **typealias**：定义别名，我觉得它最好用的地方在于给闭包使用，详见：[https://www.jianshu.com/p/082202b9dc17](https://www.jianshu.com/p/082202b9dc17)
+
+5. **Equatable**：自定义相等协议。不过我觉得貌似也能通过一个方法去搞定？不管怎么说，通过`==`符号更加直观吧，关于使用它的有点和缺点，详见：[https://www.natashatherobot.com/implementing-equatable-for-protocols-swift/](https://www.natashatherobot.com/implementing-equatable-for-protocols-swift/)
+
+6. `Array<[String : String]>`的取key和value问题。
 
  背景：最近在上编译原理的课，第一个实验为编写一个词法分析器，原本我的想法是使用Qt来完成，写C/C++。但是突然一闪，哈！这是使用Swift进行开发的好时机！因此，我就开始了......省略五千字，详细见[这篇文章](../macOS/macOS开发（词法分析器）.md)
 
@@ -17,19 +30,19 @@
 
  ```
 
- 2. Swift中的！和？（解包实在是太恶心的一件事了）[http://www.jb51.net/article/100382.htm](http://www.jb51.net/article/100382.htm)，感觉这篇文章是抄的，但是写的内容还算明了。
+7. Swift中的！和？（解包实在是太恶心的一件事了）[http://www.jb51.net/article/100382.htm](http://www.jb51.net/article/100382.htm)，感觉这篇文章是抄的，但是写的内容还算明了。
 
-3. Swift中的值类型和引用类型。[https://www.jianshu.com/p/ba12b64f6350](https://www.jianshu.com/p/ba12b64f6350)
+8. Swift中的值类型和引用类型。[https://www.jianshu.com/p/ba12b64f6350](https://www.jianshu.com/p/ba12b64f6350)
 
-4. Swift中的属性相关。神奇的set和get。[https://www.jianshu.com/p/071024b38a8b](https://www.jianshu.com/p/071024b38a8b)
+9. Swift中的属性相关。神奇的set和get。[https://www.jianshu.com/p/071024b38a8b](https://www.jianshu.com/p/071024b38a8b)
 
-5. **继承**。对于自定义的类而言，Objective-C的类，不能继承自Swift的类，即要混编的OC类不能是Swift类的子类。反过来，需要混编的Swift类可以继承自OC的类。
+10. **继承**。对于自定义的类而言，Objective-C的类，不能继承自Swift的类，即要混编的OC类不能是Swift类的子类。反过来，需要混编的Swift类可以继承自OC的类。
 
-6. Swift中的方法选择器#selector还是用到了OC的runtime。😔，还是不够Swifty。
+11. Swift中的方法选择器#selector还是用到了OC的runtime。😔，还是不够Swifty。
 
-7. 混编项目中，如果你的协议是用的Swift写的，而且其中有`option`方法，那就要在对应的方法前面加上`@ObjC`关键词。
+12. 混编项目中，如果你的协议是用的Swift写的，而且其中有`option`方法，那就要在对应的方法前面加上`@ObjC`关键词。
 
-8. 如何用给当前`WKWebView`的request添加`Cookie`?
+13. 如何用给当前`WKWebView`的request添加`Cookie`?
     首先是`setCookie`方法，
     ```Swift
     private func setCookie() {
@@ -75,9 +88,9 @@
 
     记得使用之前先调用`setCookie()`方法把我们需要的相关`Cookie`给种上。
 
-9. 更换当前App的启动图时，如果运行App时未出现，应该删掉App重装一次，强制删除安装App的缓存。
+14. 更换当前App的启动图时，如果运行App时未出现，应该删掉App重装一次，强制删除安装App的缓存。
 
-10. 监听系统音量三部曲：
+15. 监听系统音量三部曲：
     ```Swift
         // 1
         import AVFoundation
@@ -93,7 +106,7 @@
         var tempVolume = AVAudioSession.sharedInstance().outputVolume
     ```
 
-11. 想要隐藏系统音量界面，需要在对应VC的`viewDidLoad` or `viewWillAppear`中写下：
+16. 想要隐藏系统音量界面，需要在对应VC的`viewDidLoad` or `viewWillAppear`中写下：
     ```Swift
     UIApplication.shared.keyWindow?.insertSubview(MPVolumeView(frame: CGRect.init(x: -2000, y: -2000,
                                                                                   width: 1, height: 1)), at: 0)
