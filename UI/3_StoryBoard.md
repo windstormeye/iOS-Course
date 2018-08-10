@@ -6,6 +6,6 @@ Storyboard是苹果官方主推的一个代替xib的策略。下图为StoryBoard
 
 哔哩哔哩地址:[StoryBoard 01](https://www.bilibili.com/video/av22231774/?p=1)
 
-哔哩哔哩地址:[StoryBoard 02](hhttps://www.bilibili.com/video/av22231774/?p=2)
+哔哩哔哩地址:[StoryBoard 02](https://www.bilibili.com/video/av22231774/?p=2)
 
 哔哩哔哩地址:[StoryBoard 03](https://www.bilibili.com/video/av22231774/?p=3)

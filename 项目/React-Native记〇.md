@@ -56,12 +56,19 @@ $ react-native init '你的工程名字'
   </div>
 
   **\__tests\__：**RN的单元测试文件夹；
+
   **android：**Android工程；
+
   **ios：**iOS工程；
+
   **node_modules：**RN的模块依赖管理（可以认为是Maven或pod）；
+
   **App.js：**相当于对应平台下的MainActivity.java或ViewController.m；
+
   **app.json：**RN工程的一些配置，比如工程名等；
+
   **index.js：**目前我对这个理解是一个bridge，Android和iOS工程分别对其读取签名。
+  
   **package-lock.json和package.json：**都是npm用来管理RN的。
 
 

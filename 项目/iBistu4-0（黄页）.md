@@ -7,8 +7,11 @@
 ## 获取黄页部门列表数据
 **接口：**
 ibistu/_table/module_yellowpage?filter=isDisplay%3D1&offset=1&group=department
+
 **请求方法：**get
+
 **参数：**无
+
 **示例请求成功返回值：**
 ```json
 {
@@ -37,10 +40,13 @@ ibistu/_table/module_yellowpage?filter=isDisplay%3D1&offset=1&group=department
 
 ## 获取黄页某一部门下的电话号码数据
 **接口：**http://api.iflab.org/api/v2/ibistu/_table/module_yellowpage
+
 **请求方法：**get
+
 **参数：**
 offset：固定参数，值为1
 filter：固定前缀department=，值为黄页接口1返回的数据中的department字段值
+
 **示例：**获取研究生工作办公室的电话号码：（此处参数值为：department=10）：http://api.iflab.org/api/v2/ibistu/_table/module_yellowpage?offset=1&filter=department=10
 
 **示例请求成功返回值：**

@@ -69,7 +69,6 @@ Django | [🐸 Django学习](./Back-end/django.md)
 类型 | 文章
 ---- | ----
 总结 | [🐸 前端学习总结](./Front-end/前端学习.md)
-总结 | [🐸 前端学习总结](./Front-end/图解HTTP学习笔记.md)
 
 ## 📚 教程
 
@@ -93,7 +92,7 @@ Xcode | [Xcode](./工具使用/4_Xcode.md)
 ---- | ----
 工作 | [招一个靠谱的iOS实习生（附参考答案）](./Others/招一个靠谱的iOS实习生（附参考答案）.md)
 链接 | [🐸 开发中可能会用到的](./工具使用/开发中可能会用到的内容.md)
-笔记 | [🐸 图解HTTP学习笔记](./项目/图解HTTP学习笔记.md)
+笔记 | [🐸 图解 HTTP 学习笔记](./Front-end/图解HTTP学习笔记.md)
 笔记 | [🐸 coding-interview-university学习笔记](./项目/coding-interview-university学习笔记.md)
 源码分析 | [ONEUIKit-ONEProgressHUD](./项目/ONEUIKit-ONEProgressHUD.md)
 翻译 | [🐸 Views programming Guide for iOS](./项目/翻译——ViewsprogrammingGuideforiOS.md)

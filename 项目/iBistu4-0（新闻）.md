@@ -1,9 +1,13 @@
 # 数据源
 
 ## 获取新闻列表数据
-**接口：**http://api.iflab.org/api/v2/newsapi/newslist
-**请求方法：**get
+
+**接口：** http://api.iflab.org/api/v2/newsapi/newslist
+
+**请求方法：** get
+
 **参数：**
+
 `category`：必需参数，新闻分类，可选的值为"zhxw", "tpxw", "rcpy", "jxky", "whhd", "xyrw", "jlhz", "shfw", "mtgz"
 `page`：必需参数，当前页数，从0开始，0表示第一页
 **示例：**获取第5页的综合新闻：（此处参数值为：category=zhxw，page=4）：http://api.iflab.org/api/v2/newsapi/newslist?category=zhxw&page=5
