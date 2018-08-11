@@ -21,6 +21,8 @@ iOS | [iOS的历史](./文化/4_iOS.md)
 ---- | ----
 网络 | [🐸 网络相关知识](./基础知识/网络相关知识.md)
 算法 & 数据结构 | [🐸 algorithm - java](./基础知识/algorithm-java.md)
+算法 & 数据结构 | [🐸 nowCoder](./基础知识/nowCoder.md)
+语言 | [🐸 C++](./基础知识/C++.md)
 
 ##  iOS
 
