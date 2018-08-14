@@ -1,0 +1,25 @@
+## Swift 中的构造器
+这篇文章主要来讲讲 Swift 中的构造器，在 OC 中如果我们要对一个类写构造方法，一般来说都是类似下面的这种写法：
+
+```objc
+@implementation Test
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+```
+
+而转到 Swift 中，我们会这么去写，
+```swift 
+class Test: NSObject {
+    override init() { 
+      	
+    }
+}
+```
+
+可以看到
