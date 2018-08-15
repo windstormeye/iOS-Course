@@ -22,6 +22,7 @@ iOS | [iOS的历史](./文化/4_iOS.md)
 网络 | [🐸 网络相关知识](./基础知识/网络相关知识.md)
 算法 & 数据结构 | [🐸 algorithm - java](./基础知识/algorithm-java.md)
 算法 & 数据结构 | [🐸 nowCoder](./基础知识/nowCoder.md)
+算法 & 数据结构 | [🐸 LeetCode](./基础知识/leetCode.md)
 语言 | [🐸 C++](./基础知识/C++.md)
 
 ##  iOS
@@ -30,9 +31,9 @@ iOS | [iOS的历史](./文化/4_iOS.md)
 ----- | -----
 Swift |[🐸 OC 转 Swift 注意点](./iOS/Swift/OC转Swift.md)
 Swift | [🐸 Swift 注意点](./iOS/Swift/Swift注意点.md)
+Swift | [Swift 构造器](./iOS/Swift/构造器.md)
 Objective-C | [🐸 Objective-C 注意点](./iOS/Objective-C/Objective-C注意点.md)
 Objective-C | [🐸 Objective-C 中的多线程](./iOS/Objective-C/OC中的多线程.md)
-Swift & Objective-C | [🐸 系统相关](./iOS/Objective-C/系统相关.md)
 Objective-C | [More - 页面传值](./iOS/Objective-C/More-页面传值.md)
 Objective-C | [一个 Ping 工具 ](./iOS/Objective-C/ping.md)
 Objective-C | [More - iOS 上的相机](./iOS/Objective-C/More-iOS上的相机.md)
@@ -40,6 +41,7 @@ Objective-C | [More - iOS 国际化一站式解决方案](./iOS/Objective-C/More
 Objective-C | [More - 设计模式](./iOS/Objective-C/More-DesignPattern.md)
 Objective-C | [More - 音频相关](./iOS/Objective-C/More-Audio.md)
 Objective-C | [More - 视频相关](./iOS/Objective-C/More-视频相关.md)
+Swift & Objective-C | [🐸 系统相关](./iOS/Objective-C/系统相关.md)
 
 
 ## 💻 macOS
