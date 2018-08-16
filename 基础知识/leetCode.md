@@ -176,3 +176,50 @@ class Solution {
     }
 }
 ```
+
+## 两个排序数组的中位数
+惊呆了，用自己最初的想法居然直接一把 AC 掉了困难题目，真不知道这困难是不是放错了哈哈哈，总之很开心就是了。刚开始想的巨多，一直在纠结怎么把两个有序的数组用一个较好的方法直接合并，然后又考虑到了题目是个有序数组，接着想到了用二分balabala，总之就是题还没开始写，我就已经想得乱七八糟，最后差点被自己吓屎去翻参考答案了，这又给了我一个提醒，做题之前确实是要好好的构思题目怎么来，但是要注意不要想太多，因为其实很多东西都是水到渠成的hhhh
+
+```swift
+func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+        var finalArray: Array<Int> = []
+        var i = 0, j = 0
+        
+        // 合并两个有序数组
+        while (i < nums1.count && j < nums2.count)  {
+            if (nums1[i] < nums2[j]) {
+                finalArray.append(nums1[i])
+                i += 1
+            } else {
+                finalArray.append(nums2[j])
+                j += 1
+            }
+        }
+        
+        // 添加剩余内容
+        while true {
+            if i < nums1.count {
+                finalArray.append(nums1[i])
+                i += 1
+            }
+            if j < nums2.count {
+                finalArray.append(nums2[j])
+                j += 1
+            }
+            if i >= nums1.count && j >= nums2.count {
+                break
+            }
+        }
+        
+        // 返回中位数
+        if finalArray.count % 2 != 0 {
+            return Double(finalArray[finalArray.count / 2])
+        } else {
+            let v = (finalArray[finalArray.count / 2] + finalArray[finalArray.count / 2 - 1])
+            if v % 2 != 0 {
+                return Double(v / 2) + 0.5
+            }
+            return Double(v / 2)
+        }
+    }
+```
