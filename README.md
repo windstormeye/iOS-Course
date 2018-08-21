@@ -42,7 +42,8 @@ Objective-C | [More - 设计模式](./iOS/Objective-C/More-DesignPattern.md)
 Objective-C | [More - 音频相关](./iOS/Objective-C/More-Audio.md)
 Objective-C | [More - 视频相关](./iOS/Objective-C/More-视频相关.md)
 Swift & Objective-C | [🐸 系统相关](./iOS/Objective-C/系统相关.md)
-
+Swift | [tips-自定义tabBar大加号引发的思考](./iOS/Objective-C/tips-自定义tabBar大加号引发的思考.md)
+Swift | [🐸 Cache](./iOS/Swift/Cache.md)
 
 ## 💻 macOS
 
