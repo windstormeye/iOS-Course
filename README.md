@@ -25,8 +25,6 @@ iOS | [iOS的历史](./文化/4_iOS.md)
 算法 & 数据结构 | [🐸 LeetCode](./基础知识/leetCode.md)
 语言 | [🐸 C++](./基础知识/C++.md)
 
-/Users/pjhubs/Documents/Project/case/iOS-Course/基础知识/nowCode.md
-
 ##  iOS
 
 类型   | 文章
@@ -109,11 +107,11 @@ Xcode | [Xcode](./工具使用/4_Xcode.md)
 类型 | 文章
 ---- | ----
 工作 | [招一个靠谱的iOS实习生（附参考答案）](./Others/招一个靠谱的iOS实习生（附参考答案）.md)
-链接 | [🐸 开发中可能会用到的](./工具使用/开发中可能会用到的内容.md)
+链接 | [ 开发中可能会用到的](./工具使用/开发中可能会用到的内容.md)
 笔记 | [🐸 图解 HTTP 学习笔记](./Front-end/图解HTTP学习笔记.md)
-笔记 | [🐸 coding-interview-university学习笔记](./项目/coding-interview-university学习笔记.md)
+笔记 | [ coding-interview-university学习笔记](./项目/coding-interview-university学习笔记.md)
 源码分析 | [ONEUIKit-ONEProgressHUD](./项目/ONEUIKit-ONEProgressHUD.md)
-翻译 | [🐸 Views programming Guide for iOS](./项目/翻译——ViewsprogrammingGuideforiOS.md)
+翻译 | [ Views programming Guide for iOS](./项目/翻译——ViewsprogrammingGuideforiOS.md)
 
 
 ## 🏗 项目
@@ -122,8 +120,9 @@ Xcode | [Xcode](./工具使用/4_Xcode.md)
 ---- | ----
 项目管理 | [🐸 第三方库管理](./项目/第三方库管理.md)
 上架 | [🐸 上架的相关内容](./项目/上架.md)
-PLook | [🐸 PLook 开发相关问题汇总](./项目/PLook.md)
-Bonfire | [🐸 Bonfire 开发相关问题汇总](./项目/PLook.md)
+PLook | [🐸 PFollow 开发相关问题汇总](./项目/PFollow.md)
+PLook | [ PLook 开发相关问题汇总](./项目/PLook.md)
+Bonfire | [ Bonfire 开发相关问题汇总](./项目/PLook.md)
 iBistu | [iBistu 4.0开发总结（先导篇）](./项目/iBistu4-0（先导篇）.md)
 iBistu | [iBistu 4.0开发总结（新闻）](./项目/iBistu4-0（新闻）.md)
 iBistu | [iBistu 4.0开发总结（黄页）](./项目/iBistu4-0（黄页）.md)

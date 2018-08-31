@@ -37,6 +37,8 @@ Int(str2)
 再写一个函数，把队列 B 和队列 A 进行对调，此时因为队列 A 已经全部出队，所以队列 B 为空，队列 A 为少了之前的队尾元素队列
 
 
+---
+
 ## 第二天
 ### 二叉树的遍历
 因为二叉树本身是由递归定义的，从原理上讲，所有二叉树的题目都可以用递归来解。二叉树的遍历主要由 `BFS` （前中后序遍历）和 `DFS` （层级遍历）两种组成，需要注意的是，广度优先遍历需要用队列进行搭配
@@ -49,8 +51,9 @@ Int(str2)
 ### 几乎都是算法
 比如 排序、动态规划、二分查找等等。慢慢总结吧
 
+---
 
-## 第三天
+## 第四天
 ### inout 关键字
 使用 `inout` 关键字可以修改传入参数的原始值，调用的时候需要在对应的参数前加上符号 `&` ，类似 `C/C++` 中的指针。
 
@@ -106,6 +109,71 @@ class Pjhubs: UIView {
 
 ### @autoclosure
 [http://swifter.tips/autoclosure/](http://swifter.tips/autoclosure/)
+
+---
+
+## 第五天
+### 柯里化（Curring）
+[http://swifter.tips/currying/](http://swifter.tips/currying/)。说实话，书中和喵神的这篇 blog 描述的代码都很简单，主要是这种神奇的写法根本没见过，书中的例子是这样的，要求写一个函数满足只传入一个整数参数，返回该整数 +2 的值，这很简单对吧，但是实际的要求是只写这么一个函数，然后满足 +2、+3、+4 等，其实我内心直接就冒出多态、模版、范型啦这些东西，但仔细一想，不对啊，只能有一个参数，瞬间缓过神来，柯里化牛逼啊。😂。
+```Swift
+func add(_ num: Int) -> (Int) -> Int {
+    return { val in
+        return num + val
+    }
+}
+
+let number2 = add(2)
+print(number2(2))
+```
+
+### 实现一个函数：求 0 ～ 100 （包括 0 和 100）中为偶数并且恰好是其他数字平方的数字
+
+```Swift
+(0...100).map { $0 * $0 }.filter { $0 % 2 == 0 }
+```
+
+Swift 函数式编程的一些资料：[https://www.jianshu.com/p/7233f140e6c3](https://www.jianshu.com/p/7233f140e6c3)
+
+
+### ARC
+ARC 和 Garbage Collection 的区别在于：Garbage Collection 在运行时管理内存，可以解决 retain cycle， 而 ARC 在编译时管理内存
+
+
+### @property 关键字
+在 OC 中基本数据类型的默认关键字是 `atomic`、`readwrite` 和 `assign`，普通属性的默认关键字为 `atomic`，`readwrite` 和 `strong`
+
+
+### 关键字 automic 和 nonatomic
+* automic ： 修饰的对象保证 setter 和 getter 的完整性，任何线程访问它都可以的哦大一个完整的初始化对象。正是因为要保证操作的完整性，所以速度较慢。automic 比 nonatomic 安全，但也不是绝对的线程安全，当多个线程同时调用 set 和 get 时，会导致获得的对象值不一样。想要获得线程绝对安全，使用 @synchronized （个人觉得 @synchronized 的做法也不好，这是 iOS 中最垃圾的锁哈哈）
+* nonatomic ： 修饰的对象不保证 set 和 get 的完整性，所以当多个线程访问它时可能会返回未初始化的对象，故其速度会比 atomic 快，但线程也不是安全的。
+
+
+### runloop 和 线程的关系
+runloop 是每一个线程一直运行的一个对象，它主要用来负责响应需要处理的各种事件和消息。每一个线程都有且仅有一个 runloop 与之对应，没有线程，就没有  runloop 。在所有线程中，只有主线程的 runloop 是默认启动的，main 函数会设置一个 NSRunLoop 对象，而其它线程的 runLoop 默认是没有启动的，可以通过 `[NSRunLoop currentRunLoop]` 启动。
+
+
+### code show
+```objc
+NSString *firstStr = @"helloworld";
+NSString *secondStr = @"helloworld";
+
+if (firstString == secondStr) {
+    NSLog(@"Equal");
+} else {
+    NSLong(@"Not Equal");
+}
+```
+
+最终将打印出 "Equal"，`==` 该符号是判断着两个指针是否指向同一个对象。上段代码尽管指向不同对象，但它们的值相同，iOS 编译器优化了内存分配，当两个指针指向两个值一样的 `NSString` 时，两者指向同一个内存地址。
+
+
+
+
+
+
+
+
+
 
 
 
