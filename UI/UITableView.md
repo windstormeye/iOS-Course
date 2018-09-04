@@ -56,3 +56,17 @@ React-Native中并没有iOS和Android中传统意义的上的`UITableView`或`Li
   * 异步绘制：这是目前最火的tableView性能调优方法，新浪微博是这么做的，可以使用`ASDK`这个库进行。
   * tableView滑动时，按需加载：识别tableView静止或减速滑动结束后，异步加载，在快速滑动过程中，只按需加载目标方位内的Cell。
   * 避免大量使用图片缩放、颜色渐变、透明图层、CALayer特效（阴影）等操作，尽量显示大小刚好合适的图片资源。
+
+
+2. `UITableView` 的拖动
+首先要保证 `tableView` 进入了编辑状态 `isEditing = true` ， 其次重写代理方法如下：
+
+```Swift
+override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+  let movenum = nums[sourceIndexPath.row]
+  nums.remove(at: sourceIndexPath.row)
+  nums.insert(movenum, at: destinationIndexPath.row)
+}
+```
+
+当然，该代理方法里我做的是数据源的数据替换，不写数据源的数据替换代码是没有问题的，拖动效果一样会存在。
