@@ -33,7 +33,7 @@ Swift |[🐸 OC 转 Swift 注意点](./iOS/Swift/OC转Swift.md)
 Swift | [🐸 Swift 注意点](./iOS/Swift/Swift注意点.md)
 Swift | [Swift 构造器](./iOS/Swift/构造器.md)
 Objective-C | [🐸 Objective-C 注意点](./iOS/Objective-C/Objective-C注意点.md)
-Objective-C | [🐸 Objective-C 中的多线程](./iOS/Objective-C/OC中的多线程.md)
+Objective-C & Swift | [🐸 并发编程](./iOS/Objective-C/并发编程.md)
 Objective-C | [More - 页面传值](./iOS/Objective-C/More-页面传值.md)
 Objective-C | [一个 Ping 工具 ](./iOS/Objective-C/ping.md)
 Objective-C | [More - iOS 上的相机](./iOS/Objective-C/More-iOS上的相机.md)
@@ -44,7 +44,7 @@ Objective-C | [More - 视频相关](./iOS/Objective-C/More-视频相关.md)
 Swift & Objective-C | [🐸 系统相关](./iOS/Objective-C/系统相关.md)
 Swift | [tips-自定义tabBar大加号引发的思考](./iOS/Objective-C/tips-自定义tabBar大加号引发的思考.md)
 Swift | [🐸 Cache](./iOS/Swift/Cache.md)
-Swift & Objective-C | [🐸 Cache](./iOS/Swift/自定义NavigationBar.md)
+Swift & Objective-C | [🐸 自定义NavigationBar](./iOS/Swift/自定义NavigationBar.md)
 
 ## 💻 macOS
 
@@ -83,7 +83,7 @@ Django | [🐸 Django学习](./Back-end/django.md)
 
 类型 | 文章
 ---- | ----
-iOS 面试之道 | (./书籍/iOS面试之道.md)
+面试 |[iOS 面试之道](./书籍/iOS面试之道.md)
 
 
 ## 📚 教程

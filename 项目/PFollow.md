@@ -33,3 +33,7 @@ let annotationSet = mapView.annotations(in: mapView.visibleMapRect).filter { (it
 接着拿到筛出来的 `MAAnnotation` 集合转为 `Array` 遍历（没找到怎么给 `Set` 遍历），然后就根据 `longitude` 和 `latitude` 在之前创建的自定义大头针数组中 找到分别判断该大头针的 `.image` 是否为想要改变的大头针，不是再修改。
 
 因为是分块加载计算，所以并不会像之前写的那种特别傻的方法，直接全部移除再添加，改进后的这个只是在当前用户屏幕可视区域内进行移除和添加，再加上这个缩放初始化为 15 ，缩放要小于 12.8 才改小的大头针图片，所以实际上并不需要占用多大的计算资源，但是算法还是需要改进，现在是两个 `for` 循环，O(n^2) ，有点伤。
+
+
+### 一个报错
+`Terminating app due to uncaught exception 'NSGenericException', reason: '*** Collection <__NSArrayM: 0x1c064ccc0> was mutated while being enumerated.'` 又遇到了这个问题，这个的问题的出现是说，遍历了这个数组，然后又修改了这个数组中的内容。但是仔细看了我的代码，其中完全没有任何遍历数组的操作。开始纠结，后边猜想，是不是因为我在主线程中遍历，然后在子线程中 `addChild` 所导致的呢？因为这个流程也确实挺像
