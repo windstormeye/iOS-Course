@@ -20,6 +20,7 @@ iOS | [iOS的历史](./文化/4_iOS.md)
 类型 | 文章
 ---- | ----
 网络 | [🐸 网络相关知识](./基础知识/网络相关知识.md)
+操作系统 | [🐸 操作系统相关知识](./基础知识/操作系统.md)
 算法 & 数据结构 | [🐸 algorithm - java](./基础知识/algorithm-java.md)
 算法 & 数据结构 | [🐸 nowCoder](./基础知识/nowCode.md)
 算法 & 数据结构 | [🐸 LeetCode](./基础知识/leetCode.md)

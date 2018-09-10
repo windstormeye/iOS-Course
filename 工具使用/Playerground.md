@@ -37,3 +37,5 @@ PlaygroundPage.current.liveView = ViewController()
 ```
 
 当然，如果这样直接运行是肯定不能看到 UI 测试界面的，需要 `View` -> `Assistant Editor` -> `show Assistant Editor` 。
+
+
