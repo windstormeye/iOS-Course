@@ -2,6 +2,142 @@
 
 这篇文章主要记录我在学习Swift的一些记录、Swift是14年的WWDC上苹果推出的一门新语言，这是一门非常新的语言，而且在不停的发展当中，对新手非常的友好，可以断定的是Swift将来一定是苹果推的主流开发语言。Objective-C在五年不会消亡，因为OC的强大不是Swift能一时半会取代的，或者说将来会大量存在由OC和Swift混编的项目吧（虽然说现在也有，但还是比较少，估计以后都会这样了）。
 
+以下内容为 Swift 学习过程中需要注意的地方，当前版本为 4.2 ，来源于 [iOSCaff](https://ioscaff.com) 社区，欢迎大家一同来玩耍。
+
+## Swift 4.2 概览
+
+* Swift 的不需要为了输入/输出或者字符串处理而去导入一个单独的库；
+* 全局作用域中的代码会自动作为程序的入口，所以你并不需要 `main()` 函数；
+* 不需要在句尾写分号；
+
+### 简单值
+* `let` 声明常量，`var` 声明变量。常量在编译时不需要赋初值，但后续只能对它赋值一次。
+* 你不用明确的声明类型，因为编译器会根据你所创建的常量或变量来推断它们的类型。
+* 对于占用多行的字符串可使用三个引号 `"""` ，如：
+    ```Swift
+    let quotation = """
+    I said "I have \(apples) apples."
+    And then I said "I have \(apples + oranges) pieces of fruit."
+    """
+    ```
+* 使用 `[]` 创建空数组，使用 `[:]` 创建空字典。
+
+### 控制流
+* 在 `if` 语句中，条件语句必须是布尔表达式，所以 `if score {...}` 等类似的代码将会报错，而且不会与 0 做隐式的比较，也就是说在 `OC` 中经常用于判断一个变量是否存在的写法在 `Swift` 中要使用 `if` 和 `let` 来结合处理值缺失的情况，如下所示：
+    ```Swift
+    if let s = score {
+        printf(s)
+    }
+    ```
+* 处理可选值还可以使用 `??` 加入 **默认值** 的做法，如下所示：
+    ```Swift
+    let score: String? = nil
+    let myScore = score ?? "zore"
+    ```
+* 运行完 `switch` 语句中与 `case` 匹配的代码后，程序会直接从 `switch` 语句退出，下一个 `case` 语句不会被执行；
+
+### 函数和闭包
+* 使用元组来生成复合值，例如使用元组来让一个函数返回多个值。该元组的元素可以通过名称或数字还获取，例如：
+    ```Swift
+    func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum: Int) {
+        var min = scores[0]
+        var max = scores[0]
+        var sum = 0
+
+        for score in scores {
+            if score > max {
+                max = score
+            } else if score < min {
+                min = score
+            }
+            sum += score
+        }
+
+        return (min, max, sum)
+    }
+    let statistics = calculateStatistics(scores: [5, 3, 100, 3, 9])
+    print(statistics.sum)
+    print(statistics.2)
+    ```
+* 函数其实是一种特殊的闭包，它是可以延后执行的一段代码。在闭包里的代码可以访问到闭包作用域范围内的变量和函数（即使是在不同的作用域执行）。可以通过使用 `{}` 来创建一个 **匿名闭包** ，使用 `in` 将参数和返回值类型与闭包函数体分离，如下所示：
+    ```Swift
+    numbers.map({ (number: Int) -> Int in
+        let result = 3 * number
+        return result
+    })
+    ```
+* 当我们一直一个闭包的类型，比如作为一个代理的回调，可以完全忽略参赛、返回值，甚至两个都忽略，单个语句闭包会把它的语句值当做结果返回，如下所示：
+    ```Swift
+    let mappedNumbers = numbers.map({ number in 3 * number })
+    print(mappedNumbers)
+    ```
+* 还可以通过参数位置而不是参赛名字来引用参数（在短闭包方法中非常有用）。当一个闭包作为最后一个参数传给一个函数时，它可以 **直接跟在括号后面** 。当一个闭包是传给函数的唯一参数时，则可以 **完全忽略括号** ：
+    ```Swift
+    let sortedNumbers = numbers.sorted { $0 > $1 }
+    print(sortedNumbers)
+    ```
+
+### 协议和拓展
+* 与 `OC` 不同的是，结构体和枚举可以拥有方法，其中方法也可以为实例方法，可以为类方法。虽然结构体和枚举可以定义自己的方法，但是默认情况下，实例方法中是不能修改值类型的属性的，为了能够在实例方法中修改属性值，可以在方法定义前添加关键字 `mutating` ，如下所示：
+    ```Swift
+    struct Point {
+    var x = 0, y = 0
+    
+    mutating func moveXBy(x:Int,yBy y:Int) {
+        self.x += x
+        self.y += y
+        }
+    }
+    
+    var p = Point(x: 5, y: 5)
+    p.moveXBy(3, yBy: 3)
+    ```
+
+* 使用 `extension` 可以为现有类型添加功能，例如新方法和计算属性。可以使用拓展将协议一致性添加到其它地方声明的类型，甚至是从其它库或者框架导入的类型：
+    ```Swift
+    extension Int: ExampleProtocol {
+    var simpleDescription: String {
+        return "The number \(self)"
+    }
+        mutating func adjust() {
+            self += 42
+        }
+    }
+    print(7.simpleDescription)
+    ```
+
+### 错误处理
+* 使用 `defer` 来处理函数执行完毕后需要处理的事情，无论这个函数是否抛出异常，该部分代码都会被执行。
+    ```Swift
+    func fridgeContains(_ food: String) -> Bool {
+        fridgeIsOpen = true
+        defer {
+            fridgeIsOpen = false
+        }
+
+        let result = fridgeContent.contains(food)
+        return result
+    }
+    ```
+
+### 泛型
+* 在类型名称后紧接 `where` 来明确表示一系列需求——例如，要求类型实现一个协议，要求两个类型必须相同，或者要求类必须继承来自特定的父类。
+    ```Swift
+    func anyCommonElements<T: Sequence, U: Sequence>(_ lhs: T, _ rhs: U) -> Bool
+    where T.Iterator.Element: Equatable, T.Iterator.Element == U.Iterator.Element {
+        for lhsItem in lhs {
+            for rhsItem in rhs {
+                if lhsItem == rhsItem {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    anyCommonElements([1, 2, 3], [3])
+    ```
+
+
 
 1. **mutating**：为了能够在struct和enume中修改方法中修改属性值，可以在方法定义前添加关键字。详见：[https://blog.csdn.net/jeffasd/article/details/55104351](https://blog.csdn.net/jeffasd/article/details/55104351)
 
