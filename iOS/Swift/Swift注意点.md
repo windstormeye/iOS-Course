@@ -30,7 +30,7 @@
     }
     ```
 * 处理可选值还可以使用 `??` 加入 **默认值** 的做法，如下所示：
-    ```Swift
+    ```Swift·
     let score: String? = nil
     let myScore = score ?? "zore"
     ```
@@ -137,6 +137,18 @@
     anyCommonElements([1, 2, 3], [3])
     ```
 
+## 基础
+### 类型注解
+* 我们可以在一行中定义多个相同类型的变量，使用逗号来分割，在最后的变量名后面加上一个类型注解：
+```Swift
+var red, green, blue: Double
+```
+
+### 命名常量和变量
+* 如果我们需要使用 Swift 预留关键字来命名常量或变量时，用反引号 `(``)` 包围关键字，但最好不要这么做。
+
+### 打印常量与变量
+* 可以通过 `print(_:separator:terminator:)` 来打印一个常量或变量当前的值，该方法默认会添加一个换行符来终止它打印的行，如果我们想要一个没有换行符的值，可以这么写 `print(someValue, terminator: "")` 。
 
 
 1. **mutating**：为了能够在struct和enume中修改方法中修改属性值，可以在方法定义前添加关键字。详见：[https://blog.csdn.net/jeffasd/article/details/55104351](https://blog.csdn.net/jeffasd/article/details/55104351)
@@ -258,3 +270,5 @@
 在 C++ 中可以使用 **虚继承** 的方式解决，详情可看 [https://www.cnblogs.com/BeyondAnyTime/archive/2012/06/05/2537451.html](https://www.cnblogs.com/BeyondAnyTime/archive/2012/06/05/2537451.html)
 
 * **菱形问题**：多个父类实现了同一方法，子类无法判断继承哪个父类的情况。`Java` 中可用 `interface` 的方式解决， `Swift` 中可用 `protocol` 的方式解决。
+
+18. 从 xib 或 sb 拖拽出来的控件设置为 `weak` 是因为对应的 `view` 已经强引用它了，其生命周期和 `view` 是一致的了，除非 `view` 被释放，否则该控件不会被释放；而代码自定义控件，要设置为 `strong` 。
