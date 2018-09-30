@@ -120,7 +120,7 @@ Xcode | [Xcode](./工具使用/Xcode.md)
 类型 | 文章
 ---- | ----
 项目管理 | [🐸 第三方库管理](./项目/第三方库管理.md)
-上架 | [🐸 上架的相关内容](./项目/上架.md)
+上架 | [🐸 上架的相关内容](./项目/上架.md)·
 PLook | [🐸 PFollow 开发相关问题汇总](./项目/PFollow.md)
 PLook | [ PLook 开发相关问题汇总](./项目/PLook.md)
 Bonfire | [ Bonfire 开发相关问题汇总](./项目/Bonfire.md)
