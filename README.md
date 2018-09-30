@@ -71,7 +71,7 @@ Today Extension| [🐸 Today Extension](./UI/Today_Extension.md)
 ---- | ----
 总结 | [🐸 后端相关知识总结](./Back-end/后端学习.md)
 Django | [🐸 Django学习](./Back-end/django.md)
-
+Web | [ Web 服务器](./Back-end/Web服务器.md)
 
 ## 📃 Front - end
 
@@ -123,7 +123,7 @@ Xcode | [Xcode](./工具使用/Xcode.md)
 上架 | [🐸 上架的相关内容](./项目/上架.md)
 PLook | [🐸 PFollow 开发相关问题汇总](./项目/PFollow.md)
 PLook | [ PLook 开发相关问题汇总](./项目/PLook.md)
-Bonfire | [ Bonfire 开发相关问题汇总](./项目/PLook.md)
+Bonfire | [ Bonfire 开发相关问题汇总](./项目/Bonfire.md)
 iBistu | [iBistu 4.0开发总结（先导篇）](./项目/iBistu4-0（先导篇）.md)
 iBistu | [iBistu 4.0开发总结（新闻）](./项目/iBistu4-0（新闻）.md)
 iBistu | [iBistu 4.0开发总结（黄页）](./项目/iBistu4-0（黄页）.md)

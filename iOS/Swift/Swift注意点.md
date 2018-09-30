@@ -151,6 +151,19 @@ var red, green, blue: Double
 * 可以通过 `print(_:separator:terminator:)` 来打印一个常量或变量当前的值，该方法默认会添加一个换行符来终止它打印的行，如果我们想要一个没有换行符的值，可以这么写 `print(someValue, terminator: "")` 。
 
 
+## 基本运算符
+### 算术运算符
+* 与 C 以及 Objective-C 不同的是，在 Swift 中默认情况下算术运算符不允许值溢出。但我们能通过 Swift 的溢出符号加入值溢出的行为：
+    符号 | 作用
+    --- | ---
+    &+  | 溢出加法
+    &-  | 溢出减法
+    &*  | 溢出乘法
+    &/  | 溢出除法
+    &%  | 溢出求模
+
+
+
 1. **mutating**：为了能够在struct和enume中修改方法中修改属性值，可以在方法定义前添加关键字。详见：[https://blog.csdn.net/jeffasd/article/details/55104351](https://blog.csdn.net/jeffasd/article/details/55104351)
 
 2. **@autoclosure**：主要是为了化简闭包嵌套写法，详见：[https://www.jianshu.com/p/99ade4feb8c1](https://www.jianshu.com/p/99ade4feb8c1)
@@ -267,7 +280,7 @@ var red, green, blue: Double
 ### 菱形问题和菱形继承（菱形，也称钻石）
 * **菱形继承**：当一个子类继承多个父类时，多个父类最终继承了同一个类，这种情况称为“菱形继承”。会导致比如祖先类的初始化方法中有一个计数器，父类 A 继承了该祖先类，父类 B 也继承类该祖先类，子类 C 则继承了 A 和 B ，则该祖先类的计数器则被计数了两次，若菱形结构重叠，还会计数更多次。
 
-在 C++ 中可以使用 **虚继承** 的方式解决，详情可看 [https://www.cnblogs.com/BeyondAnyTime/archive/2012/06/05/2537451.html](https://www.cnblogs.com/BeyondAnyTime/archive/2012/06/05/2537451.html)
+在 C++ 中可以使用 **虚继承** 的方式解决，详情可看 ·[https://www.cnblogs.com/BeyondAnyTime/archive/2012/06/05/2537451.html](https://www.cnblogs.com/BeyondAnyTime/archive/2012/06/05/2537451.html)
 
 * **菱形问题**：多个父类实现了同一方法，子类无法判断继承哪个父类的情况。`Java` 中可用 `interface` 的方式解决， `Swift` 中可用 `protocol` 的方式解决。
 
