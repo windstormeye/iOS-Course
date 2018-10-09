@@ -162,7 +162,73 @@ var red, green, blue: Double
     &/  | 溢出除法
     &%  | 溢出求模
 
+### 空合运算符 ??
+其中有个写法需要非常有趣，利用三元运算符进行解包
+```Swift
+let c = (a != nil ? a! : b)
+```
 
+这种写法相当于 `??` ：
+```Swift
+let c = a ?? b
+```
+
+### 单侧区间
+如果想要从数组中遍历出从索引为 2 的下标到结尾的所有元素，可以这么写：
+```Swift
+for name in names[2...] {
+    print(name)
+}
+```
+
+如果想要从数组中遍历从开始至倒数第二个元素，可以这么写：
+```Swift
+for name in names[...2] {
+    print(name)
+}
+```
+
+## 字符串和字符
+Swift 的字符串类型于 Foundation 的 `NSString` 类型进行了无缝桥接，我们可以不用经过类型转换，可以直接在 `String` 中调用 `NSString` 的方法。
+
+### 多行字符串字面量
+如果我们需要跨越多行的字符串，可以使用多行字符串字面量：
+```Swift
+let quotation = """
+The White Rabbit put on his spectacles.  "Where shall I begin,
+please your Majesty?" he asked.
+
+"Begin at the beginning," the King said gravely, "and go on
+till you come to the end; then stop."
+"""
+```
+
+如果文本太长，可以在适当的地方添加上反斜杠：
+```Swift
+let softWrappedQuotation = """
+The White Rabbit put on his spectacles.  "Where shall I begin,\
+please your Majesty?" he asked.
+
+"Begin at the beginning," the King said gravely, "and go on\
+till you come to the end; then stop."
+"""
+```
+
+
+### 字符串（String）是值类型
+Swift 编译器优化了字符串的使用，实际拷贝只会在需要的时候才进行。
+
+### 可拓展的字形群集 & 字符串索引
+在底层，Swift 中的原生 `String` 类型是由 `Unicode 标量` 构造而来的，而 `Unicode` 是一个在不同书写系统中编码，表示和处理文本的国际标准。它使我们能够以一种标准化形式表示几乎任何语言中的任何字符，Swift 中 `String` 和 `Character` 都完全符合 `Unicode` 标准的。
+
+每一个 Swift 的 `Character` 类型代表一个 **可拓展** 的字符集，而拓展字符集由可以由多个不同的 `Unicode` 标量组成，这就意味着相同字符的不同表示需要占据不同的内存空间去存储，因此，在字符串的各种表示中 Swift 字符占据的内存不并不一样，这样造成的结果就是，字符串的字符数量并不能通过遍历该字符串去计算。
+
+所以，`count` 属性返回的字符个数不会一直都与包含相同字符的 `NSString` 的 `length` 属性返回的字符个数相同，因为 `NSString` 的长度是基于 **UTF-16** 表示的字符串所占据的 16 位代码单元的个数决定，而不是字符串的字符集个数决定。
+
+这也就不难理解，为什么 Swift 必须通过 `beginIndex` 或者 `endIndex` 等索引属性或方法来寻找字符在字符串中的位置，而不能像 `NSString` 那般通过确定的下标直接获取。
+
+
+-----
 
 1. **mutating**：为了能够在struct和enume中修改方法中修改属性值，可以在方法定义前添加关键字。详见：[https://blog.csdn.net/jeffasd/article/details/55104351](https://blog.csdn.net/jeffasd/article/details/55104351)
 
