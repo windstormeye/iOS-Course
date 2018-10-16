@@ -188,6 +188,126 @@ for name in names[...2] {
 }
 ```
 
+## 数组
+在 Swift 中把 OC 的 `NSArray` 和 `NSMutableArray` 都统一成了 `Array` ，看起来好像就一种数据结构，但实际上它的实现有三种：
+* `ContiguousArray<Element>`：效率最高，元素分配在连续的内存上。如果元素的是值类型（zhan shang），则 Swift 会自动调用 Array 的这种实现；如果注重效率推荐声明这种类型，尤其当元素大量是类类型时。
+
+* `Array<Element>`： 会自动桥接到 OC 的 `NSArray` 上，如果是值类型，则其性能与 `ContiguousArray` 无差别。
+* `ArraySlice<Element>`：它不是一个新的数组，只是一个片段，在内存上与原数组享用同一区域。
+
+关于数组的简单的操作：
+```Swift
+// 声明并初始化重复值
+let nums = [Int](repeating: 0, count: 5)
+
+// 对数组进行升序排序
+nums.sort()
+
+// 对数组进行降序排序
+nums.sort(by: >)
+```
+
+用数组实现栈：
+```Swift
+class Stack {
+    var stack: [Any]
+    var isEmpty: Bool { return stack.isEmpty }
+    var peek: Any? { return stack.last }
+    
+    init() {
+        stack = [Any]()
+    }
+    
+    func push(object: Any) {
+        stack.append(object)
+    }
+    
+    func pop() -> Any? {
+        if !isEmpty {
+            return stack.removeLast()
+        } else {
+            return nil
+        }
+    }
+}
+```
+
+注意一个操作 `reserveCapacity()` 。它为原数组预留空间，防止数组在增加或删除元素时反复申请内存空间或是创建新数组，适合用于创建和 `removeAll()` 时进行调用。以上这段代码还引入了一个新的问题，`Any` 和 `AnyObject` 有什么区别？官方编程指南中指出：
+
+> AnyObjct 可以代表任何 class 类型的实例
+> Any 可以表示任意类型，甚至方法（func）类型
+
+在 OC 中有个 `id` 类型，编译器不会对声明为 `id` 类型的变量进行类型检查，因为它可以表示任意类型。在 Cocoa 框架中很多地方都使用了 `id` 来进行如参数传递和方法返回的操作，这是 OC 动态特性的一种表现，但现在的 Swift 主要还是使用 Cocoa 框架进行 iOS app 开发，因此为了与 Cocoa 框架协作，将原来的 `id` 类型使用了一个可以表示任意 class 类型的 `AnyObject` 类型进行替代。
+
+但 `id` 和 `AnyObject` 是有区别的。在 Swift 中编译器不仅不会对 `AnyObject` 进行实例的方法调用做检查，甚至会对 `AnyObject` 的所有方法调用都返回 `Opitional` 结果，因为这是符合 OC 理念的，但在 Swift 中却会很危险，应该先确定 `AnyObjct` 真正的类型并进行转换以后再进行调用，如下代码所示：
+
+```Swift
+func someMethod() -> AnyObject? {
+    // ...
+
+    // 返回一个 AnyObject?，等价于在 Objective-C 中返回一个 id
+    return result
+}
+
+let anyObject: AnyObject? = SomeClass.someMethod()
+if let someInstance = anyObject as? SomeRealClass {
+    // ...
+    // 这里我们拿到了具体 SomeRealClass 的实例
+
+    someInstance.funcOfSomeRealClass()
+}
+```
+
+所有的 class 都隐式的实现了 `AnyObject` 接口，这也就是为什么只适用于 class 类型的原因，但在 Swift 中所有的基本数据类型，比如 `Array` 、 `Dictionary` 在 OC 中为 class 的类型却通通都是 `struct` 类型，所以应该用 `Any` 类型进行表示，它除了能够表示 class 外，还可以表示 `struct` 和 `enum` 在内的所有类型。再来举个例子：
+
+```Swift
+let swiftInt: Int = 1
+let swiftString: String = "miao"
+
+var array: [AnyObject] = []
+array.append(swiftInt)
+array.append(swiftString)
+```
+
+在这段代码中，`swiftInt` 实际上的类型为 `NSNumber`，`swiftString` 实际的类型为 `NSString` ，因为在 Swift 和 Cocoa 中的这几个类型是可以自动转换，我们显式地声明了需要 `AnyObject` ，编译器认为我们需要的是 Cocoa 类型而非原生类型，帮我们进行了自动的转换。如果我们这么做：
+
+```Swift
+let swiftInt: Int = 1
+let swiftString: String = "miao"
+
+var array: [Any] = []
+array.append(swiftInt)
+array.append(swiftString)
+array
+```
+
+这就拿到了 Swift 的原生数据类型 `Int` 和 `String`，值得一提的是如果我们只使用 Swift 类型而不转为 Cocoa 类型，性能将会得到提升，所以应该尽可能的使用原生类型。但不要在代码中出现太多次，如果 `Any` 和 `AnyObject` 在代码中出现了很多次，这说明设计上出了问题，可以通过**泛型**做改造。
+
+## 字典和集合
+字典和集合（专指 `HashSet`）经常被使用很重要的一点查找数据的时间复杂度为 **O(1)** 。字典和集合要求它们的 `Key` 都必须遵守 `Hashable` 协议，Cocoa 中的基本数据类型都满足这一点。自定义的 class 需要实现 `Hashable` 而又因为 `Hashable` 是对 `Equable` 的拓展，所以还要重载 `==` 操作符。
+
+一些关于字典和集合的使用操作：
+```Swift
+let primeNums: Set = [3, 5, 7, 9]
+let oddNums: Set = [1, 3, 5, 6]
+
+/// 交集
+/// Intersection()的操作不影响原集合，而 `formIntersection()` 则会已影响原集合。
+print(primeNums.intersection(oddNums))
+/// 并集
+/// union()的操作不影响原集合，而formUnion()则会已影响原集合。
+print(primeNums.union(oddNums))
+/// 差集
+/// subtracting() 不影响原集合，subtract() 影响原集合
+print(oddNums.subtracting(primeNums))
+
+// 用字典和高阶函数计算字符串中每个字符的出现概率
+Dictionary("hello".map { ($0, 1) }, uniquingKeysWith: +)
+```
+
+这块有道非常经典的题目“2Sum”，题目大概是：给出一个整型数组和一个目标值，判断数组中是否有两个数之和等于目标值。这道题我是在 leetcode 上做的，刚开始根本就不知道用 Set ，折腾了很久，到后边慢慢就变好了。还有个变种题目，还要把当前的下标拿到，此时可以加入字典进行解题。
+
+
 ## 字符串和字符
 Swift 的字符串类型于 Foundation 的 `NSString` 类型进行了无缝桥接，我们可以不用经过类型转换，可以直接在 `String` 中调用 `NSString` 的方法。
 
@@ -216,7 +336,15 @@ till you come to the end; then stop."
 
 
 ### 字符串（String）是值类型
-Swift 编译器优化了字符串的使用，实际拷贝只会在需要的时候才进行。
+Swift 编译器优化了字符串的使用，实际拷贝只会在需要的时候才进行。在 Swift 中字符串不同于其他语言（包括 OC），它是**值类型**而非引用类型。
+
+```Swift
+// 检测字符串是否由数字构成
+func isStrNum(str: String) -> Bool {
+    return Int(str) != nil
+}
+```
+
 
 ### 可拓展的字形群集 & 字符串索引
 在底层，Swift 中的原生 `String` 类型是由 `Unicode 标量` 构造而来的，而 `Unicode` 是一个在不同书写系统中编码，表示和处理文本的国际标准。它使我们能够以一种标准化形式表示几乎任何语言中的任何字符，Swift 中 `String` 和 `Character` 都完全符合 `Unicode` 标准的。

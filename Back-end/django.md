@@ -259,4 +259,8 @@ DATABASES = {
 写完 model 后，需要把对应的 app 放到 setting 配置文件中。
 
 
-
+## 重新生成表结构
+很多时候当我们在修改 django 的 model 结构时，会因为某些“特殊”情况（搞不懂为啥）没有更新数据库表结构，这个时候可以参考如下做法：
+1. 把数据库中对应的表删除；
+2. 把 `django_migrations` 表中 `app` 对应字段中的 model 删除；
+3. 重新执行 `makemigrations` 和 `migrate` 。
