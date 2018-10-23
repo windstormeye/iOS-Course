@@ -255,12 +255,35 @@ DATABASES = {
 ## 其它
 需要注意的地方是，使用原生 SQL 处理事物和使用 django ORM 框架进行处理的区别在于，如果视图函数中出现的问题是视图函数本身而不是数据库的问题，那么使用 django ORM 框架也会回滚，而使用原生 SQL 处理却不会。
 
-## 数据库表生成
+### 数据库表生成
 写完 model 后，需要把对应的 app 放到 setting 配置文件中。
 
 
-## 重新生成表结构
+### 重新生成表结构
 很多时候当我们在修改 django 的 model 结构时，会因为某些“特殊”情况（搞不懂为啥）没有更新数据库表结构，这个时候可以参考如下做法：
 1. 把数据库中对应的表删除；
 2. 把 `django_migrations` 表中 `app` 对应字段中的 model 删除；
 3. 重新执行 `makemigrations` 和 `migrate` 。
+
+### 让媒体文件（图片）可被访问
+按照正常的 django 流程做图片（或其它资源文件）上传即可，如最终生成的 json 格式如下：
+```json
+{
+    avatar = "/media/avatar/pjhubs.jpg";
+    "masuser_id" = 7028492784;
+}
+```
+
+此时在浏览器中直接访问 `http://hostname/media/avatar/pjhubs.jpg` ，是访问不到资源文件的，需要这么做：
+
+1. 在 project app 下（与 settings.py 同级别）的 url.py 文件中添加：
+```py
+from . import settings
+from django.conf.urls.static import static
+```
+2. 在末尾添加上：
+```py
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
+
+可根据自己的要去进行设置，此时就可通过 `http://hostname/media/avatar/pjhubs.jpg` 访问到资源文件了。

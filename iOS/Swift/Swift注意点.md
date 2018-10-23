@@ -338,7 +338,7 @@ till you come to the end; then stop."
 ### 字符串（String）是值类型
 Swift 编译器优化了字符串的使用，实际拷贝只会在需要的时候才进行。在 Swift 中字符串不同于其他语言（包括 OC），它是**值类型**而非引用类型。
 
-```Swift
+```Swift·
 // 检测字符串是否由数字构成
 func isStrNum(str: String) -> Bool {
     return Int(str) != nil
@@ -354,6 +354,261 @@ func isStrNum(str: String) -> Bool {
 所以，`count` 属性返回的字符个数不会一直都与包含相同字符的 `NSString` 的 `length` 属性返回的字符个数相同，因为 `NSString` 的长度是基于 **UTF-16** 表示的字符串所占据的 16 位代码单元的个数决定，而不是字符串的字符集个数决定。
 
 这也就不难理解，为什么 Swift 必须通过 `beginIndex` 或者 `endIndex` 等索引属性或方法来寻找字符在字符串中的位置，而不能像 `NSString` 那般通过确定的下标直接获取。
+
+### inout
+`inout` 关键字是按值传递，然后再写回原变量，而不是按引用传递。
+
+### 给出一个字符串要求将其按照单词顺序进行反转
+工程写法：
+
+```Swift
+let str = "the sky is blue"
+
+var strArray = str.split(separator: " ")
+strArray = strArray.reversed()
+
+for s in strArray {
+    print("\(s) ", terminator: "")
+}
+```
+
+书中写法：
+```Swift
+fileprivate func _reverse<T>(_ chars: inout [T], _ start: Int, _ end: Int) {
+    var start = start, end = end
+    
+    while start < end {
+        _swap(&chars, start, end)
+        start += 1
+        end -= 1
+    }
+}
+
+fileprivate func _swap<T>(_ chars: inout [T], _ p: Int, _ q: Int) {
+    (chars[p], chars[q]) = (chars[q], chars[p])
+}
+
+
+func reverseWord(s: String?) -> String? {
+    guard let s = s else {
+        return nil
+    }
+    
+    var chars = Array(Substring(s)), start = 0
+    _reverse(&chars, 0, chars.count - 1)
+    
+    for i in 0 ..< chars.count {
+        if i == chars.count - 1 || chars[i + 1] == " " {
+            _reverse(&chars, start, i)
+            start = i + 2
+        }
+    }
+    
+    return String(chars)
+}
+
+let str = "the sky is blue"
+print(reverseWord(s: str) as! String)
+```
+
+## 链表
+### 链表的基本概念
+```Swift
+// 链表节点
+class ListNode {
+    var val: Int
+    var next: ListNode?
+    
+    init(_ val: Int) {
+        self.val = val
+        self.next = nil
+    }
+}
+
+// 链表
+class List {
+    var head: ListNode?
+    var tail: ListNode?
+    
+    // 头插法
+    func appendToTail(_ val: Int) {
+        if tail == nil {
+            tail = ListNode(val)
+            head = tail
+        } else {
+            tail!.next = ListNode(val)
+            tail = tail!.next
+        }
+    }
+    
+    // 尾插法
+    func appendToHead(_ val: Int) {
+        if head == nil {
+            head = ListNode(val)
+            tail = head
+        } else {
+            let temp = ListNode(val)
+            temp.next = head
+            head = temp
+        }
+    }
+}
+```
+
+有这么一道题目：给出一个链表和一个值 x ，要求将链表中所有小于 x 的值放到左边，所有大于或等于 x 的值放到右边，并且原链表的节点顺序不能变。例如 1 -> 5 -> 3 -> 2 -> 4 -> 2 ，给定 x=3 ，则要返回 1 -> 2 -> 2 -> 5 -> 3 -> 4 。
+
+这道题的难点在于不能改变链表中原节点的位置，所以肯定不能只要一条链表，因为这样代码会写得非常难以理解（要保证原节点位置不变），所以根据书中给出的思路，我们可以先把问题简化，给定一个链表，只保留比给定值小的节点，这个方法写完后，我们再利用同样的思路在 else 分支中补上比给定值的代码即可。
+
+```Swift
+unc getLeftList(_ head: ListNode?, _ x: Int) -> ListNode? {
+    // dummy 相当于是个哨兵，一直盯着头节点看！
+    let dummy = ListNode(0)
+    var pre = dummy, node = head
+    
+    while node != nil {
+        if node!.val < x {
+            pre.next = node
+            pre = node!
+        }
+        node = node!.next
+    }
+    
+    pre.next = nil
+    return dummy.next
+}
+
+func partition(_ head: ListNode?, _ x: Int) -> ListNode? {
+    let prevDummy = ListNode(0), postDummy = ListNode(0)
+    var prev = prevDummy, post = postDummy
+    
+    var node = head
+    
+    // 尾插法处理左边和右边
+    while node != nil {
+        if node!.val < x {
+            prev.next = node
+            prev = node!
+        } else {
+            post.next = node
+            post = node!
+        }
+        node = node!.next
+    }
+    
+    // 防止构成环
+    post.next = nil
+    // 左右拼接
+    prev.next = postDummy.next
+    
+    return prevDummy.next
+}
+
+let node0 = ListNode(1)
+let node1 = ListNode(5)
+node0.next = node1
+let node2 = ListNode(3)
+node1.next = node2
+let node3 = ListNode(2)
+node2.next = node3
+let node4 = ListNode(4)
+node3.next =  node4
+let node5 = ListNode(2)
+node4.next = node5
+
+//var head = getLeftList(node1, 3)
+var head = partition(node0, 3)
+
+while head != nil {
+    print(head!.val)
+    head = head!.next
+}
+```
+
+### ===
+在 OC 中可以通过 `==` 来进行两个对象指针的判定，在 Swift 中提供的是另一个操作符 `===` ，用来判断两个 `AnyObject` 是否为同一个引用。
+
+### 快行指针
+快行指针是解决“链表成环”问题的较好思路，只需耗费 O(1) 空间，O(n) 时间即可。
+
+```swift
+func hasCycle(_ head: ListNode?) -> Bool {
+    var slow = head
+    var fast = head
+    
+    while fast != nil && fast!.next != nil {
+        slow = slow!.next
+        fast = fast!.next!.next
+        
+        if slow === fast {
+            return true
+        }
+    }
+    return false
+}
+
+let node0 = ListNode(1)
+let node1 = ListNode(5)
+node0.next = node1
+let node2 = ListNode(3)
+node1.next = node2
+let node3 = ListNode(2)
+node2.next = node3
+let node4 = ListNode(4)
+node3.next =  node4
+let node5 = ListNode(2)
+node4.next = node0
+
+print(hasCycle(node0))
+// true
+```
+
+在来看道题：删除链表中倒数第 n 个节点。例： 1 -> 2 -> 3 -> 4 -> 5 , n = 2，返回 1 -> 2 -> 3 -> 5。给定的 n 小于等于链表的长度。
+
+```Swift
+func removeNthFromEnd(head: ListNode?, _ n: Int) -> ListNode? {
+    guard let head = head else {
+        return nil
+    }
+    
+    let dummy = ListNode(0)
+    dummy.next = head
+    var prev: ListNode? = dummy
+    var post: ListNode? = dummy
+    
+    for _ in 0 ..< n {
+        if post == nil {
+            break
+        }
+        post = post!.next
+    }
+    
+    while post != nil && post!.next != nil {
+        prev = prev!.next
+        post = post!.next
+    }
+    
+    prev!.next = prev!.next!.next
+    return dummy.next
+}
+
+var node0 = ListNode(1)
+let node1 = ListNode(5)
+node0.next = node1
+let node2 = ListNode(3)
+node1.next = node2
+let node3 = ListNode(2)
+node2.next = node3
+let node4 = ListNode(4)
+node3.next =  node4
+let node5 = ListNode(2)
+node4.next = node5
+
+var head = removeNthFromEnd(head: node0, 3)
+while head != nil {
+    print(head!.val)
+    head = head!.next
+}
+```
 
 
 -----
