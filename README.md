@@ -15,7 +15,7 @@ macOS | [macOS的历史](./文化/3_Mac_OS_X.md)
 iOS | [iOS的历史](./文化/4_iOS.md)
 
 
-## 🌈 基础知识·
+## 🌈 基础知识
 
 类型 | 文章
 ---- | ----
@@ -25,6 +25,7 @@ iOS | [iOS的历史](./文化/4_iOS.md)
 算法 & 数据结构 | [🐸 nowCoder](./基础知识/nowCode.md)
 算法 & 数据结构 | [🐸 LeetCode](./基础知识/leetCode.md)
 语言 | [🐸 C++](./基础知识/C++.md)
+语言 | [🐸 Python](./基础知识/python.md)
 
 ##  iOS
 
@@ -80,7 +81,8 @@ Web | [ Web 服务器](./Back-end/web服务器.md)
 类型 | 文章
 ---- | ----
 总结 | [🐸 前端学习总结](./Front-end/前端学习.md)
-
+总结 | [🐸 图解HTTP学习笔记](./Front-end/图解HTTP学习笔记.md)
+总结 | [🐸 FCC 学习笔记](./Front-end/FCC.md)
 
 ## 📖 书籍
 

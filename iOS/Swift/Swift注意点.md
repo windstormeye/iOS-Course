@@ -503,7 +503,7 @@ func partition(_ head: ListNode?, _ x: Int) -> ListNode? {
     return prevDummy.next
 }
 
-let node0 = ListNode(1)
+let node0 = ListNode(1)·
 let node1 = ListNode(5)
 node0.next = node1
 let node2 = ListNode(3)
