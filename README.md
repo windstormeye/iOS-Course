@@ -48,7 +48,7 @@ Swift & Objective-C | [🐸 系统相关](./iOS/Objective-C/系统相关.md)
 Swift | [tips-自定义tabBar大加号引发的思考](./iOS/Objective-C/tips-自定义tabBar大加号引发的思考.md)
 Swift | [🐸 Cache](./iOS/Swift/Cache.md)
 Swift & Objective-C | [🐸 自定义NavigationBar](./iOS/Swift/自定义NavigationBar.md)
-
+Swift | [品种选择器](./iOS/Swift/品种选择器总结.md)
 
 ## 💻 macOS
 
@@ -70,7 +70,7 @@ Today Extension| [🐸 Today Extension](./UI/Today_Extension.md)
 
 ## 🗄 Back - end
 
-类型 | 文章
+类型 | 文章·
 ---- | ----
 总结 | [🐸 后端相关知识总结](./Back-end/后端学习.md)
 Django | [🐸 Django学习](./Back-end/django.md)
