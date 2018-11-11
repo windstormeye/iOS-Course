@@ -195,9 +195,17 @@ private func showPicker() {
 
 ```
 
+### 成果
+
+<img src="https://i.loli.net/2018/11/11/5be83e60dbc91.png" width="60%"/>
+
+<img src="https://i.loli.net/2018/11/11/5be83e9728cd3.png" width="60%"/>
+
+<img src="https://i.loli.net/2018/11/11/5be83ebd45295.png" width="60%"/>
+
 ## 总结
 在实现 `PJPickerView` 的过程中，第一场较为完整的学习和经历了以下事情：
-
+·
 * 自定义 `UIPickerView`；
 * 简单的闭包回调的设计；
 * 对蒙版的思考；
