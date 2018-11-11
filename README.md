@@ -48,7 +48,8 @@ Swift & Objective-C | [🐸 系统相关](./iOS/Objective-C/系统相关.md)
 Swift | [tips-自定义tabBar大加号引发的思考](./iOS/Objective-C/tips-自定义tabBar大加号引发的思考.md)
 Swift | [🐸 Cache](./iOS/Swift/Cache.md)
 Swift & Objective-C | [🐸 自定义NavigationBar](./iOS/Swift/自定义NavigationBar.md)
-Swift | [品种选择器](./iOS/Swift/品种选择器总结.md)
+Swift | [PJBreedsViewController 开发总结](./iOS/Swift/品种选择器总结.md)
+Swift | [PJPickerView 开发总结](./iOS/Swift/PJPickerView开发总结.md)
 
 ## 💻 macOS
 
