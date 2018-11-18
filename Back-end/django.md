@@ -164,6 +164,27 @@ def article_list(request):
 ### 下载virtualenv
 `pip install virtualenv`
 
+下载过程中若出现如下信息：
+
+```shell
+Traceback (most recent call last):
+  File "/usr/bin/pip3", line 11, in <module>
+    sys.exit(main())
+  File "/usr/lib/python3/dist-packages/pip/__init__.py", line 215, in main
+    locale.setlocale(locale.LC_ALL, '')
+  File "/usr/lib/python3.5/locale.py", line 594, in setlocale
+    return _setlocale(category, locale)
+locale.Error: unsupported locale setting
+```
+
+则是因为语言配置所导致的，执行如下命令即可：
+
+```shell
+$ export LC_ALL=C
+```
+
+目的是为了去除所有本地化的设置，让命令能够正确执行。`LC_ALL` 它是一个宏，如果该值设置了，则该值会覆盖所有LC_*的设置值。注意，LANG的值不受该宏影响。`C` 是系统默认的locale，"POSIX"是"C"的别名。所以当我们新安装完一个系统时，默认的locale就是C或POSIX。
+
 ### 创建虚拟环境
 ```py
 $ cd env
