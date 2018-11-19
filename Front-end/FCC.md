@@ -174,3 +174,70 @@ background: var(--penguin-skin);
 
 `background: var(--penguin-skin, black);`
 这样，当你的变量有问题的时候，它会设置你的背景颜色为黑色。
+
+##  `:root` 变量
+就像 `html` 是 `body` 的容器一样，你也可以认为 `:root` 元素是你整个 `HTML` 文档的容器。在 `:root` 创建的变量，在整个网页里面都能生效。
+
+```css
+<style>
+  :root {
+    
+    /* add code below */
+    --penguin-belly: pink;
+    /* add code above */
+  }
+</style>
+```
+
+当你在:root里创建变量时，这些变量的作用域是整个页面。如果在元素里创建相同的变量，会重写:root变量设置的值。
+
+## 使用媒体查询更改变量
+CSS 变量可以简化媒体查询的方式。例如，当屏幕小于或大于媒体查询所设置的值，通过改变变量的值，那么应用了变量的元素样式都会得到响应修改:
+
+```css
+@media (max-width: 350px) {
+    :root {
+        
+        /* add code below */
+        --penguin-size: 200px;
+        --penguin-skin: black;
+        /* add code above */
+    }
+}
+```
+
+## `text-align`
+* `text-align: justify;` 可以让除最后一行之外的文字两端对齐，即每行的左右两端都紧贴行的边缘。
+
+* `text-align: center;` 可以让文本居中对齐。
+
+* `text-align: right;` 可以让文本右对齐。
+
+* `text-align: left;` 是 `text-align` 的默认值，它可以让文本左对齐。
+
+## `strong` 标签加粗文本
+你可以使用 `strong` 标签来加粗文字。添加了 `strong` 标签后，浏览器会自动给元素应用 `font-weight:bold;` 。
+
+## `u` 标签
+你可以使用u标签来给文字添加下划线。添加了 `u` 标签后，浏览器会自动给元素应用 `text-decoration: underline;` 。
+
+## `em` 标签
+你可以使用 `em` 标签来强调文本。由于浏览器会自动给元素应用 `font-style: italic;`，所以文本会显示为斜体。
+
+## `s` 标签
+你可以用 `s` 标签来给文字添加删除线，它代表着这段文字不再有效。添加了 `s` 标签后，浏览器会自动给元素应用`text-decoration: line-through;`。
+
+## `hr` 标签
+你可以用 `hr` 标签来创建一条宽度撑满父元素的水平线。它一般用来表示文档主题的改变，在视觉上将文档分隔成几个部分。在 `HTML` 里，`hr` 是自关闭标签，所以不需要一个单独的关闭标签。
+
+## `text-transform` 给文本添加大小写效果
+`CSS` 里面的 `text-transform` 属性来改变英文中字母的大小写。它通常用来统一页面里英文的显示，且无需直接改变 `HTML` 元素中的文本。下面的表格展示了 `text-transform` 的不同值对文字 “Transform me” 的影响。
+
+Value | Result
+--- | ---
+lowercase | "transform me"
+uppercase | "TRANSFORM ME"
+capitalize | "Transform Me"
+initial | 使用默认值
+inherit | 使用父元素的text-transform值。
+none | Default:不改变文字。
