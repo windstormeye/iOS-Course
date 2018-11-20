@@ -56,7 +56,7 @@ Swift | [PJPickerView 开发总结](./iOS/Swift/PJPickerView开发总结.md)
 类型 | 文章
 ---- | ----
 编译原理 | [macOS开发（词法分析器）](./macOS/macOS开发（词法分析器）.md)
-
+git | [一台设备多个git账号](./macOS/一台设备多个git账号.md)
 
 ## UI
 
