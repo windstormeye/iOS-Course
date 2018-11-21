@@ -308,3 +308,13 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
 可根据自己的要去进行设置，此时就可通过 `http://hostname/media/avatar/pjhubs.jpg` 访问到资源文件了。
+
+### request.POST 接收不到客户端发送的参数
+Django 的 `request.POST` 方法获取到的 POST 方法参数只支持 `Content-Type` 类型为：
+
+* `multipart/form-dat`
+* `application/x-www-form-urlencoded`
+
+其它类型的 `Content-Type` 通过 `request.POST` 方法获取到的参数列表均为空。但一般来说我们都希望在 POST 请求中参数类型为 `json`，所以我们需要让客户端同学把 POST 请求的 `Content-Type` 设置为 `application/json` 类型。
+
+在 iOS 的一个常用网络请求框架 `AFNetworking` 中，默认的 `POST` 请求 `Content-type` 就是为 `application/json`。
