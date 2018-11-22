@@ -2,7 +2,9 @@
 这是我在 [freecodecamp.one](http://freecodecamp.one) 上学习遇到的问题以及值得记录的点。
 
 ## `<main>` 标签
-该标签用与在 `<body>` 标签内标识出“内容主体”，因为同时还会有 `<nav>、<header>、<footer>` 等标签，把页面主体内容写在 `<main>` 标签中，有这样搜索引擎进行检索，例子如下：
+该标签用与在 `<body>` 标签内标识出“内容主体”，因为同时还会有 `<nav>、<header>、<footer>` 等标签，把页面主体内容写在 `<main>` 标签中，有这样搜索引擎进行检索，它只应包含与页面中心主题相关的信息，而不应包含如导航连接、网页横幅等可以在多个页面中重复出现的内容。
+
+`main` 标签的语义化特性可以使辅助技术快速定位到页面的主体。有些页面中有 “跳转到主要内容” 的链接，使用 `main` 标签可以使辅助设备自动获得这个功能。例子如下：
 
 ```html
 <!DOCTYPE html>  
@@ -284,3 +286,126 @@ p {
 
 ## 让元素水平居中
 一种常见的实现方式是把块级元素的 `margin` 值设置为 `auto`。同样的，这个方法也对图片奏效。图片默认是**内联元素**，但是可以通过设置其 `display` 属性为 `block` 来把它变成**块级元素**。
+
+## 线性渐变器
+`background: linear-gradient(45deg, #CCFFFF, #FFCCCC);`
+
+## 重复线性渐变器
+```css
+background: repeating-linear-gradient(
+    45deg,
+    yellow 0px,
+    yellow 40px,
+    black 40px,
+    black 80px
+);
+```
+## 通过添加细微图案作为背景图像来创建纹理
+终于明白了公司内网上标记名字的背景图像是怎么做的了
+
+`background: url(https://i.imgur.com/MJAkxbh.png);`
+
+## 更改元素大小
+`transform: scale(1.5);`
+
+## 鼠标悬停时缩放元素
+```css
+div:hover {
+    transform: scale(1.1);
+}
+```
+
+## 倾斜
+```css
+    transform: skewX(24deg);
+    transform: skewY(-10deg);
+```
+
+## 画一个月亮 🌛
+`blur-radius` => 模糊半径，`spread-radius` => 辐射半径，`transparent` => 透明的，`border-radius` => 圆角边框
+```css
+background-color: transparent;
+border-radius: 50%;
+box-shadow: 25px 10px 0px 0px green;
+```
+
+## 画一个爱心 ❤️
+```css
+<style>
+<!-- 先画一个正方形 -->
+.heart {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: pink;
+  height: 50px;
+  width: 50px;
+  transform: rotate(-45deg);
+}
+<!-- 再画一个圆形在左上角 -->
+.heart:after {
+  background-color: pink;
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 0px;
+  left: 25px;
+}
+<!-- 再画一个圆形右上角 -->
+.heart:before {
+  content: "";
+  background-color: pink;
+  border-radius: 50%;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 0px;
+}
+</style>
+<div class = "heart"></div>
+```
+
+## 动画
+```css
+#anim {
+  animation-name: colorful;
+  animation-duration: 3s;
+}
+@keyframes colorful {
+  0% {
+    background-color: blue;
+  }
+  100% {
+    background-color: yellow;
+  }
+}
+```
+
+## 修改动画的填充模式
+动画在持续时间之后重置了，所以按钮又变成了之前的颜色。如果我们想要的效果是按钮在悬停时始终高亮。
+
+`animation-fill-mode: forwards;`
+
+## 动画次数
+`animation-iteration-count: infinite;`
+
+## 使用关键字更改动画定时器
+`animation-timing-function: ease-out;`
+
+## 当图片无法读取或需要提供描述信息时
+`<img src="samuraiSwords.jpeg" alt="这里填写图片描述信息">`
+
+## 每个页面应该只有一个h1标签，用来说明页面主要内容。h1标签和其他的标题标签可以让搜索引擎获取页面的大纲
+
+## 音频播放
+```css
+<audio controls>
+    <source src="https://s3.amazonaws.com/freecodecamp/screen-reader.mp3" type="audio/mpeg" />
+</audio>
+```
