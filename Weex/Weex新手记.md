@@ -158,7 +158,7 @@ export default {
 ### Weex SDK
 构建出来的 js bundle 直接直接可以拖入工程使用，在 iOS 下，看到的渲染后的页面层级如下：
 
-<img src="https://i.loli.net/2018/11/24/5bf95a719ad28.png" height=70% />
+<img src="https://i.loli.net/2018/11/24/5bf95a719ad28.png" width=70% />
 
 查看 WeexSDK，可以看到基本上把原生组件都按照 Weex 支持的格式封装了一遍，所以加入跨平台框架后，app 体积不上升是不可能的，只不过得看用什么个优化方法了（删删删哈哈哈～）
 
