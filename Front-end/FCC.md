@@ -409,3 +409,50 @@ box-shadow: 25px 10px 0px 0px green;
     <source src="https://s3.amazonaws.com/freecodecamp/screen-reader.mp3" type="audio/mpeg" />
 </audio>
 ```
+
+## `label` 标签的 `for` 属性
+`label` 元素不会向用户呈现任何特殊效果。不过，它为鼠标用户改进了可用性。如果您在 `label` 元素内点击文本，就会触发此控件。就是说，当用户选择该标签时，浏览器就会自动将焦点转到和标签相关的表单控件上。前提得跟表单内的输入组件 id 相同，例如：
+```html
+<form>
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name">
+</form>
+```
+
+## `<sub>` 标签
+`<sup>` 标签可定义上标文本。
+
+包含在 `<sup>` 标签和其结束标签 `</sup>` 中的内容将会以当前文本流中字符高度的一半来显示，但是与当前文本流中文字的字体和字号都是一样的。
+
+## 将键盘焦点添加到元素中
+```html
+<p tabindex = "0">Instructions: Fill in ALL your information then click <b>Submit</b></p>
+```
+
+这样就会当用户使用 `tab` 键进行切换时，会把键盘焦点聚集在该标签上。
+
+# 响应式 Web 设计原则
+## 创建一个媒介查询
+设备的高度小于或等于 `800p`x 时，`p` 标签的 `font-size` 为 `12px` 的媒体查询：
+```css
+@media (min-height: 800px) {
+    p {
+      font-size: 12px;
+    }
+}
+@media (max-height: 800px) {
+    p {
+        font-size: 12px;
+    }
+}
+```
+
+## 使排版根据设备尺寸自如响应
+视窗单位相对于设备的视窗尺寸 (宽度或高度) ，百分比是相对于父级元素的大小。
+
+四个不同的视窗单位分别是：
+
+* vw：如 10vw 的意思是视窗宽度的 10%。
+* vh： 如 3vh 的意思是视窗高度的 3%。
+* vmin： 如 70vmin 的意思是视窗中较小尺寸的 70% (高度 VS 宽度)。
+* vmax： 如 100vmax 的意思是视窗中较大尺寸的 100% (高度 VS 宽度)。
