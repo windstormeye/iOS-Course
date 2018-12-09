@@ -734,3 +734,41 @@ while head != nil {
 * **菱形问题**：多个父类实现了同一方法，子类无法判断继承哪个父类的情况。`Java` 中可用 `interface` 的方式解决， `Swift` 中可用 `protocol` 的方式解决。
 
 18. 从 xib 或 sb 拖拽出来的控件设置为 `weak` 是因为对应的 `view` 已经强引用它了，其生命周期和 `view` 是一致的了，除非 `view` 被释放，否则该控件不会被释放；而代码自定义控件，要设置为 `strong` 。
+
+### `Expression resolves to an unused property`
+当我在为自定义相册封装一个易于使用的类在对应的 `ViewController` 中使用时，我的代码是这么写的：
+
+```Swift
+PJAlbumDataManager.manager().albums
+```
+
+Xcode 给我报了这么一个错 `Expression resolves to an unused property`，此时十分的郁闷，说我这个属性未被使用，开始自查代码，过了好几遍，还是发现没啥问题，记者又去 SO 上翻，突然有人给了这么一个回答：
+
+```Swift
+let _ = stockPriceData3[dataIndex]
+let _ = stockPriceData4[dataIndex]
+```
+
+突然觉得不对劲！然后在 Xcode 中把代码改为了：
+
+```Swift
+let r = PJAlbumDataManager.manager().albums
+```
+
+居然解决了.....开始思考刚才 Xcode 给我报的错，嗯，确实是“表达式解析出来的值未被使用”，可是我用不用管你 Xcode 啥事啊？？？
+
+### 计算属性和存储属性
+* **计算属性**：执行函数返回其他内存地址.
+    * 只实现 `getter` 方法的属性被称为**计算属性**，等同于 `OC` 中的 `readOnly` 属性。
+    * 可以这么简写：
+    ```Swift
+    var title: String {
+    return "Mr " + (name ?? "")
+    }
+    ```
+    * 不分配独立的存储空间保存计算结果。
+    * 每次调用时都会被执行。
+* **懒加载属性**：
+    * 在第一次调用时，执行闭包并且分配空间存储闭包返回的数值，会分配独立的存储空间。
+    * 与 OC 不同的是，lazy 属性即使被设置为 nil 也不会被再次调用。
+* **存储属性**：需要开辟空间，以存储数据
