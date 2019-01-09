@@ -216,8 +216,144 @@ $ docker attach ubuntu
 * None Driver
 
 ### 容器互联
-这块等用到了再补充.....
+让一个容器连接到另外一个容器，可以通过 `docker create` 或 `docker run` 创建时通过 `--link` 选项进行配置。例如，创建一个 `Mysql` 容器，将运行的 `web` 容器连接到这个 `Mysql` 容器中：
 
+```shell
+$ sudo docker run -d --name PJMysql -e MYSQL_RANDOM_ROOT_PASSWORD=yes mysql
+$ sudo docker run -d --name webapp --link mysql webapp:latest
+```
 
+网络已经打通，在 `web` 应用程序中连接到 `Mysql` 数据库可以使用 `Docker` 提供的简便方式，只需要通过**容器的网络命名**填入到连接地址中即可访问需要连接的容器，连接地址中的 `PJMysql` 类似于域名解析，`Docker` 会将其指向 `Mysql` 容器的 `IP` 地址，从此映射 `IP` 的工作就交给 `Docker` 完成了！以 `Django` 配置文件为例：
 
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'pigpen',
+        'USER': 'pigpen',
+        'PASSWORD': 'pigpen_2018',
+        # 在此次填入 mysql 容器的网络命名，我的是 PJMysql
+        'HOST': 'PJMysql',
+        'PORT': '3306',
+        'ATOMIC_REQUESTS': True,
+    }
+}
+```
+
+#### 暴露端口
+容器与容器间的网络打通了，但我们还是不能访问已经连接容器中的任何服务。`Docker` 为容器网络增加了一套**安全机制**，只有容器自身允许的端口，才能被其它容器所访问。这个容器自我标记端口可被访问的过程，通常称为`暴露端口`。通过 `docker ps` 命令可以看到容器暴露给其它容器访问的端口（`PORTS` 字段下将会列出）：
+```shell
+PJ@localhost:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+e1c348025713        ubuntu              "/bin/bash"         6 days ago          Up 6 days                               ubuntu
+```
+
+如果想增加容器对外暴露的端口，可以在容器创建时使用 `--expose` 选项进行增加：
+```shell
+$ sudo docker run -d --name mysql -e MYSQL_RANDOM_ROOT_PASSWORD=yes --expose 13306 --expose 23306 mysql:5.7
+```
+
+但还需要注意的是，容器中所暴露出的端口可以认为我们只是打开了容器的防火墙，能否通过这个端口去访问容器中的服务还需要容器中的应用监听并处理来自这个端口的请求，比如我们虽然打开了 `Nginx` 容器的 `443` 端口，并不意味着该容器能够直接对来自 `443` 端口的数据进行处理，需要在 `Nginx` 容器中的对应文件中进行配置处理。
+
+#### 别名连接
+`Docker` 还支持连接时使用别名来摆脱对容器名的限制：
+```shell
+$ sudo docker run -d --name webapp --link mysql:database webapp:latest
+```
+
+以使用 `JDBC`进行数据库连接的配置为例，对 `Mysql` 容器进行别名设置后，可以改为：
+```java
+String url = "jdbc:mysql://database:3306/webapp";
+```
+
+### 网络管理
+容器之间能够相互连接的前提是两者处于同一个网络之中，这里网络概念可以理解为 `Docker` 所处的虚拟子网，而容器网络沙盒可以看作是虚拟的主机，只有当多个主机在同一个子网里时，才能互相看到并进行网络数据的交换。
+
+当我们启动一个 `Docker` 服务时，默认会给我们创建一个 `bridge` 网络，而我们创建的容器如果不显式指定网络的情况下都会连接到这个网络上。通过 `docker inspect` 命令查看容器，可以在打印出的信息中看到容器网络相关的信息：
+
+```shell
+$ PJ@localhost:~$ docker inspect ubuntu
+
+"NetworkSettings": {
+    "Bridge": "",
+    "SandboxID": "a70241c1c304d46e60ca2ee4e95df7474cf1318e316ef104abe87d22b68588bb",
+    "HairpinMode": false,
+    "LinkLocalIPv6Address": "",
+    "LinkLocalIPv6PrefixLen": 0,
+    "Ports": {},
+    "SandboxKey": "/var/run/docker/netns/a70241c1c304",
+    "SecondaryIPAddresses": null,
+    "SecondaryIPv6Addresses": null,
+    "EndpointID": "41e89e7a31382f5a28e9c0e5618ab37cc6427430e6b83f24936c263f74a81381",
+    "Gateway": "172.17.0.1",
+    "GlobalIPv6Address": "",
+    "GlobalIPv6PrefixLen": 0,
+    "IPAddress": "172.17.0.2",
+    "IPPrefixLen": 16,
+    "IPv6Gateway": "",
+    "MacAddress": "02:42:ac:11:00:02",
+    "Networks": {
+        "bridge": {
+            "IPAMConfig": null,
+            "Links": null,
+            "Aliases": null,
+            "NetworkID": "482a88e80b5585ef83a0b5bcd41eb3550aa4056bd22fd49884ded618be9bbe80",
+            "EndpointID": "41e89e7a31382f5a28e9c0e5618ab37cc6427430e6b83f24936c263f74a81381",
+            "Gateway": "172.17.0.1",
+            "IPAddress": "172.17.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "MacAddress": "02:42:ac:11:00:02",
+            "DriverOpts": null
+        }
+    }
+}
+```
+
+在打印出的信息中，我们可以看到该容器在 `bridge` 网络中所分配的 `IP` 地址、自身的端点、`Mac` 地址、`bridge` 网络的网关地址等信息。
+
+#### 创建网络
+`Docker` 也能够创建网络，形成自己定义虚拟子网的目的。`Docker` 里与网络相关的命令都以 `docker network` 开头，使用 `docker network create` 来创建网络：
+
+```shell
+sudo docker network create -d bridge PJNetwork
+```
+
+通过添加 `-d` 选项可以为新的网络指定驱动类型，可以是之前所提及的 `bridge`、`host`、`overlay`、`maclan`、`none`，也可以是其它网络驱动插件所定义的类型，当我们不指定网络驱动时，`Docker` 也会默认采用 `Bridge Driver` 作为网络驱动。
+
+通过 `docker network ls/list` 可以查看 `Docker` 中已存在的网络，我的如下所示：
+
+```shell
+PJ@localhost:~$ docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+482a88e80b55        bridge              bridge              local
+4a3f4ba8daf8        host                host                local
+2f6f7bb9f46e        none                null                local
+```
+
+在创建容器时，可以通过 `--network` 来指定容器所加入的网络，一旦该选项参数被指定，容器则不会再加入到 `bridge` 该网络中，但后续仍可通过 `--network bridge` 使其加入：
+
+```shell
+$ sudo docker run -d --name mysql -e MYSQL_RANDOM_ROOT_PASSWORD=yes --network PJNetwork mysql:5.7
+```
+
+### 端口映射
+如果我们需要在容器外通过网络访问容器中的应用，比如提供了 `web` 服务，那就需要提供一种方式访问运行在容器中的 `web` 应用。在 `Docker` 中，提供了**端口映射**的功能来实现。
+
+通过 `Docker` 的端口映射功能，可以把容器的端口映射到宿主操作系统的端口上，当从外部访问宿主操作系统的端口时，数据请求就会自动发送给与之关联的容器端口。在创建容器时，可以使用 `-p/--publish` 选项来指定映射端口。
+
+```shell
+$ sudo docker run -d --name nginx -p 80:80 -p 443:443 nginx:1.12
+```
+
+使用端口映射选项的格式是 `-p <ip>:<host-port>:<container-port>`，其中 `ip` 是宿主操作系统的监听 `ip`，可以用来控制监听的网卡，默认为 `0.0.0.0`，也就是监听所有网卡。`host-port` 和 `container-port` 分别表示映射到宿主操作系统的端口和容器的端口，这两者是可以不一样的，我们可以将容器的 `80` 端口映射到宿主操作系统的 `8080` 端口，传入 `-p 8080:80` 即可。
+
+## 管理和存储数据
+#### 挂载方式
+基于底层存储实现，`Docker` 提供了三种适用于不同场景的文件系统挂载方式：
+* **Bind Mount**：将宿主操作系统中的目录和文件挂载到容器内的文件系统中，通过指定容器外的路径和容器内的路径，形成挂载映射关系，在容器内外对文件的读写，都是相互可见的。
+* **Volume**：
+* **Tmpfs Mount**
 
