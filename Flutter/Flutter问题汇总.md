@@ -54,3 +54,24 @@ void main() { runApp(new MyApp()) }
 
 目前来看不满意的地方只有一个：
 * 在 iOS 上的长列表滑动卡顿十分严重！！！在快速滑动下，估计只有两三帧，而且每一个 `ListTitle Widget` 上只放了一个 `Text Widget` 啊！太辣眼睛了......[视频在此](https://www.bilibili.com/video/av40402669/)
+
+
+## 二探 Flutter
+### 一些细节
+* `MaterialApp` 下的 `title` 属性代表的是在 Android 任务管理器中的名称（iOS 下只看 app name），`home` 属性下的 `appBar` 中所返回的 `AppBar` 中 `title` 属性才是定义 app 当前页面的标题；
+
+### http
+想要在 `Flutter` 中使用 `http` 请求，需要先在 `pubspec.yaml` 文件中加入对应依赖：
+```yaml
+dependencies:
+  # ...
+  http: ^0.12.0+1
+```
+
+随后可在对应 `dart` 文件中进行引入：
+```dart
+import 'package:http/http.dart' as http;
+```
+
+## Widget 框架
+`Flutter` 从 `React` 上吸收了很多精华，一切基于 `Widget` 进行应用的构建
