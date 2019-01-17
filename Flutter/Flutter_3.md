@@ -257,11 +257,9 @@ class _DouBanMovieState extends State<MovieWidget> {
 ```
 
 ### UI 分析
-![豆瓣电影详情](https://i.loli.net/2019/01/17/5c40165537e3d.jpg)
-
 上文中也已经说到，因为豆瓣电影详情公开 API 所暴露出的数据有限，导致未能 100% 的重写。经过分析后主要将页面分为了以下几部分：
 
-![豆瓣电影详情 UI 布局分析](https://i.loli.net/2019/01/17/5c401710e02cd.jpg)
+![豆瓣电影详情 UI 布局分析](https://i.loli.net/2019/01/17/5c403b4144258.png)
 
 #### 第一部分
 第一部分与上篇文章中所讲述的布局编写思路大部分一致，对于我自己来说有个需要注意的地方，在第一部分中有个“豆瓣电影排名”的 `badge`，原本打算是用 `RichText Widget` 进行实现的，但翻完属性后发现并没有提供 `decoration` 字段进行修饰，最后直接使用了两个 `DecoratedBox Widget` 作为父容器，在其 `decoration` 属性下使用 `BoxDecoration Widget` 完成“一左一右”圆角的 `badge` 组件编写，flutter 在组件“半圆角”的实现过程比 iOS 原生实现的代码量上少太多了（不封装的话），实现代码如下：
@@ -614,8 +612,8 @@ Widget _buildMemberWidget(MovieMember member, bool isDirector) {
 
 接着去掘金的 flutter 交流群里咨询，讨论在 flutter 中 `webView` 以及 `JSBridge` 最佳思路，最后讨论出了两个插件：
 
-* webView 插件（带 JSBridge）：https://pub.flutter-io.cn/packages/interactive_webview
-* webView 插件：https://pub.dartlang.org/packages/flutter_webview_plugin
+* webView 插件（带 JSBridge）：[https://pub.flutter-io.cn/packages/interactive_webview](https://pub.flutter-io.cn/packages/interactive_webview)
+* webView 插件：[https://pub.dartlang.org/packages/flutter_webview_plugin](https://pub.dartlang.org/packages/flutter_webview_plugin)
 
 对于 `webView` 这块不是特别满意，而且看了 flutter 在 github 上的 issue，推荐自己做一个 `webView plugin`，暴露给 flutter 进行调用，这样可以最大程度上的降低基础组件重写成本。仔细一想，其实还是不满意，所以这部分内容也延后到二期调研中了。
 
