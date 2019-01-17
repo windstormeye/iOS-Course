@@ -73,5 +73,57 @@ dependencies:
 import 'package:http/http.dart' as http;
 ```
 
-## Widget 框架
-`Flutter` 从 `React` 上吸收了很多精华，一切基于 `Widget` 进行应用的构建
+## HTTP 相关
+### 刷新数据
+因为 Flutter 对数据和视图已经进行了绑定，如果想要在网络请求完成后刷新视图所绑定的数据源，需要使用 `setState` 方法进行数据源状态的刷新。当然，使用 `setState` 方法的前提得是我们的 `Widget` 得是一个 `StatefulWidget` ，具备“状态改变的能力”。
+
+### 异步加载后获取数据
+通过 flutter 的自带 HTTP 请求库开启异步获取数据后，要求把数据为 `Future` 类型格式，以便在组件中进行“懒加载”，对于 `Future` 类型数据的解析可以采用如下方法（）：
+```Dart
+class MovieAPI {
+  Future<Movies> getMovieList(int start) async {
+    var client = HttpClient();
+    var request = await client.getUrl(Uri.parse(
+        'https://api.douban.com/v2/movie/top250?start=$start&count=100'));
+    var response = await request.close();
+    var responseBody = await response.transform(utf8.decoder).join();
+    Map data = json.decode(responseBody);
+    return Movies.fromJSON(data);
+  }
+}
+
+// 上拉加载
+_requestMoreData(int page) {
+  MovieAPI().getMovieList(page).then((moviesData) {
+    setState(() {
+      movies = moviesData.movies;
+    });
+  });
+}
+```
+
+### 点击事件
+在 iOS 和 Android 中所有的 `View` 都可以添加点击或其它多手势事件，但在 Flutter 中除了少数几个自带 `onPress` 或 `onTap` 事件的 `Widget` ，剩下绝大部分 `Widget` 都不带事件，需要我们自己使用 `GestureDetector Widget` 作为父组件进行包裹。
+
+```Dart
+return GestureDetector(
+  onTap: () {
+    // 写下单机后触发的内容，当然还有双击、长按等事件
+  },
+  child: yourWidget,
+);
+```
+
+### Flutter Widget Inspector
+
+### 关于 `RaisedButton` 问题
+```Dart
+new RaisedButton(
+  onPressed: null,
+  color: Colors.white,
+  child: new Text('B'),
+  textColor: Colors.black,
+)
+```
+
+如果不对 `onPressed` 设置处理事件，则对 `RaisedButton` 设置的所有修饰都不生效。
