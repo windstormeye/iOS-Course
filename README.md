@@ -32,10 +32,15 @@ UML | [👨🏻‍💻 UML](./基础知识/UML.md)
 
 类型   | 文章
 ----- | -----
+基础知识 | [基础知识](./iOS/basic.md)
 Swift |[👨🏻‍💻 OC 转 Swift 注意点](./iOS/Swift/OC转Swift.md)
 Swift | [👨🏻‍💻 Swift 注意点](./iOS/Swift/Swift注意点.md)
 Swift | [Swift 构造器](./iOS/Swift/构造器.md)
 Objective-C | [👨🏻‍💻 Objective-C 注意点](./iOS/Objective-C/Objective-C注意点.md)
+animation & UIKit | [More - 弹幕](./iOS/More-弹幕.md)
+UITableView | [⏳ UITableView 相关使用总结](./iOS/UITableView.md)
+UICollectionView | [⏳ UICollectionView 相关使用总结](./iOS/UICollectionView.md)
+Today Extension| [⏳ Today Extension](./iOS/Today_Extension.md)
 Objective-C & Swift | [⏳ 并发编程](./iOS/Objective-C/并发编程.md)
 Objective-C | [More - 页面传值](./iOS/Objective-C/More-页面传值.md)
 Objective-C | [一个 Ping 工具 ](./iOS/Objective-C/ping.md)
@@ -60,16 +65,12 @@ Swift | [PhotosKit开发总结（一）](./iOS/Swift/PhotosKit开发总结（一
 编译原理 | [macOS开发（词法分析器）](./macOS/macOS开发（词法分析器）.md)
 git | [一台设备多个git账号](./macOS/一台设备多个git账号.md)
 
-## UI
+## Android
 
 类型 | 文章
----- | ---- 
-StoryBoard | [StoryBoard](./UI/3_StoryBoard.md)
-animation & UIKit | [More - 弹幕](./UI/More-弹幕.md)
-UITableView | [⏳ UITableView 相关使用总结](./UI/UITableView.md)
-UICollectionView | [⏳ UICollectionView 相关使用总结](./UI/UICollectionView.md)
-Today Extension| [⏳ Today Extension](./UI/Today_Extension.md)
-
+---- | ----
+基础 | [基础知识](./Android/基础知识.md)
+基础 | [问题汇总](./Android/问题汇总.md)
 
 ## 🗄 Back - end
 
