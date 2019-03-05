@@ -81,6 +81,7 @@ Django | [👨🏻‍💻 Django学习](./Back-end/django.md)
 Web | [ Web 服务器](./Back-end/web服务器.md)
 RESTful | [👨🏻‍💻 RESTful ](./Back-end/RESTful.md)
 Docker | [👨🏻‍💻 Docker ](./Back-end/Docker.md)
+Mysql | [👨🏻‍💻 Mysql ](./Back-end/mysql.md)
 
 ## 📃 Front - end
 
@@ -118,6 +119,9 @@ Weex | [Weex新手记](./Weex/Weex新手记.md)
 ---- | ----
 小程序 | [小程序初探](./小程序/小程序初探.md)
 小程序 | [小程序初探（二）](./小程序/小程序初探（二）.md)
+
+## Cocos
+Game/Cocos/basic.md
 
 ## 📐 测试
 单元测试 | [👨🏻‍💻 iOS 中的单元测试](./测试/单元测试.md)
