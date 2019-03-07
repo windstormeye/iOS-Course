@@ -42,7 +42,11 @@ void main() { runApp(new MyApp()) }
 * Flutter 的 `Widget` 分为 `StatefulWidget（有状态）` 和 `StatelessWidget（无状态）` 两种，这跟在 iOS 中只要是继承了 `UIResponder` 就具备与用户产生交互进行状态的改变不一样。在 flutter 中如果我们需要实现设计要这个组件是否需要有状态的改变。
 
 ### 一些简单操作
-* **格式化代码**：`Dart` 疯狂嵌套的代码风格已经被吐槽烂了，好在可以在写完代码后，利用 `Android Studio` 中提供的 `Dart` 格式化代码工具：选择任何一个 `Dart` 代码文件，右键选择“Reformat Code with dartfmt”，代码格式立马变得好看了许多。
+#### 当打开一个工程时
+`flutter packages get` 来下载工程中所依赖的库。
+
+#### 格式化代码
+`Dart` 疯狂嵌套的代码风格已经被吐槽烂了，好在可以在写完代码后，利用 `Android Studio` 中提供的 `Dart` 格式化代码工具：选择任何一个 `Dart` 代码文件，右键选择“Reformat Code with dartfmt”，代码格式立马变得好看了许多。
 
 ### 总结
 经过这次对 Flutter 的初体验，对其惊叹的地方有：
