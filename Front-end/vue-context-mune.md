@@ -97,8 +97,65 @@ moveUp(item) {
 ### 触摸其它区域消失 `context-menu`
 在 iOS 中，我会直接封装出一个带有 `UIWindow` 的组件。与 `context-menu` 有关的所有操作与主 `window` 没有任何关系，更别说事件穿透了。所以最终我的做法是多加了一个遮罩层，显示和隐藏的时机与 `context-menu` 的时机保持一致。
 
-最后在我拿着最终的成果去找前端小哥复查时，他对这个做法不满意，还是觉得要使用 `outside-click` 的做法。也就是使用 js 中的事件代理，通过 `e.targe` 去判断。最后找到了可以使用 [`v-outside-click`](https://github.com/ndelvalle/v-click-outside) 进行。关于后续的细节就不展开了，`v-outside-click` 的使用也十分简洁。
+最后在我拿着最终的成果去找前端小哥复查时，他对这个做法不满意，还是觉得要使用 `outside-click` 的做法。也就是使用 js 中的事件代理，通过 `e.targe` 去判断。最后找到了可以使用 [`v-outside-click`](https://github.com/ndelvalle/v-click-outside) 进行。`v-outside-click` 有两种引入的方式，为了简洁，我选择了“指令”的方式引入。
+
+在使用 `v-outside-click` 这个库的过程中遇到了一个比较大的问题。`v-outside-click` 此库给我的感觉是用于单个组件，而不适用于多个组件。列表中的每一个 `cell` 都需要带上一个单独的 `context-menu`，如果给每一个 `context-menu` 都绑上一个单独的 `outside-click` 事件，一旦用户的触摸范围不在 `context-menu` 中，则视图上的所有 `context-menu` 都会响应这个 `outside-click` 事件，列表数据一旦多起来，事件响应次数将线性增长。
+
+这个问题跟前端小哥说过后，他说问题不大，那就这样吧～接下来的问题就到了怎么在 `outside-click` 事件中标识出是哪个 `context-menu` 需要隐藏呢？刚开始就按照了以往的套路，直接使用了如下所示的方式：
+
+```html
+<div v-click-outside="onClickOutside(item)">
+    <!-- ... -->
+</div>
+```
+
+然后开心看到了报错 `Binding value must be a function or an object`。提示需要传入一个方法？！翻了源码后发现了这么一段：
+
+```js
+function processDirectiveArguments(bindingValue) {
+  const isFunction = typeof bindingValue === 'function'
+  if (!isFunction && typeof bindingValue !== 'object') {
+    throw new Error('v-click-outside: Binding value must be a function or an object')
+  }
+
+  // ...
+}
+```
+
+回过头去看之前写的代码，没有问题啊！思来想去还是没弄明白，又去找了前端小哥请求帮忙，经过了一番折腾了，他的结论是这个库应该是有问题的。最后采取的解决方法是：
+
+```html
+<div v-click-outside="onClickOutside">
+    <p>…</p>
+    <!-- 重点 -->
+    <div :id="item.metricId" v-show="item.showOption">
+        <ul>
+            <li>更换分类</li>
+            <!-- ... -->
+        </ul>
+    </div>
+</div>
+```
+
+```js
+onClickOutside (event, el) {
+    let queryInstance = el.querySelector('.more-menu-wrapper')         
+    if (queryInstance) {
+        let metricId = el.querySelector('.more-menu-wrapper').id;
+        if (metricId != "") {
+            this.listData.some((item) => {
+                if (item.metricId == metricId) {
+                    item.showOption = false;
+                    return true;
+                }
+            });
+        }
+    }   
+}
+```
+
+通过设置 `context-menu` 的 `id` 作为标识，然后在 `v-outside-click` 的指令方法中获取 `id`，通过这个 `id` 去数据源中找到对应的 `item`，从而设置 `item.showOption = false` 来隐藏 `context-menu`。
 
 ## 总结
-这算是转大前端完成的第一个功能吧，因为不熟悉导致中间出现了一些好玩的事情。客户端和前端的开发流程说大也不大，但要是说没有是绝对不可能的。在一些小的问题上，没有踩过坑或者没有大佬带一带，真的会爬不起来或者就弃坑了，说到底其实还是需要多加学习啊！
+这算是转大前端完成的第一个功能吧，因为不熟悉导致中间出现了一些好玩的事情。客户端和前端的开发流程说大也不大，但要是说没有是绝对不可能的。在一些小的问题上，没有踩过坑或者没有大佬带一带，真的会爬不起来或者就弃坑了，说到底其实还是需要多加学习啊！前端有时候真的挺香的。
 
