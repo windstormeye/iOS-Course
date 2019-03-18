@@ -64,6 +64,8 @@ Swift | [PhotosKit开发总结（一）](./iOS/Swift/PhotosKit开发总结（一
 ---- | ----
 编译原理 | [macOS开发（词法分析器）](./macOS/macOS开发（词法分析器）.md)
 git | [一台设备多个git账号](./macOS/一台设备多个git账号.md)
+Crash | [解析 crash log（一）](./macOS/crash.md)
+Playground | [来一次完整的使用 Playground（一）](./macOS/playground.md)
 
 ## Android
 
@@ -159,6 +161,7 @@ Xcode | [Xcode](./工具使用/Xcode.md)
 笔记 | [ coding-interview-university学习笔记](./项目/coding-interview-university学习笔记.md)
 源码分析 | [ONEUIKit-ONEProgressHUD](./项目/ONEUIKit-ONEProgressHUD.md)
 翻译 | [ Views programming Guide for iOS](./项目/翻译——ViewsprogrammingGuideforiOS.md)
+总结 | [我的大学——实习生涯](./Others/myinterview.md)
 
 
 ## 🏗 项目
