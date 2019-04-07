@@ -772,3 +772,28 @@ let r = PJAlbumDataManager.manager().albums
     * 在第一次调用时，执行闭包并且分配空间存储闭包返回的数值，会分配独立的存储空间。
     * 与 OC 不同的是，lazy 属性即使被设置为 nil 也不会被再次调用。
 * **存储属性**：需要开辟空间，以存储数据
+
+### 使用系统自带气泡弹窗
+```Swift
+private var fontBottomView: UNBottomFontsTableViewController {
+    get {
+        let sb = UIStoryboard(name: "UNBottomFontsTableViewController", bundle: nil)
+        let fontPopover = sb.instantiateViewController(withIdentifier: "UNBottomFontsTableViewController") as! UNBottomFontsTableViewController;
+        fontPopover.preferredContentSize = CGSize(width: 200, height: 250)
+        fontPopover.modalPresentationStyle = .popover
+        fontPopover.fonts = self.textFonts
+        
+        let fontPopoverPVC = fontPopover.popoverPresentationController
+        fontPopoverPVC?.sourceView = self.bottomCollectionView
+        fontPopoverPVC?.sourceRect = CGRect(x: bottomCollectionView!.cellCenterXs[0], y: 0, width: 0, height: 0)
+        fontPopoverPVC?.permittedArrowDirections = .down
+        fontPopoverPVC?.delegate = self
+        fontPopoverPVC?.backgroundColor = .white
+
+        return fontPopover
+    }
+}
+```
+
+* 气泡弹窗本质上是个 `UIViewController`；
+* 每次显示都需要重新创建；
