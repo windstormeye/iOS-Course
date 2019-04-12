@@ -84,3 +84,13 @@
 
 ### 本地测试没法获取 cookie 怎么办？
 可以在 chrome 的 console 中通过 `document.cookie` 进行设置暂时 cookie。
+
+### 修改特定 index 元素 css
+给单数 `li` 添加右边框
+```css
+li {
+  &:nth-of-type(2n + 1) {
+      border-right: 1px solid #ddd;
+  }
+}
+```

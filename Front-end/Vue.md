@@ -110,3 +110,6 @@ export default new Router({
 
 vue 官网上是这么说的，
 > 即便数组是静态的，我们仍然需要 `v-bind` 来告诉 Vue，这是一个 `JavaScript` 表达式而不是一个字符串。
+
+###m mint-UI 是怎么实现下拉刷新的呢？
+简单来说获取下拉手势后通过 `transform` 来做动画偏移。
