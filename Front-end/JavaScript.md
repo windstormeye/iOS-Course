@@ -17,3 +17,6 @@
 >>> HttpOnly: HttpOnly is an additional flag included in a Set-Cookie HTTP response header. Using the HttpOnly flag when generating a cookie helps mitigate the risk of client side script accessing the protected cookie (if the browser supports it).
 
 换句话说，客户端/浏览器是无法对 `Cookie` 中的这个 `key` 进行操作的，并且不可见。
+
+## 连接两个数组
+不可使用 `+=`，而是 `concat`。
