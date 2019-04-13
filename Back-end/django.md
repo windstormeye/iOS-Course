@@ -318,3 +318,9 @@ Django 的 `request.POST` 方法获取到的 POST 方法参数只支持 `Content
 其它类型的 `Content-Type` 通过 `request.POST` 方法获取到的参数列表均为空。但一般来说我们都希望在 POST 请求中参数类型为 `json`，所以我们需要让客户端同学把 POST 请求的 `Content-Type` 设置为 `application/json` 类型。
 
 在 iOS 的一个常用网络请求框架 `AFNetworking` 中，默认的 `POST` 请求 `Content-type` 就是为 `application/json`。
+
+### Django 如何做 `OR` 查询
+使用 `Q` 对象，不可使用 `filter`，因为 Django 默认为 `AND` 关系。
+
+**注意：**
+* 如果涉及到多参数时，`Q` 对象应该在前，其它参数在后。
