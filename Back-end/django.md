@@ -324,3 +324,122 @@ Django 的 `request.POST` 方法获取到的 POST 方法参数只支持 `Content
 
 **注意：**
 * 如果涉及到多参数时，`Q` 对象应该在前，其它参数在后。
+
+### 搜索
+原本是想基于 `ES` 来一套搜索全家桶的，但无奈 `ES` 太重了，基于 `django-haystack` 最后完成了需求，相关配置如下：
+
+* 下载相关依赖
+```shell
+pip install django-haystack whoosh
+```
+
+* 创建相关文件
+    - `settings.py` 
+        添加 `app`
+        ```python
+        INSTALLED_APPS = [
+            'django.contrib.admin',
+            'django.contrib.auth',
+            'django.contrib.contenttypes',
+            'django.contrib.sessions',
+            'django.contrib.messages',
+            'django.contrib.staticfiles',
+            'haystack',
+            # 在所有自定义 app 之上
+        ]
+        ```
+
+        ```python
+            # 配置全文搜索
+            # 指定搜索引擎
+            HAYSTACK_CONNECTIONS = {
+                'default': {
+                    'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+                    'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+                },
+            }
+            # 指定如何对搜索结果分页，这里设置为每 10 项结果为一页，默认是 20 项为一页
+            HAYSTACK_SEARCH_RESULTS_PER_PAGE = 20
+            # 添加此项，当数据库改变时，会自动更新索引
+            HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+        ```
+
+        **注意：** 需要给 `settings.py` 中设置好 `templates` 文件夹目录
+        ```python
+        TEMPLATES = [
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                # 重点
+                'DIRS': [os.path.join(BASE_DIR, 'templates')],
+                'APP_DIRS': True,
+                'OPTIONS': {
+                    'context_processors': [
+                        'django.template.context_processors.debug',
+                        'django.template.context_processors.request',
+                        'django.contrib.auth.context_processors.auth',
+                        'django.contrib.messages.context_processors.messages',
+                    ],
+                },
+            },
+        ]
+        ```
+
+    - `tempaltes` 文件夹。估计要新建，最终创建出的目录层级为:
+        ```shell
+        ├── templates
+            └── search
+               └── indexes
+                   └── user
+                      └── xxx_text.txt
+        ```
+        xxx 即为需要创建搜索索引的 `app` 名称，若有大小写，则全小写即可。该 `txt` 文件写下需要进行被索引的字段即可，`objct` 即为 `xxx` 的传入对象实体，不需要修改。
+
+        ```python
+        {{ object.nick_name }}
+        ```
+
+    - `models.py` 需要做索引 `app`。在 `app` 的目录下创建新文件 `search_indexes.py`，作为索引类
+        ```python
+        from .models import MasUser
+        from haystack import indexes
+
+
+        class MasUserIndex(indexes.SearchIndex, indexes.Indexable):
+            text = indexes.CharField(document=True,
+                                    use_template=True)
+            # 需要搜索的字段
+            nick_name = indexes.CharField(model_attr='nick_name')
+
+            def get_model(self):
+                return MasUser
+
+            def index_queryset(self, using=None):
+                return self.get_model().objects.all()
+        ```
+
+    - `views.py` 中的使用。
+        ```python
+        @decorator.request_methon('GET')
+        @decorator.request_check_args(['s_nick_name'])
+        def searchFriend(request):
+            nick_name = request.GET.get('s_nick_name')
+
+            users = SearchQuerySet().models(MasUser).filter(nick_name__contains=nick_name)
+
+            f_users = []
+            for user in users:
+                f_users.append(user.object.toJSON())
+
+            json = {
+                'users': f_users
+            }
+
+            return utils.SuccessResponse(json, request)
+        ```
+
+    - 建立索引
+        ```shell
+        python manage.py rebuild_index
+        ```
+
+最后自己配置一下路由即可。

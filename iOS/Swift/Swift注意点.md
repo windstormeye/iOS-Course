@@ -777,7 +777,7 @@ let r = PJAlbumDataManager.manager().albums
 ```Swift
 private var fontBottomView: UNBottomFontsTableViewController {
     get {
-        let sb = UIStoryboard(name: "UNBottomFontsTableViewController", bundle: nil)
+        let sb = UIStor`yboard(name: "UNBottomFontsTableViewController", bundle: nil)
         let fontPopover = sb.instantiateViewController(withIdentifier: "UNBottomFontsTableViewController") as! UNBottomFontsTableViewController;
         fontPopover.preferredContentSize = CGSize(width: 200, height: 250)
         fontPopover.modalPresentationStyle = .popover
