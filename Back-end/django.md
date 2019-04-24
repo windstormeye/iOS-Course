@@ -443,3 +443,6 @@ pip install django-haystack whoosh
         ```
 
 最后自己配置一下路由即可。
+
+### uwsgi 安装失败
+`sudo apt-get install python3.6-dev`

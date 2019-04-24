@@ -797,3 +797,14 @@ private var fontBottomView: UNBottomFontsTableViewController {
 
 * 气泡弹窗本质上是个 `UIViewController`；
 * 每次显示都需要重新创建；
+
+### Codable 协议需要注意的地方
+* `Int`，`String` 等基本数据类型都遵循了 `Codable` 协议；
+* 想要 `enum` 类型也遵循 `Codable` 协议，则需要声明为具有原始值的形式，并且原始值的类型需要支持 `Codable` 协议：
+    ```swif
+    enum StickerType: Int, Codable {
+        case image = 0
+        case icon
+        case text
+    }
+    ```
