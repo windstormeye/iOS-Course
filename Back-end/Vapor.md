@@ -1,5 +1,5 @@
 # Vapor
-在这里将记录使用 Vapor 的过程中遇到的问题。
+在这里将记录使用 Vapor 的过程中遇到的问题。感觉特别一些设计模式的 tips 杂糅在一起后，就特别像 `Django`。
 
 ## 如何快速开始
 ### 下载 `vapor`
@@ -59,7 +59,6 @@ extension Todo: Parameter { }
 在 `Package.swift` 中写下对应的依赖，
 
 ```swift
-// swift-tools-version:4.0
 import PackageDescription
 
 let package = Package(
@@ -199,3 +198,87 @@ mysql> desc User;
 ```
 
 `Vapor` 不像 `Django` 那般在生成的表加上前缀，而是你 ORM 类名是什么，最终生成的表名就是什么，这点很喜欢！
+
+### 对表字段的修改
+`Vapor` 没有像 `Django` 那么强大的工作流，很多人都说 `Perfect` 像 `Django`，我自己的认为 `Vapor` 像 `Flask`。
+
+对 `Vapor` 修改表字段，不仅仅只是修改 `Model` 属性这么简单，同样也不像 `Django` 中修改完后，执行 `python manage.py makemigrations` 和 `python manage.py migrate` 就结束了，我们需要自己创建迁移文件，自己写清楚此次表结构到底发生了什么改变。
+
+在泊学的[这篇文章](https://boxueio.com/series/vapor-fluent/ebook/473)中推荐在 `App` 目录下创建一个 `Migrations group`，方便操作。但我思考了一下，这么做势必会造成 `Model` 和对应的迁移文件割裂，然后在另外一个上级文件夹中又要对不同迁移文件所属的 `Model` 做切分，这很显然是有一些问题的。最后，我脑子冒出了一个非常可怕的想法：“`Django` 是一个非常强大、架构非常良好的框架！”。
+
+所以，最后我的目录是这样的：
+
+```shell
+Models
+└── User
+    ├── Migrations
+    │   ├── 19-04-30-AddUserCreatedTime.swift
+    │   └── 19-04-30-DeleteUserNickname.swift
+    ├── UserController.swift
+    └── User.swift
+```
+
+这是 `Django` 中的一个 `app` 文件树：
+```shell
+user_avatar
+├── __init__.py
+├── admin.py
+├── apps.py
+├── migrations
+│   ├── 0001_initial.py
+│   ├── 0002_auto_20190303_2154.py
+│   ├── 0002_auto_20190303_2209.py
+│   ├── 0003_auto_20190303_2154.py
+│   ├── 0003_auto_20190322_1638.py
+│   ├── 0004_merge_20190408_2131.py
+│   └── __init__.py
+├── models.py
+├── tests.py
+├── urls.py
+└── views.py
+```
+
+已经删除掉了一些非重要信息。可以看到，`Django` 的 `app` 文件夹结构非常好！注意看 `migrations` 文件夹下的迁移文件命名。如果开发能力不错的话，我们是可以做到与业务无关的 `app` 发布供他人直接导入到工程中。
+
+不过关于工程文件的管理，这是一个智者见智的事情啦～对于我个人来说，我反而更加喜欢 `Vapor`/`Flask` 一系，因为需要什么再加什么，整个设计模式也可以按照自己的喜好来做。
+
+#### 删除一个表字段
+使用 `Swift` 开发服务端很容易受到使用 `Swift` 做其它开发的影响。刚开始时我确实认为在 `Model` 中把需要删除的字段删除就好了，然而运行工程后去查数据库发现并不是这么一回事。
+
+首先，我们需要先创建一个文件来写 `Model` 的迁移代码，但这不是必须的，你可以把该 `Model` 后续需要进行表字段的 CURD 都写在同一个文件中，因为没一个迁移都是一个 `struct`。我的做法是像上文所说，对每一个迁移都做新文件，并且每一个迁移文件都写上“时间”和“做了什么”。
+
+```swift
+import FluentMySQL
+
+struct DeleteUserNickname: MySQLMigration {
+    static func prepare(on conn: MySQLConnection) -> EventLoopFuture<Void> {
+        return MySQLDatabase.create(User.self, on: conn, closure: {
+            $0.field(for: \.id, isIdentifier: true)
+            $0.field(for: \.nickname)
+        })
+    }
+    
+    static func revert(on conn: MySQLConnection) -> EventLoopFuture<Void> {
+        return MySQLDatabase.delete(User.self, on: conn)
+    }
+}
+```
+
+#### 增加/修改一个表字段
+```swift
+import FluentMySQL
+
+struct AddUserCreatedTime: MySQLMigration {
+    static func prepare(on conn: MySQLConnection) -> EventLoopFuture<Void> {
+        return MySQLDatabase.update(User.self, on: conn, closure: {
+            $0.field(for: \.fluentCreatedAt)
+        })
+    }
+    
+    static func revert(on conn: MySQLConnection) -> EventLoopFuture<Void> {
+        return MySQLDatabase.delete(User.self, on: conn)
+    }
+}
+```
+
+需要注意的是，不管你是要做 CURD 中的任何一个功能，你都需要实现 `prepare` 和 `revert` 两个方法，`revert` 方法的作用是用于撤销 `prepare` 方法中的逻辑。
