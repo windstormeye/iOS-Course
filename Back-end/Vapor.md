@@ -282,3 +282,187 @@ struct AddUserCreatedTime: MySQLMigration {
 ```
 
 需要注意的是，不管你是要做 CURD 中的任何一个功能，你都需要实现 `prepare` 和 `revert` 两个方法，`revert` 方法的作用是用于撤销 `prepare` 方法中的逻辑。
+
+### Auth
+在 `Vapor` 中有两种对用户鉴权的方式。一为适用 `API` 服务的 `Stateless` 方式，二为适用于 `Web` 的 `Sessions`，
+
+#### 添加依赖
+```swift
+// swift-tools-version:4.0
+import PackageDescription
+
+let package = Package(
+    name: "Unicorn-Server",
+    products: [
+        .library(name: "Unicorn-Server", targets: ["App"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),
+        .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "4.0.0"),
+        .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.0"),
+        // 添加 auth
+        .package(url: "https://github.com/vapor/auth.git", from: "2.0.0"),
+    ],
+    targets: [
+        .target(name: "App",
+                dependencies: [
+                    "Vapor",
+                    "SwiftyJSON",
+                    "FluentMySQL",
+                    // 添加 auth
+                    "Authentication"
+            ]),
+        .target(name: "Run", dependencies: ["App"]),
+        .testTarget(name: "AppTests", dependencies: ["App"])
+    ]
+)
+```
+
+执行 `vapor xcode` 拉取依赖并重新生成 `Xcode` 工程。
+
+#### 注册
+在 `config.swift` 中增加：
+
+```swift
+public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
+    // ...
+
+    try services.register(AuthenticationProvider())
+    
+    // ...
+}
+```
+
+#### Basic Authorization
+简单来说，该方式就是验证密码。我们需要维护一个做 `Basic Authorization` 方式进行鉴权的 `Path` 集合。请求属于该集合中的 `Path` 时，都需要把用户名和密码用 `:` 进行连接成新的字符串，且做 `base64` 加密，例如，`username` 为 `pjhubs`，`password` 为 `pjhubs123`，则，拼接后的结果为 `pjhubs:pjhubs123`，加密完的结果为 `cGpodWJzOnBqaHViczEyMw==`。按照如下格式添加到每次发起 `HTTP` 请求的 `header` 中：
+
+```
+Authorization: Basic cGpodWJzOnBqaHViczEyMw==
+```
+
+#### Bearer Authorization
+使用该方式进行权限验证，需要自行生成 `token`，可以使用任何方法进行生成。每次进行 `HTTP` 请求时，把 `token` 按照如下格式直接添加到 `HTTP request` 中，假设此次请求的 `token` 为 `pxoGJUtBVn7MXWoajWH+iw==`，`Vapor` 官方并没有提供对应的生成工具，只要能够保持全局唯一即可：
+
+```
+Authorization: Bearer pxoGJUtBVn7MXWoajWH+iw==
+```
+
+#### 创建 `Token` Model
+//
+//  Token.swift
+//  App
+//
+//  Created by PJHubs on 2019/5/1.
+//
+
+import Foundation
+import Vapor
+import FluentMySQL
+import Authentication
+
+
+final class Token: MySQLModel {
+    var id: Int?
+    var userId: User.ID
+    var token: String
+    var fluentCreatedAt: Date?
+    
+    init(token: String, userId: User.ID) {
+        self.token = token
+        self.userId = userId
+    }
+}
+
+extension Token {
+    var user: Parent<Token, User> {
+        return parent(\.userId)
+    }
+}
+
+extension Token: BearerAuthenticatable {
+    static var tokenKey: WritableKeyPath<Token, String> { return \Token.token }
+}
+
+extension Token: Migration { }
+extension Token: Content { }
+extension Token: Parameter { }
+
+extension Token: Authentication.Token {
+    typealias UserType = User
+    typealias UserIDType = User.ID
+    
+    static var userIDKey: WritableKeyPath<Token, User.ID> {
+        return \Token.userId
+    }
+}
+
+extension Token {
+    /// `token` 生成
+    static func generate(for user: User) throws -> Token {
+        let random = try CryptoRandom().generateData(count: 16)
+        return try Token(token: random.base64EncodedString(), userId: user.requireID())
+    }
+}
+
+#### 修改 `User` Model
+```Swift
+//
+//  User.swift
+//  App
+//
+//  Created by PJHubs on 2019/4/23.
+//
+
+import Vapor
+import FluentMySQL
+import Authentication
+
+final class User: MySQLModel {
+    var id: Int?
+    var phoneNumber: String
+    var nickname: String
+    var password: String
+    
+    init(id: Int? = nil,
+         phoneNumber: String,
+         password: String,
+         nickname: String) {
+        self.id = id
+        self.nickname = nickname
+        self.password = password
+        self.phoneNumber = phoneNumber
+    }
+}
+
+extension User: Migration { }
+extension User: Content { }
+extension User: Parameter { }
+
+extension User: TokenAuthenticatable {
+    typealias TokenType = Token
+}
+
+extension User {
+    func toPublic() -> User.Public {
+        return User.Public(id: self.id!, nickname: self.nickname)
+    }
+}
+
+extension User {
+    /// User 对外信息
+    struct Public: Content {
+        let id: Int
+        let nickname: String
+    }
+}
+
+extension Future where T: User {
+    func toPublic() -> Future<User.Public> {
+        return map(to: User.Public.self) { (user) in
+            return user.toPublic()
+        }
+    }
+}
+```
+
+#### 
