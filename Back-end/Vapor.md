@@ -341,20 +341,14 @@ Authorization: Basic cGpodWJzOnBqaHViczEyMw==
 ```
 
 #### Bearer Authorization
-使用该方式进行权限验证，需要自行生成 `token`，可以使用任何方法进行生成。每次进行 `HTTP` 请求时，把 `token` 按照如下格式直接添加到 `HTTP request` 中，假设此次请求的 `token` 为 `pxoGJUtBVn7MXWoajWH+iw==`，`Vapor` 官方并没有提供对应的生成工具，只要能够保持全局唯一即可：
+当用户登录成功后，我们应该返回一个完整的 `token` 用于标识该用户已经在我们系统中登录且验证成功，并让该 `token` 和用户进行关联。使用 `Bearer Authorization` 方式进行权限验证，我们需要自行生成 `token`，可以使用任何方法进行生成，`Vapor` 官方并没有提供对应的生成工具，只要能够保持全局唯一即可。每次进行 `HTTP` 请求时，把 `token` 按照如下格式直接添加到 `HTTP request` 中，假设此次请求的 `token` 为 `pxoGJUtBVn7MXWoajWH+iw==`，则完整的 `HTTP header` 为：
 
 ```
 Authorization: Bearer pxoGJUtBVn7MXWoajWH+iw==
 ```
 
 #### 创建 `Token` Model
-//
-//  Token.swift
-//  App
-//
-//  Created by PJHubs on 2019/5/1.
-//
-
+```swift
 import Foundation
 import Vapor
 import FluentMySQL
@@ -379,6 +373,7 @@ extension Token {
     }
 }
 
+// 实现 `BearerAuthenticatable` 协议，并返回绑定的 `tokenKey` 以告知使用 `Token` Model 的哪个属性作为真正的 `token`
 extension Token: BearerAuthenticatable {
     static var tokenKey: WritableKeyPath<Token, String> { return \Token.token }
 }
@@ -387,10 +382,14 @@ extension Token: Migration { }
 extension Token: Content { }
 extension Token: Parameter { }
 
+// 实现 `Authentication.Token` 协议，使 `Token` 成为 `Authentication.Token`
 extension Token: Authentication.Token {
+    // 指定协议中的 `UserType` 为自定义的 `User`
     typealias UserType = User
+    // 置顶协议中的 `UserIDType` 为自定义的 `User.ID`
     typealias UserIDType = User.ID
     
+    // `token` 与 `user` 进行绑定
     static var userIDKey: WritableKeyPath<Token, User.ID> {
         return \Token.userId
     }
@@ -403,16 +402,18 @@ extension Token {
         return try Token(token: random.base64EncodedString(), userId: user.requireID())
     }
 }
+```
+
+#### 添加配置
+在 `config.swift` 中写下 `Token` 的配置信息。
+```swift
+migrations.add(model: Token.self, database: .mysql)
+```
 
 #### 修改 `User` Model
-```Swift
-//
-//  User.swift
-//  App
-//
-//  Created by PJHubs on 2019/4/23.
-//
+让 `User` 和 `Token` 进行关联。
 
+```Swift
 import Vapor
 import FluentMySQL
 import Authentication
@@ -438,6 +439,7 @@ extension User: Migration { }
 extension User: Content { }
 extension User: Parameter { }
 
+// 实现 `TokenAuthenticatable`。当 `User` 中的方法需要进行 `token` 验证时，需要关联哪个 Model
 extension User: TokenAuthenticatable {
     typealias TokenType = Token
 }
@@ -449,7 +451,7 @@ extension User {
 }
 
 extension User {
-    /// User 对外信息
+    /// User 对外输出信息，因为并不想把整个 `User` 实体的所有属性都暴露出去
     struct Public: Content {
         let id: Int
         let nickname: String
@@ -465,4 +467,87 @@ extension Future where T: User {
 }
 ```
 
-#### 
+#### 路由方法
+使用 `Basic Authorization` 方式做用户鉴权后，我们就可以把需要使用鉴权的方法和非鉴权的方法按照如下方式在 `UserController.swift` 文件分开进行路由，如果这个文件你没有，需要新建一个。
+
+```swift
+import Vapor
+import Authentication
+
+final class UserController: RouteCollection {
+    
+    // 重载 `boot` 方法，在控制器中定义路由
+    func boot(router: Router) throws {
+        let userRouter = router.grouped("api", "user")
+        
+        // 正常路由
+        let userController = UserController()
+        router.post("register", use: userController.register)
+        router.post("login", use: userController.login)
+        
+        // `tokenAuthMiddleware` 该中间件能够自行寻找当前 `HTTP header` 的 `Authorization` 字段中的值，并取出与该 `token` 对应的 `user`，并把结果缓存到请求缓存中供后续其它方法使用
+        // 需要进行 `token` 鉴权的路由
+        let tokenAuthenticationMiddleware = User.tokenAuthMiddleware()
+        let authedRoutes = userRouter.grouped(tokenAuthenticationMiddleware)
+        authedRoutes.get("profile", use: userController.profile)
+        authedRoutes.get("logout", use: userController.logout)
+        authedRoutes.get("", use: userController.all)
+        authedRoutes.get("delete", use: userController.delete)
+        authedRoutes.get("update", use: userController.update)
+    }
+
+    func logout(_ req: Request) throws -> Future<HTTPResponse> {
+        let user = try req.requireAuthenticated(User.self)
+        return try Token
+            .query(on: req)
+            .filter(\Token.userId, .equal, user.requireID())
+            .delete()
+            .transform(to: HTTPResponse(status: .ok))
+    }
+    
+    func profile(_ req: Request) throws -> Future<User.Public> {
+        let user = try req.requireAuthenticated(User.self)
+        return req.future(user.toPublic())
+    }
+    
+    func all(_ req: Request) throws -> Future<[User.Public]> {
+        return User.query(on: req).decode(data: User.Public.self).all()
+    }
+    
+    func register(_ req: Request) throws -> Future<User.Public> {
+        return try req.content.decode(User.self).flatMap({
+            return $0.save(on: req).toPublic()
+        })
+    }
+    
+    func delete(_ req: Request) throws -> Future<HTTPStatus> {
+        return try req.parameters.next(User.self).flatMap { todo in
+            return todo.delete(on: req)
+            }.transform(to: .ok)
+    }
+    
+    func update(_ req: Request) throws -> Future<User.Public> {
+        return try flatMap(to: User.Public.self, req.parameters.next(User.self), req.content.decode(User.self)) { (user, updatedUser) in
+            user.nickname = updatedUser.nickname
+            user.password = updatedUser.password
+            return user.save(on: req).toPublic()
+        }
+    }
+}
+```
+
+需要注意的是，如果某个路由方法需要从 `token` 关联的用户取信息才需要 `let user = try req.requireAuthenticated(User.self)` 这行代码取用户，否则如果我们仅仅只是需要对某个路由方法进行鉴权，只需要加入到 `tokenAuthenticationMiddleware` 的路由组中即可。
+
+#### 修改 `config.swift`
+最后，把我们实现了 `RouteCollection` 协议的 `userController` 加入到 `config.swift` 中进行路由注册即可。
+
+```swift
+import Vapor
+
+public func routes(_ router: Router) throws {
+    // 用户路由
+    let usersController = UserController()
+    try router.register(collection: usersController)
+}
+```
+
