@@ -264,6 +264,10 @@ struct DeleteUserNickname: MySQLMigration {
 }
 ```
 
+发现了一个问题，如果我们从 `Model` 中已经提前删除掉了需要移除的字段，那么在 `migrations` 中，这个字段就没法被索引，因为已经被移除了，那么就无法被 `deleteField`。最终我的解决办法是，因为这个字段已经不需要了，那么直接写 SQL 删除掉这个字段。
+
+隐约觉得，这不是 `Vapor` 的最佳实践。
+
 #### 增加/修改一个表字段
 ```swift
 import FluentMySQL
