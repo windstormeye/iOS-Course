@@ -446,3 +446,6 @@ pip install django-haystack whoosh
 
 ### uwsgi 安装失败
 `sudo apt-get install python3.6-dev`
+
+### `python manage.py makemigrations` 的触发
+使用 `python manage.py makemigrations` 命令来触发数据库表的生成和更新，需要保证在 app 目录下有 `migrations` 这个包。注意，这里说的是包！包！包！！！
