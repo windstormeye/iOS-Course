@@ -808,3 +808,67 @@ private var fontBottomView: UNBottomFontsTableViewController {
         case text
     }
     ```
+
+### `MemoryLayout` 使用
+`MemoryLayout` 是 `Swift 3.0` 推出的一个内存查看工具，使用方法如下：
+
+```swift
+import Foundation
+
+
+class PJPet {
+    static let shared = PJPet()
+}
+
+extension PJPet {
+    struct Pet: Codable {
+        /// 宠物标识符
+        var pet_id: Int
+        /// 宠物昵称
+        var nick_name: String
+        /// 宠物类型：0 = 猫，1 = 狗
+        var pet_type: Int
+        /// 体重
+        var weight: Int
+        /// 绝育状态
+        var ppp_status: Int
+        /// 感情状态
+        var love_status: Int
+        /// 生日
+        var birth_time: Int
+        /// 性别
+        var gender: Int
+        /// 品种
+        var breed_type: String
+        /// 创建时间
+        var created_time: Int
+    }
+}
+
+MemoryLayout.size(ofValue: PJPet.shared) // 8
+MemoryLayout.stride(ofValue: PJPet.shared) // 8
+
+MemoryLayout<PJPet.Pet>.size // 96
+
+MemoryLayout<Double>.size // 8
+MemoryLayout<Optional<Double>>.size // 9
+
+struct Point {
+    var a: Double?
+    var b: Double
+}
+
+MemoryLayout<Point>.size // 24
+
+struct Point2 {
+    var a: Double
+    var b: Double
+}
+
+MemoryLayout<Point>.size // 16
+```
+
+`Point` 和 `Point2` 两个结构体会差 8 个字节的原因是因为在 `Point` 结构体中的 `a` 为可选类型。因为内存对齐的原因，当 `a` 为可选类型时，占用 9 个字节，导致下一块内存区域不满 8 个字节，`b` 将继续移动寻找另外一个 8 字节区域，导致最终耗费 24 个字节。
+
+在 `Swift` 中
+
