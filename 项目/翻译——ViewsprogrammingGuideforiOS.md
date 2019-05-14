@@ -41,3 +41,15 @@
 * 视图是应用的手势和触摸事件的关键接收者。查看 [Event Handling Guide for iOS]() 来获得更多关于如何使用手势识别器和处理触摸事件。
 * 自定义视图必须要使用可信赖的绘制技术去渲染其内容。查看 [Drawing and Printing Guide for iOS](https://developer.apple.com/library/archive/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/Introduction/Introduction.html#//apple_ref/doc/uid/TP40010156) 来获得更多关于使用这些技术去绘制你的视图内容。
 * 在一些标准视图动画无法满足的部分，你可以使用核心动画库 `Core Animation`。查看 [Core Animation Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40004514) 来获得更多关于使用核心动画库 `Core Animation` 实现动画的内容。
+
+## `view` 和 `window` 的结构
+`view` 和 `window` 展示应用程序用户界面和处理界面上的交互。`UIKit` 和其它系统框架提供了一些只需要做一点修改或完全不修改就可以使用的 `view`。你还可以自定义视图去展示标准视图不允许的位置内容。
+
+### 视图结构的基础知识
+我们想要通过可视化完成的事情大多都是基于 `view` 对象的，也就是 `UIView` 类的实例。`view` 对象在屏幕上定义了一个矩形区域，该区域能够绘制并和响应触摸事件。`view` 能够作为其它 `view` 的父容器，管理它们的位置和大小。`UIView` 类本身管理了这些工作的大部分，但我们也可以根据需要自定义视图之间的默认行为。
+
+`view` 与 `Core Animation` 层共同处理内容的渲染和动画。每一个 `view` 都拥有一个 `layer` 对象（通常是 `CALayer` 的实例），它负责 `view` 的渲染内容和与 `view` 相关的动画。我们大多数情况下的操作应该通过 `UIView` 提供的接口进行，但在某些需要对渲染或动画行为进行更多的控制时，我们可以替换为对 `layer` 进行操作。
+
+为了便于我们理解 `view` 和 `layer` 的关系，下面这个例子可以提供帮助。图 1-1 展示了来自于 [ViewTransitions](https://developer.apple.com/library/archive/samplecode/ViewTransitions/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007411) 这个简单应用的视图结构和它与底层 `Core Animation` 层的关系。这个应用程序的视图包括一个 `window`（本质上是个 `UIView`），它是一个继承于 `UIView` 类且作为 `view` 容器的对象，一个图像 `view`，一个用于显示按钮的 `toolbar` 以及一个 `bar button item`（它不是 `view`，但其内部有一个可共使用的 `view`）。（实际上 [ViewTransitions](https://developer.apple.com/library/archive/samplecode/ViewTransitions/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007411) 这个简单应用还包括了一个用于实现变换的图像 `view`，但为了保证简单，在图 1-1 中并没有描述出来）。每个 `view` 都有与之匹配的 `layer` 对象，可以通过 `view` 的 `layer` 属性来访问它。（因为 `bar buttom item` 不是 `view`，所以你不能直接访问它的 `layer`）`layer` 层对象的背后是 `Core Animation` 渲染对象，并且最终用于管理硬件缓冲区中显示在屏幕上的实际字节。
+
+[图 1-1 简单应用中的视图结构](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/view-layer-store.jpg)
