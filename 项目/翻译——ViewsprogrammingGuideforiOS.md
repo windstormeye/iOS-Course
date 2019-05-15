@@ -53,3 +53,18 @@
 为了便于我们理解 `view` 和 `layer` 的关系，下面这个例子可以提供帮助。图 1-1 展示了来自于 [ViewTransitions](https://developer.apple.com/library/archive/samplecode/ViewTransitions/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007411) 这个简单应用的视图结构和它与底层 `Core Animation` 层的关系。这个应用程序的视图包括一个 `window`（本质上是个 `UIView`），它是一个继承于 `UIView` 类且作为 `view` 容器的对象，一个图像 `view`，一个用于显示按钮的 `toolbar` 以及一个 `bar button item`（它不是 `view`，但其内部有一个可共使用的 `view`）。（实际上 [ViewTransitions](https://developer.apple.com/library/archive/samplecode/ViewTransitions/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007411) 这个简单应用还包括了一个用于实现变换的图像 `view`，但为了保证简单，在图 1-1 中并没有描述出来）。每个 `view` 都有与之匹配的 `layer` 对象，可以通过 `view` 的 `layer` 属性来访问它。（因为 `bar buttom item` 不是 `view`，所以你不能直接访问它的 `layer`）`layer` 层对象的背后是 `Core Animation` 渲染对象，并且最终用于管理硬件缓冲区中显示在屏幕上的实际字节。
 
 [图 1-1 简单应用中的视图结构](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/view-layer-store.jpg)
+
+使用 `Core Animation` `layer` 对象对性能提升有很大的帮助。要尽可能的少调用视图对象的绘制部分代码，当这部分代码被调用时，其结果会被 `Core Animation` 进行缓存，并在未来进行多次重用。在需要更新视图时重用渲染出内容的会消耗大量的绘制周期。在动画中重用这部分缓存的内容是非常重要的，因为这些内容是可被操控的。使用这些缓存的内容会比创建新内容成本小很多。
+
+### `view` 的视图层级以及管理子视图
+除了提供自身显示的内容，`view` 还可以作为其它 `view` 的容器。当一个 `view` 包含了另外一个 `view`，父子关系就在其之中建立了。在这个父子关系中，子视图通常被称为 `subView` 父视图被称为 `superView`。这种关系类型的创建对应用程序的可视化内容和行为都造成了影响。
+
+看上去子视图中的内容会遮挡其父视图的部分或全部内容，当子视图是非透明时，则其所占据的区域将会完全遮挡父视图。如果子视图是部分透明的，则父子视图中的内容会先进行融合再显示于屏幕上。每个 `superView` 都一个存储 `subView` 的数组，数组中元素的位置会影响每个 `subview` 的可见性。 当同为一个 `superView` 的两个 `subView` 互相重叠在了一起，最后添加进 `superView` 中的（或移动到 `subView` 数组最后的） `subView` 将会显示在在上面。
+
+`superView` 与 `subView` 的关系还影响到了一系列的视图行为。改变一个父视图的大小时会波及到其子视图的大小和位置。当改变父视图的大小时，我们可以适当的通过一些配置方法来重新设置每个子视图大小。例如隐藏父视图，修改父视图的透明度或者对父视图的坐标系统做数学变换（3D）等这些事件同样会影响子视图。
+
+对视图层级的排布还意味着应用程序如何响应各种事件。当一个特殊的视图发生了触摸，系统立即将这个触摸信息发送给这个视图进行处理。但是如果该视图没有对这个事件进行单独处理，则系统将会把该事件对象传递给父视图。如果父视图同样没有处理这个事件，系统将会把该事件继续传递给父视图，在整个响应链上以此类推。
+
+更多关于如何创建视图层级的内容，可查看 [Creating and Managing a View Hierarchy](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/CreatingViews/CreatingViews.html#//apple_ref/doc/uid/TP40009503-CH5-SW47)。
+
+## 视图绘制周期
