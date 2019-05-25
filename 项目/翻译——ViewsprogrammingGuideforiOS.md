@@ -73,3 +73,7 @@
 当你的视图内容修改时，你不必立即重绘这些修改的内容。相反，你可以使用 `setNeedsDisplay` 或 `setNeedsDisplayInRect` 方法使视图内容失效。这些方法将会告诉系统视图的内容已经修改，并且需要在下个时机中进行重绘。系统将会等待到当前 `runloop` 结束后才进行初始化任何的绘图操作。这个延迟给你一个机会去使多个视图内容失效，从视图层级中添加或者移除视图，隐藏视图，调整视图大小以及调整视图位置。你对视图进行所有修改都会在同一时间进行调整。
 
 > 注意：修改视图的几何形状并不会自动触发系统对视图内容的重绘。视图的 `contentMode` 属性决定了如何解释视图的几何形状修改。大多数 `contentMode` 在延伸和重定位已经存在快照的边界，而不是创建一个新的快照。获取更多 `contentMode` 是怎么影响你的视图绘制周期的，可以查看 [Content Modes](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/WindowsandViews/WindowsandViews.html#//apple_ref/doc/uid/TP40009503-CH2-SW2)。
+
+当渲染视图内容时，实际的绘制过程的变化会依赖于视图及其配置。系统视图一般通过实现私有绘图方法来完成视图内容的渲染。这些相同的系统视图经常会暴露出接口供我们配置视图的实际外观。自定义 `UIView` 类型的子类，通常你要针对你的视图去重载 `drawRect:` 方法去绘制你视图的内容。这还有一些其它方法提供完成内容的绘制，例如直接设置底层的内容，但是重载 `drawRect` 方法是目前最常用的方法。
+
+获取更多关于如何绘制自定义视图的内容，可见 [ Implementing Your Drawing Code](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/CreatingViews/CreatingViews.html#//apple_ref/doc/uid/TP40009503-CH5-SW3)
