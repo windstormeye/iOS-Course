@@ -52,7 +52,7 @@
 
 为了便于我们理解 `view` 和 `layer` 的关系，下面这个例子可以提供帮助。图 1-1 展示了来自于 [ViewTransitions](https://developer.apple.com/library/archive/samplecode/ViewTransitions/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007411) 这个简单应用的视图结构和它与底层 `Core Animation` 层的关系。这个应用程序的视图包括一个 `window`（本质上是个 `UIView`），它是一个继承于 `UIView` 类且作为 `view` 容器的对象，一个图像 `view`，一个用于显示按钮的 `toolbar` 以及一个 `bar button item`（它不是 `view`，但其内部有一个可共使用的 `view`）。（实际上 [ViewTransitions](https://developer.apple.com/library/archive/samplecode/ViewTransitions/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007411) 这个简单应用还包括了一个用于实现变换的图像 `view`，但为了保证简单，在图 1-1 中并没有描述出来）。每个 `view` 都有与之匹配的 `layer` 对象，可以通过 `view` 的 `layer` 属性来访问它。（因为 `bar buttom item` 不是 `view`，所以你不能直接访问它的 `layer`）`layer` 层对象的背后是 `Core Animation` 渲染对象，并且最终用于管理硬件缓冲区中显示在屏幕上的实际字节。
 
-[图 1-1 简单应用中的视图结构](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/view-layer-store.jpg)
+![图 1-1 简单应用中的视图结构](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/view-layer-store.jpg)
 
 使用 `Core Animation` `layer` 对象对性能提升有很大的帮助。要尽可能的少调用视图对象的绘制部分代码，当这部分代码被调用时，其结果会被 `Core Animation` 进行缓存，并在未来进行多次重用。在需要更新视图时重用渲染出内容的会消耗大量的绘制周期。在动画中重用这部分缓存的内容是非常重要的，因为这些内容是可被操控的。使用这些缓存的内容会比创建新内容成本小很多。
 
@@ -68,3 +68,8 @@
 更多关于如何创建视图层级的内容，可查看 [Creating and Managing a View Hierarchy](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/CreatingViews/CreatingViews.html#//apple_ref/doc/uid/TP40009503-CH5-SW47)。
 
 ## 视图绘制周期
+`UIView` 类使用了“按需变化”的绘制模型去展示内容。当视图第一次呈现在屏幕上时，系统要求其进行内容绘制。系统对渲染内容进行快照捕获并且使用该快照作为该视图的视觉呈现。如果你从未对视图内容进行修改，执行视图内容绘制的代码将不会再执行。对视图进行的大多数操作会重复使用快照图片替代。如果你对内容进行了修改，需要通知系统视图已经修改。视图将会重复进行绘制视图内容的过程，并捕获新的图像内容为快照。
+
+当你的视图内容修改时，你不必立即重绘这些修改的内容。相反，你可以使用 `setNeedsDisplay` 或 `setNeedsDisplayInRect` 方法使视图内容失效。这些方法将会告诉系统视图的内容已经修改，并且需要在下个时机中进行重绘。系统将会等待到当前 `runloop` 结束后才进行初始化任何的绘图操作。这个延迟给你一个机会去使多个视图内容失效，从视图层级中添加或者移除视图，隐藏视图，调整视图大小以及调整视图位置。你对视图进行所有修改都会在同一时间进行调整。
+
+> 注意：修改视图的几何形状并不会自动触发系统对视图内容的重绘。视图的 `contentMode` 属性决定了如何解释视图的几何形状修改。大多数 `contentMode` 在延伸和重定位已经存在快照的边界，而不是创建一个新的快照。获取更多 `contentMode` 是怎么影响你的视图绘制周期的，可以查看 [Content Modes](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/WindowsandViews/WindowsandViews.html#//apple_ref/doc/uid/TP40009503-CH2-SW2)。
