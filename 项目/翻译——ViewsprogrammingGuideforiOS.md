@@ -74,6 +74,60 @@
 
 > 注意：修改视图的几何形状并不会自动触发系统对视图内容的重绘。视图的 `contentMode` 属性决定了如何解释视图的几何形状修改。大多数 `contentMode` 在延伸和重定位已经存在快照的边界，而不是创建一个新的快照。获取更多 `contentMode` 是怎么影响你的视图绘制周期的，可以查看 [Content Modes](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/WindowsandViews/WindowsandViews.html#//apple_ref/doc/uid/TP40009503-CH2-SW2)。
 
-当渲染视图内容时，实际的绘制过程的变化会依赖于视图及其配置。系统视图一般通过实现私有绘图方法来完成视图内容的渲染。这些相同的系统视图经常会暴露出接口供我们配置视图的实际外观。自定义 `UIView` 类型的子类，通常你要针对你的视图去重载 `drawRect:` 方法去绘制你视图的内容。这还有一些其它方法提供完成内容的绘制，例如直接设置底层的内容，但是重载 `drawRect` 方法是目前最常用的方法。
+当渲染视图内容时，实际的绘制过程的变化会依赖于视图及其配置。系统视图一般通过实现私有绘图方法来完成视图内容的渲染。这些相同的系统视图经常会暴露出接口供我们配置视图的实际外观。自定义 `UIView` 类型的子类，通常你要针对你的视图去重载 `drawRect:` 方法去绘制你视图的内容。这还有一些其它方法提供完成内容的绘制，例如直接设置底层的内容，但是重载 `drawRect` 方法是目前最常用的方法。 
 
 获取更多关于如何绘制自定义视图的内容，可见 [ Implementing Your Drawing Code](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/CreatingViews/CreatingViews.html#//apple_ref/doc/uid/TP40009503-CH5-SW3)
+
+## 内容模式（`content modes`）
+每个视图都有一个内容模式，其控制了如何根据视图的几何尺寸发生变化时回收视图内容，以及是否回收视图内容。当视图第一次显示时，按照流程绘制其内容并捕获其内容于底层位图中。接下来改变视图几何尺寸并不会导致位图的重新创建。反而，`contentMode` 属性目的在于位图是否缩放以进行适配新的界限，还是仅简单的贴在一个视图的角或者边上。
+
+视图的内容模式在你做以下操作时生效：
+* 改变视图的 `frame` 或 `bounds` 矩形区域的宽或高。
+* 赋值带有缩放功能的 transform 变换给视图的 `transform` 属性。
+
+默认情况下大多数视图的 `contentMode` 属性是 `UIViewContentModeScaleToFill`，它能够让视图内容缩放适配至新的 frame 大小。图 1-2 展示了一些可用的内容模式结果。从图中可以看到，不是所有的内容模式都会完全充满视图界限，并且有一些还会导致视图内容的失真。
+
+![Figure 1-2  Content mode comparisons](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/scale_aspect.jpg)
+
+内容模式对于视图回收非常适合，但如果你特别想在缩放或者重设尺寸操作时自定义视图重绘它，还可以使用 `UIViewContentModeRedraw` 该内容模式。给视图模式设置为该值能够当几何尺寸改变时强制让系统调用 `drawRect:` 方法。一般情况下，应该尽可能的避免在任何时候使用该值，除非你非常确定你不会使用标志系统视图。
+
+查看更多关于可用的内容模型内容，可看 [UIView Class Reference](https://developer.apple.com/documentation/uikit/uiview)。
+
+## 可伸缩的视图
+你可以指定视图的一部分作为可伸缩区域，以至于当视图改变其大小时只修改了可伸缩区域。通常会在按钮或者其它视图中使用可伸缩区域，其中视图的部分区域定义了一个可重复模式。视图中指定的可伸缩区域允许在单独一个轴或者两个轴上进行伸缩。需要注意的是，当对两个轴进行伸缩，对视图的边来说还要定义一个重复模式避免任何变形。图 1-3 清晰的展示了失真是怎么在视图中展示出来的。来自原图中每一个像素点的颜色重复的通过一致的排列充满了大图。
+
+![Figure 1-3  Stretching the background of a button](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/button_scale.jpg)
+
+使用 `contentStretch` 属性指定视图的可伸缩区域。这个属性接受一个矩形区域，该值是 0.0 到 1.0 范围内的标准值。当伸缩视图时，系统将会对视图当前的 bounds 值和缩放值与该标准值进行乘积，以达到确定对视图一个像素或多个像素的伸缩。使用标准值能够降低当视图界限改变时更新 `contentStretch` 属性值的次数。
+
+视图的内容模式还扮演了如何使用视图的伸缩区域决定者的角色。当内容模式导致内容区域的缩放时才会使用可伸缩的区域。这意味着可伸缩视图只支持 `UIViewContentModeScaleToFill`、`UIViewContentModeScaleAspectFit` 和 `UIViewContentModeScaleAspectFill` 内容模式。如果你指定了内容模式对内容进行了贴边或贴角（因此实际上导致内容并不能缩放），该视图将会忽略可伸缩区域。
+
+> 注意：指定背景视图时，建议创建可伸缩的 `UIImage` 对象时使用 `contentStretch` 属性。可伸缩视图可以在 Core Animation Layer 中完全处理，其通常提供更好的性能。
+
+## 内置动画支持
+每一个视图后都有一个层对象的好处之一是你可以对与视图相关的更改进行动画化。动画是向用户传递信息交流的有效方法，在设计应用程时应该一直思考这个问题。许多 `UIView` 的属性都是可动画化的，也就是说支持半自动的从一个值到另外一个值。提高这些其中一个可动画化属性的性能，我们只需要做：
+
+1. 告诉 UIKit 你想要一个高性能动画。
+2. 改变属性值。
+
+你可以对 `UIView` 对象中执行动画的属性如下：
+
+* `frame` -- 使用这个属性能够对视图位置和大小的改变进行动画变化。
+* `bounds` -- 使用这个属性能对视图大小的改变进行动画变化。
+* `center` -- 使用这个属性能对视图位置的改变进行动画变化。
+* `transform` -- 使用这个属性能够对视图选择和缩放。
+* `alpha` -- 使用这个属性能够修改视图进行透明度的。
+* `backgroundColor` -- 使用这个属性能够修改视图的背景颜色。
+* `contentStrech` -- 使用这个属性能够修改视图的中心延伸。
+
+从一组视图变换到另外一组视图是动画非常重要的一点。通常情况下会使用视图控制器通过动画去管理用户界面各部分中主要修改的部分。举个例子，展示从高级别到低级别视图的过渡信息，通常情况下会使用导航控制器管理每一个成功显示的视图数据。甚至你还可以创建两个视图集合之间的动画过渡来替代视图控制器。在使用标准控制器动画达不到你想要的结果时，可以通过这个方法做到。
+
+除了使用 UIKit 进行动画的创建外，还可以使用 Core Animation layer 完成。下降到图层级别能够对动画的时间和属性进行更多的控制。
+
+查看更多关于如果提升基于视图的动画性能可看 [Animations](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/AnimatingViews/AnimatingViews.html#//apple_ref/doc/uid/TP40009503-CH6-SW1)。查看更多关于如何使用 Core Animation 创建动画可看[Core Animation Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40004514) 和 [Core Animation Cookbook.](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/CoreAnimation_Cookbook/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005406)。
+
+## 视图的几何形状和定位系统
+UIKit 中默认的坐标系统的原点在左上角，并且坐标系从原点向下和向右进行延伸。坐标值使用浮点数表示，它能够进行精确的约束且可让定位的内容不管其下的屏幕分辨率约束。图 1-4 展示了这个相对于屏幕的坐标系统。除了屏幕坐标系统，窗体和视图都定义了它们自己的本地坐标系统，本地坐标系统允许你指定相对与源窗体或源视图的坐标来替换掉相对与屏幕的坐标。
+
+![Figure 1-4  Coordinate system orientation in UIKit](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/native_coordinate_system.jpg)
+
