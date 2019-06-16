@@ -67,6 +67,7 @@ Swift | [PhotosKit开发总结（一）](./iOS/Swift/PhotosKit开发总结（一
 git | [一台设备多个git账号](./macOS/一台设备多个git账号.md)
 Crash | [解析 crash log（一）](./macOS/crash.md)
 Playground | [来一次完整的使用 Playground（一）](./macOS/playground.md)
+Kindle | [Kindle 开发](./macOS/kindle.md)
 
 ## Android
 
