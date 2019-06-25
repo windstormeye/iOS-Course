@@ -32,4 +32,4 @@ UIStackView 为什么前面会有一个 UIView 进行遮挡，刚开始以为是
 
 原来是昨天偷懒了，应该创建 UICollectionViewCell，但创建时写成了 UICollectionView，直接改了名字，导致在 xib 中并未使用 UICollectionView 的 ContentView 作为容器，导致最终进行渲染时，在 UICollectionViewCell 的生命周期顺序中并没有其没有任何子视图挂载，导致 UICollectionView 把 ContentView 前置，遮挡了 addSubView 的子视图。
 
-所以可以在 `xib` 中把之前的 `UIView` 控件删除，重新拖拽出一个 `UICollectionViewCell` 进行替换
+所以可以在 `xib` 中把之前的 `UIView` 控件删除，重新拖拽出一个 `UICollectionViewCell` 进行替换。
