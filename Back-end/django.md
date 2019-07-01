@@ -449,3 +449,10 @@ pip install django-haystack whoosh
 
 ### `python manage.py makemigrations` 的触发
 使用 `python manage.py makemigrations` 命令来触发数据库表的生成和更新，需要保证在 app 目录下有 `migrations` 这个包。注意，这里说的是包！包！包！！！
+
+### 如何给 `DecimalField` 类型的模型字段赋值
+```python
+from decimal import Decimal
+
+current_drink_score.score = Decimal(str(10))
+```
