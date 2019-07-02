@@ -456,3 +456,4 @@ from decimal import Decimal
 
 current_drink_score.score = Decimal(str(10))
 ```
+
