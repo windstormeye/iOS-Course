@@ -457,3 +457,10 @@ from decimal import Decimal
 current_drink_score.score = Decimal(str(10))
 ```
 
+### 在同一局域网下，如何让其他电脑连接上自己的 `django` 服务器
+* 查找到自己的 ip 地址。
+* 在 django 的 `ALLOWED_HOSTS` 中添加上该 ip 。
+* 通过 `python runserver ip:port` 允许项目即可。
+
+或者直接修改 pyCharm 中的 web 服务器工程配置：
+![pyCharm 中的 web 服务器配置](https://i.loli.net/2019/07/04/5d1df687dab1d59260.png)
