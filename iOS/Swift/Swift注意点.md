@@ -872,3 +872,5 @@ MemoryLayout<Point>.size // 16
 
 在 `Swift` 中
 
+
+### Swift 中所有的类都是**引用类型**
