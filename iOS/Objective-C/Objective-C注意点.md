@@ -315,3 +315,5 @@
 55. 通过调用 `[xxx setValueForKey:xxx]` 要比 `[xxx setValue:xxx]` 要慢得多，因为编译器无法检查传递给 `valueForKey:` 的字符串是否有效，同时效率也变成了原来的 5%，如果需要获取值的运行参数，则使用 `[xxx performSelector: xxx]` 是直接消息发送速度的 2 倍，比 `valueForKey:` 快 10 倍。
 
 56. KVO 和 Cocoa 绑定是基于 KVC 的，其速度不会很快。
+
+57. **OpenUDID 是什么？**实际上是跟着 app 走，每次重装 app 都会重新生成一个 id，一般都会把它放到 keychain 中进行系统级的持久化。
