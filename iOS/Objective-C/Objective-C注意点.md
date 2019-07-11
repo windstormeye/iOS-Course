@@ -317,3 +317,9 @@
 56. KVO 和 Cocoa 绑定是基于 KVC 的，其速度不会很快。
 
 57. **OpenUDID 是什么？**实际上是跟着 app 走，每次重装 app 都会重新生成一个 id，一般都会把它放到 keychain 中进行系统级的持久化。
+
+58. `NSUserDefaults` 实际上是在 Library 文件夹下生成一个 plist 文件，如果该文件太大，读取时会比较耗时，因为加载的时候是直接全部 load 到内存中。头条主端通过测试，200 多个缓存数据，通过符号断点 `+[NSUserDefaults standardUserDefaults]` 确定最早一次的  `+load()` 从执行到结束耗时 1.8ms
+
+59. `mach_absolute_time` 获取当前时间的「纳秒」，需要 mach 库。
+
+60. 

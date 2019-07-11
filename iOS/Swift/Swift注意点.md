@@ -874,3 +874,6 @@ MemoryLayout<Point>.size // 16
 
 
 ### Swift 中所有的类都是**引用类型**
+
+### eval
+Swift 中有一个类似 eval 的东西，能够自动解析字符串作为代码运算，[可见文章](http://etrex.blogspot.com/2015/06/swift-js-eval.html)
