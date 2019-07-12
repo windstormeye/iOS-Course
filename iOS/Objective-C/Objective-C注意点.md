@@ -322,4 +322,32 @@
 
 59. `mach_absolute_time` 获取当前时间的「纳秒」，需要 mach 库。
 
-60. 
+60. 忽略警告的大概做法:
+	```swift
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wunguarded-availability"
+	[UNUserNotificationCenter currentNotificationCenter].delegate = [TTNotificationCenterDelegate sharedNotificationCenterDelegate];
+	#pragma clang diagnostic pop
+	```
+  
+61. 想要成为一个 `AppDelegate` 需要：
+	* 继承 `UIResponder` 和 `UIApplicationDelegate` 协议
+	* 在 `main.m` 中通过 `UIApplicationMain` 进行初始化
+
+62. ARC 在「编译」的时候插入内存管理代码
+
+63. bitcode。上传 app store 的时候实际上上传的是一个「平台无关的代码」，用户在下载 app 的时候 App Store 会根据用户的机型翻译成对应的机器代码进行下发。
+
+64. Link 链接
+* 解决依赖
+* 确定地址引用
+* Mach-O 结构
+* 生成可执行文件
+
+65. Xcode 提示一个符号找不到声明是在「语法解析生成 AST」时出错。
+
+66. 打包提示`missing symbols`是在「链接」出错。
+
+67. OC 中的 ARC 是在编译的**机器码**生成支持的。
+
+68. 代码中使用了静态库中的某个方法，是在**链接**时确定符号地址的
