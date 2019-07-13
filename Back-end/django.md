@@ -464,3 +464,9 @@ current_drink_score.score = Decimal(str(10))
 
 或者直接修改 pyCharm 中的 web 服务器工程配置：
 ![pyCharm 中的 web 服务器配置](https://i.loli.net/2019/07/04/5d1df687dab1d59260.png)
+
+### 如何做「不包含」/「不等于」操作
+```python
+from django.db.models import Q
+myapps = App.objects.filter(~Q(name= ''))
+```
