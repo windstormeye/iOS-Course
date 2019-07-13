@@ -32,10 +32,11 @@
 * **设置 `Core Data` 栈**
 
 * **获取请求**
+每次执行一个获取请求，都会直达文件系统，是一个相对昂贵的操作，可能是一个潜在的性能瓶颈。
 
 * **Fetched Results Controller**
     - 与 `tableView` 的交互：
         ![](https://i.loli.net/2019/06/28/5d14f273b221324819.png)
     
 
-
+* 始终把 `Core Data` 对象交互的代码封装进类似的一个 `block` 里。
