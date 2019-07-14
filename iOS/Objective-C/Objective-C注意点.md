@@ -351,3 +351,14 @@
 67. OC 中的 ARC 是在编译的**机器码**生成支持的。
 
 68. 代码中使用了静态库中的某个方法，是在**链接**时确定符号地址的
+
+69. OC 中在方法里跑另外一个 方法/代码块的做法：
+	```objc
+	- (void)_enterFullScreenWithAngle:(CGFloat)angle animted:(BOOL)animated {
+		void (^animation)() = ^{
+			
+		};
+		
+		animation()
+	}
+	```
