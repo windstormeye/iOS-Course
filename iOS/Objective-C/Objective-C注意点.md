@@ -362,3 +362,50 @@
 		animation()
 	}
 	```
+
+70. NSCache
+	* 线程安全，键不会发生复制操作
+	* 拥有 LRU，不需要自己写缓存置换算法，如果用 NSCache 去做的话，就需要了
+
+
+71. 为什么在 iOS 上用 nonamatic，macos 不用？
+	* iOS同步锁开销很大，会带来性能问题。一般情况下不要求必须是原子性的，因为使用了也并不能确保真正的线程安全。如果一个线程多次读取某属性值的过程中有别的线程在同时改写该值，那么即便使用了atomic，也还是会读到不同的属性值。
+
+72. category 和 extension
+	* OC 的 category 相当于 Swift 的 extension
+	* OC 的 extension 加私有方法，直接在创建各种 UIView 的时候就已经带上了
+
+73. __auto_type
+	* 自动类型推倒
+	* https://pspdfkit.com/blog/2017/even-swiftier-objective-c/
+	```objc
+	#define let __auto_type const
+	#define var __auto_type 
+
+	let anElegantView = [UIView new];
+	let something = (TheType *)array.firstObject;
+	var something = array.firstObject;
+	```
+
+74. Enum 关联对象
+	```swift
+	enum CSSColor {
+    	case named(ColorName)
+    	case rgb(UInt8, UInt8, UInt8)
+	}
+
+	var color1 = CSSColor.named(.black)
+	var color2 = CSSColor.rgb(0xAA, 0xAA, 0xAA)
+	switch color2 {
+	case  let  .named(color):
+    		print("\(color)")
+	case .rgb(let r, let g, let b):
+    		print("\(r), \(g), \(b)")
+	}
+	```
+
+75. 集合的可变类，属性不使用copy修饰符的原因？
+	* [文章解释](https://juejin.im/post/5bedfdaa6fb9a049cd53c56d)
+	* 在 ARC 下，编译器在合成 `setter` 方法时，走的是 `copy`，就会把原先的例如 `NSMutableArray` 变成了 `NSArray`，再执行 `addObject` 方法时会找不到方法而报错。
+	* copy 默认调用的是 `copyWithZone `
+	* [相关 session](https://developer.apple.com/videos/play/wwdc2017/411/)
