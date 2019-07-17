@@ -366,6 +366,7 @@
 70. NSCache
 	* 线程安全，键不会发生复制操作
 	* 拥有 LRU，不需要自己写缓存置换算法，如果用 NSCache 去做的话，就需要了
+  * `NSCache` 可以设置缓存中的对象数量
 
 
 71. 为什么在 iOS 上用 nonamatic，macos 不用？

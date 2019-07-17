@@ -6,3 +6,7 @@
 在安装好以上两个必须的条件后，此时如果出现了 `Failed to code sign ContentView.swift` 的提示，说明还没有针对 Xcode 11 下载 `command line tools`，手动执行 `xcode-select --install`。
 
 如果还是不行，原因很有可能是因为更新了系统，需要重新下载一遍 `command line tools`，下载完成后，使用命令 `xcode-select --s` 指定工作目录
+
+## 共存 Xcode 后可能会出现的问题
+1. 使用 `sudo xcode-select -s /Applications/Xcode7.app` 来切换不同的 Xcode 相关工具依赖命令。
+
