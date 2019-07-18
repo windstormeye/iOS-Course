@@ -877,3 +877,35 @@ MemoryLayout<Point>.size // 16
 
 ### eval
 Swift 中有一个类似 eval 的东西，能够自动解析字符串作为代码运算，[可见文章](http://etrex.blogspot.com/2015/06/swift-js-eval.html)
+
+### UICollectionView 
+在 iOS 9 和 iOS 10 在生命周期的调用上是不一样的，在 iOS 10 上提供了更加流畅的操作。
+* UITableView 和 UICollectionView 在 iOS 10 中都提供了预加载
+* UICollectionView 实现拖动时只需要多实现几个方法
+	```swift
+	class UICollectionView : UIScrollView {
+    		func beginInteractiveMovementForItem(at indexPath: NSIndexPath) -> Bool
+    		func updateInteractiveMovementTargetPosition(_ targetPosition: CGPoint)
+    		func endInteractiveMovement()
+    		func cancelInteractiveMovement()
+	}
+	```
+* 如果使用的是 UICollectionViewController 会更加的简单，只需要开启一个属性即可
+    ```swift
+    class UICollectionViewController : UIViewController {
+            var installsStandardGestureForInteractiveMovement: Bool
+    }
+    ```
+* 还可以通过 `collectionView.isPagingEnabled = true` 来增加分页
+
+### 安全区域改变时新增的回调方法
+```objc
+UIViewController中新增：
+- (void)viewSafeAreaInsetsDidChange;
+UIView中新增：
+- (void)viewSafeAreaInsetsDidChange；
+```
+
+### 判断用户设备种类，不要用户设备型号，可以通过 `UIUserInterfaceIdiom` 进行。
+
+### 在 pod 时直接使用二进制包能够加快打包速度。对比源码依赖，二进制依赖的组件只需要进行链接而无需编译。

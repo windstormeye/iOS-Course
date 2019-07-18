@@ -354,59 +354,108 @@
 
 69. OC 中在方法里跑另外一个 方法/代码块的做法：
 	```objc
-	- (void)_enterFullScreenWithAngle:(CGFloat)angle animted:(BOOL)animated {
-		void (^animation)() = ^{
-			
-		};
-		
-		animation()
-	}
-	```
+    - (void)_enterFullScreenWithAngle:(CGFloat)angle animted:(BOOL)animated {
+      void (^animation)() = ^{
+        
+      };
+      
+      animation()
+    }
+    ```
 
 70. NSCache
-	* 线程安全，键不会发生复制操作
-	* 拥有 LRU，不需要自己写缓存置换算法，如果用 NSCache 去做的话，就需要了
+  * 线程安全，键不会发生复制操作
+  * 拥有 LRU，不需要自己写缓存置换算法，如果用 NSCache 去做的话，就需要了
   * `NSCache` 可以设置缓存中的对象数量
 
 
 71. 为什么在 iOS 上用 nonamatic，macos 不用？
-	* iOS同步锁开销很大，会带来性能问题。一般情况下不要求必须是原子性的，因为使用了也并不能确保真正的线程安全。如果一个线程多次读取某属性值的过程中有别的线程在同时改写该值，那么即便使用了atomic，也还是会读到不同的属性值。
+  * iOS同步锁开销很大，会带来性能问题。一般情况下不要求必须是原子性的，因为使用了也并不能确保真正的线程安全。如果一个线程多次读取某属性值的过程中有别的线程在同时改写该值，那么即便使用了atomic，也还是会读到不同的属性值。
 
 72. category 和 extension
-	* OC 的 category 相当于 Swift 的 extension
-	* OC 的 extension 加私有方法，直接在创建各种 UIView 的时候就已经带上了
+  * OC 的 category 相当于 Swift 的 extension
+  * OC 的 extension 加私有方法，直接在创建各种 UIView 的时候就已经带上了
 
 73. __auto_type
-	* 自动类型推倒
-	* https://pspdfkit.com/blog/2017/even-swiftier-objective-c/
-	```objc
-	#define let __auto_type const
-	#define var __auto_type 
+  * 自动类型推倒
+  * https://pspdfkit.com/blog/2017/even-swiftier-objective-c/
+  ```objc
+  #define let __auto_type const
+  #define var __auto_type 
 
-	let anElegantView = [UIView new];
-	let something = (TheType *)array.firstObject;
-	var something = array.firstObject;
-	```
+  let anElegantView = [UIView new];
+  let something = (TheType *)array.firstObject;
+  var something = array.firstObject;
+  ```
 
 74. Enum 关联对象
-	```swift
-	enum CSSColor {
-    	case named(ColorName)
-    	case rgb(UInt8, UInt8, UInt8)
-	}
+  ```swift
+  enum CSSColor {
+      case named(ColorName)
+      case rgb(UInt8, UInt8, UInt8)
+  }
 
-	var color1 = CSSColor.named(.black)
-	var color2 = CSSColor.rgb(0xAA, 0xAA, 0xAA)
-	switch color2 {
-	case  let  .named(color):
-    		print("\(color)")
-	case .rgb(let r, let g, let b):
-    		print("\(r), \(g), \(b)")
-	}
-	```
+  var color1 = CSSColor.named(.black)
+  var color2 = CSSColor.rgb(0xAA, 0xAA, 0xAA)
+  switch color2 {
+  case  let  .named(color):
+        print("\(color)")
+  case .rgb(let r, let g, let b):
+        print("\(r), \(g), \(b)")
+  }
+  ```
 
 75. 集合的可变类，属性不使用copy修饰符的原因？
-	* [文章解释](https://juejin.im/post/5bedfdaa6fb9a049cd53c56d)
-	* 在 ARC 下，编译器在合成 `setter` 方法时，走的是 `copy`，就会把原先的例如 `NSMutableArray` 变成了 `NSArray`，再执行 `addObject` 方法时会找不到方法而报错。
-	* copy 默认调用的是 `copyWithZone `
-	* [相关 session](https://developer.apple.com/videos/play/wwdc2017/411/)
+  * [文章解释](https://juejin.im/post/5bedfdaa6fb9a049cd53c56d)
+  * 在 ARC 下，编译器在合成 `setter` 方法时，走的是 `copy`，就会把原先的例如 `NSMutableArray` 变成了 `NSArray`，再执行 `addObject` 方法时会找不到方法而报错。
+  * copy 默认调用的是 `copyWithZone `
+  * [相关 session](https://developer.apple.com/videos/play/wwdc2017/411/)
+
+  76. 预编译阶段处理的宏定义，在组件进行二进制化后会失效，特别是某些依赖 `DEBUG` 宏的调试工具，在二进制化之后就不可见了。针对这种情况可以单独抽出一个类来替换宏，把需要用到宏的地方归类到一个中间者去完成，并且不让这个中间者去做二进制化。
+
+    ```objc
+    // TDFMacro.h
+  @interface TDFMacro : NSObject
+  + (BOOL)enterprise;
+  + (BOOL)debug;
+
+  + (void)debugExecute:(void(^)(void))debugExecute elseExecute:(void(^)(void))elseExecute;
+  + (void)enterpriseExecute:(void(^)(void))enterpriseExecute elseExecute:(void(^)(void))elseExecute;
+  @end
+
+  // TDFMacro.m
+  @implementation TDFMacro
+  + (BOOL)enterprise {
+  #if ENTERPRISE
+      return YES;
+  #else
+      return NO;
+  #endif
+  }
+
+  + (BOOL)debug {
+  #if DEBUG
+      return YES;
+  #else
+      return NO;
+  #endif
+  }
+
+  + (void)debugExecute:(void (^)(void))debugExecute elseExecute:(void (^)(void))elseExecute {
+      if ([self debug]) {
+          !debugExecute ?: debugExecute();
+      } else {
+          !elseExecute ?: elseExecute();
+      }
+  }
+
+  + (void)enterpriseExecute:(void (^)(void))enterpriseExecute elseExecute:(void (^)(void))elseExecute {
+      if ([self enterprise]) {
+          !enterpriseExecute ?: enterpriseExecute();
+      } else {
+          !elseExecute ?: elseExecute();
+      }
+  }
+  @end
+  ```
+
