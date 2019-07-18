@@ -132,7 +132,14 @@ Weex | [Weex新手记](./Weex/Weex新手记.md)
 小程序 | [小程序初探（二）](./小程序/小程序初探（二）.md)
 
 ## Cocos
-Game/Cocos/basic.md
+类型 | 文章
+---- | ----
+基础 | [Cocos 基础](Game/Cocos/basic.md)
+
+## AI
+类型 | 文章
+---- | ----
+基础概念 | [相关领域涉及到的基础知识](./AI/basic.md)
 
 ## 📐 测试
 单元测试 | [👨🏻‍💻 iOS 中的单元测试](./测试/单元测试.md)
