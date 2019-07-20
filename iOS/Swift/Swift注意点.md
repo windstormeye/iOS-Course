@@ -965,3 +965,17 @@ let benjiNewborn = Dog(name: "Benji")
 * 你需要引用计数和构造和析构的时机。
 * 数据需要集中管理或共享，如单例或者数据缓存实例等。
 * ID 语义和 Equal语义冲突的时候。
+
+### 判断 `UIScrollView` 相关类是否滑动到底部
+```swift
+func scrollViewDidScroll(_ scrollView: UIScrollView) {    
+    if scrollView.contentSize.height - scrollView.contentOffset.y <= scrollView.pj_height {
+        // YES
+    } else {
+      // NO
+    }
+}
+```
+
+### 调用一个有返回值的方法，但是允许外部不接收该返回值
+可以使用 `@discardableResult` 来消除警告。
