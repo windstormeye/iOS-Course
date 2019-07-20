@@ -909,3 +909,59 @@ UIView中新增：
 ### 判断用户设备种类，不要用户设备型号，可以通过 `UIUserInterfaceIdiom` 进行。
 
 ### 在 pod 时直接使用二进制包能够加快打包速度。对比源码依赖，二进制依赖的组件只需要进行链接而无需编译。
+
+### Swift 5.0 省略 `return`
+在 `Swift 5.0` 之前，如果闭包中只有一个表达式，还是得需要写 `return` 返回语句，但在 `Swift 5.0` 之后，可以省略。
+
+```swift
+// before swift 5.0 
+
+struct Rectangle {
+    var width = 0.0, height = 0.0
+    var area1: Double {
+        return width * height
+    }
+    
+    func area2() -> Double {
+        return width * height 
+    }
+}
+
+// after switft 5.1
+struct Rectangle {
+    var width = 0.0, height = 0.0
+    var area1: Double { width * height }
+    
+    func area2() -> Double { width * height }
+}
+```
+
+### 结构体变得更加智能
+在 `Swift 5.0` 之前的结构体声明时如果都对各个属性给了默认值，要按照需要写出便捷构造方法，但在 `Swift 5.0` 之后，编译器可以智能的根据调用的方法自动推断。
+
+```swift
+struct Dog {
+    var name = "Generic dog name"
+    var age = 0
+}
+let boltNewborn = Dog()
+let daisyNewborn = Dog(name: "Daisy", age: 0)
+// before swift 5.0 ❎
+let benjiNewborn = Dog(name: "Benji")
+// after switft 5.1 ✅
+let benjiNewborn = Dog(name: "Benji")
+```
+
+### 值类型和引用类型
+
+当你设计一个数据结构时，优先选择结构体或者枚举，它们都是值类型，值类型具有以下几个有点。
+
+* 值类型在**栈上分配**，性能要远远大于引用类型，且 Swift Runtime 有 COW 优化。
+* 值类型**没有引用计数**，不会引起奇怪的多线程安全问题。
+* 值类型的存储属性是**扁平化**的，避免在类继承情况下一个子类继承过多的存储属性导致实例在内存中过大，如 SwiftUI 使用 `Modifier` 的结构体优化设计。
+
+那什么时候我们才需要使用引用类型呢？ 只有当以下几个场景存在时才有必要使用。
+
+* 你需要引用计数和构造和析构的时机。
+* 数据需要集中管理或共享，如单例或者数据缓存实例等。
+* ID 语义和 Equal语义冲突的时候。
