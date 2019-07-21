@@ -460,3 +460,13 @@
   ```
 
 77. 使用 `printf` 语句输出内容可以保值某段计算代码不会被视为死代码，然后被计算机优化掉。
+
+78. 选取相片后，通过 `asset` 拿到具体的 `UIImage`，可以通过以下字符串拼接 `URL` 获取：
+```objc
+if (item.asset) {
+    NSString *assetID = [item.asset.localIdentifier substringToIndex:(item.asset.localIdentifier.length - 7)];
+    imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"assets-library://asset/asset.jpg?id=%@&ext=jpg", assetID]];
+} else {
+    imageURL = [NSURL URLWithString:item.fullpathLink];
+}
+```
