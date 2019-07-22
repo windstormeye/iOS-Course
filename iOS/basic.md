@@ -66,3 +66,11 @@ bundle exec pod install
 ### 剪贴板
 需要注意的是：通用剪贴板在所有应用程序之间都是共享的，可以被设备砂锅的任何进程读取信息。
 
+* 通过 App Groups 增加「同组应用」
+    * 使用 NSUserDefault suiteName 初始化并传递数据
+
+### local socket
+
+### KeyChain
+
+

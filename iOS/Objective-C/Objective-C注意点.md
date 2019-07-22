@@ -470,3 +470,8 @@ if (item.asset) {
     imageURL = [NSURL URLWithString:item.fullpathLink];
 }
 ```
+
+79. OC 自定义 `setter` 和 `getter` 命名 
+```objc
+// You can customize the getter and setter names instead of using default 'set' name:
+@property (getter=lengthGet, setter=lengthSet:) int length;

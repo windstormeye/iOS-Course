@@ -979,3 +979,62 @@ func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
 ### 调用一个有返回值的方法，但是允许外部不接收该返回值
 可以使用 `@discardableResult` 来消除警告。
+
+### Swift 支持的 landmark
+```swift
+// MARK: Section mark
+// MARK: - Section mark with a separator line
+// TODO: Do something soon
+// FIXME: Fix this code
+```
+
+### Swift 一些好玩的点：
+* let intValue = 0007 // 7
+* let largeIntValue = 77_000 // 77000
+
+### Swift 元组的使用
+```swift
+// 不带名字，直接通过下标去取
+// Function that returns multiple items in a tuple
+func getGasPrices() -> (Double, Double, Double) {
+    return (3.59, 3.69, 3.79)
+}
+let pricesTuple = getGasPrices()
+let price = pricesTuple.2 // 3.79
+// Ignore Tuple (or other) values by using _ (underscore)
+let (_, price1, _) = pricesTuple // price1 == 3.69
+print(price1 == pricesTuple.1) // true
+print("Gas price: \(price)")
+
+// 通过给返回的元组命名，通过名字来取对应的数值
+// Labeled/named tuple params
+func getGasPrices2() -> (lowestPrice: Double, highestPrice: Double, midPrice: Double) {
+    return (1.77, 37.70, 7.37)
+}
+let pricesTuple2 = getGasPrices2()
+let price2 = pricesTuple2.lowestPrice
+let (_, price3, _) = pricesTuple2
+print(pricesTuple2.highestPrice == pricesTuple2.1) // true
+print("Highest gas price: \(pricesTuple2.highestPrice)")
+```
+
+### Swift 结构体中有列表，可以自定义下表存取方法
+```swift
+// Structures and classes have very similar capabilities
+struct NamesTable {
+    let names: [String]
+
+    // Custom subscript
+    subscript(index: Int) -> String {
+        return names[index]
+    }
+}
+
+// Structures have an auto-generated (implicit) designated initializer
+let namesTable = NamesTable(names: ["Me", "Them"])
+let name = namesTable[1]
+print("Name is \(name)") // Name is Them
+```
+
+### `==` 和 `===`
+Swift 用 `===` 来确定两个比较的对象是否为同一个对象，引用的同一个指针地址。`==` 比较的是值本身
