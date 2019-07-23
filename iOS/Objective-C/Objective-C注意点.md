@@ -475,3 +475,8 @@ if (item.asset) {
 ```objc
 // You can customize the getter and setter names instead of using default 'set' name:
 @property (getter=lengthGet, setter=lengthSet:) int length;
+
+80. `valueForKeyPath` 为什么慢，因为走的是 hash
+
+81. 一个 Button 的点击事件 @selector 如何优雅的传递多参数
+* 使用 block 捕获，包装一下
