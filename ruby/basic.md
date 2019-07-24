@@ -45,3 +45,41 @@ address = {:name => "高桥", :pinyin => "gaoqiao", :postal => "1234567"}
 ```ruby
 address = {name: "高桥", pinyin: "gaoqiao", postal: "1234567"}
 ```
+
+### 接收输入
+```ruby
+puts "首个参数: #{ARGV[0]}"
+puts "第2 个参数: #{ARGV[1]}"
+puts "第3 个参数: #{ARGV[2]}"
+```
+
+```shell
+> ruby print_argv.rb 1st 2nd 3rd
+首个参数: 1st
+第 2 个参数: 2nd
+第 3 个参数: 3rd
+```
+
+### 变量类型
+#### 局部变量
+以英文字母或者 `_` 开头。
+#### 常量
+全大写
+#### 全局变量
+以 `$` 开头。
+#### 实例变量
+以 `@` 开头。
+#### 类变量
+以 `@@` 开头
+
+* 变量前加上*，表示 Ruby 会将未分配的值封装为数组赋值给该变量。
+  ```ruby
+  a, b, *c = 1, 2, 3, 4, 5
+  p [a, b, c]    #=> [1, 2, [3, 4, 5]]
+  a, * b, c = 1, 2, 3, 4, 5
+  p [a, b, c]    #-> [1, [2, 3, 4], 5]
+  ```
+
+
+###  `=~` 符号
+The `=~` operator matches the regular expression against a string, and it returns either the offset of the match from the string if it is found, otherwise nil.

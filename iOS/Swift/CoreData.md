@@ -82,3 +82,33 @@ let moods = try! context.fetch(request)
 
 ![](https://i.loli.net/2019/07/23/5d3725eebeb4390705.png)
 
+
+### 批量获取
+```swift
+let request = Mood.sortedFetchRequest(with: moodSource.predicate) request.returnsObjectsAsFaults = false
+request.fetchBatchSize = 20
+```
+
+这个查询结果只是一个对象 ID 的列表，而不是与它们相关联的所有数据。持久化存储协调器创建一个特殊的，由这些 ID 组成的数组，并将这个数组返回给上下文，并且这个数组没有被任何数据填充，它只在必要的时候才会去获取数据。
+
+一旦我们访问数组里的数据，Core Data 才会去「按页加载」真正的数据，处理流程如下：
+
+1. 这个分批处理的数组注意到它缺少你正尝试访问的元素的数据，它会要求上下文加载你 请求的索引附近数量为 fetchBatchSize 的一批对象。
+2. 像往常一样，这个请求被持久化存储协调器转发到持久化存储，在那里执行适当的SQL 语句来从 SQLite 加载这批数据。原始数据被存储在行缓存里，托管对象则被返回给协 调器。
+3. 因为我们已经设置了returnsObjectsAsFaults为false，协调器会要求存储提供全部数 据，然后用这些数据来填充对象，并将这些对象返回给上下文。
+4. 这一批次的数组将返回你所请求的对象，并持有本批次里的其他对象，这样接下来如果 你需要使用其中某个对象的话，就不必再次获取了。
+
+当我们在遍历数组去加载数据时，Core Data 会以 LRU 的原则来控制数据集合，也就是以最近使用作为原则来保持少量批次，而较早的批次将会被释放。
+
+### 异步获取请求
+```swift
+
+let fetchRequest = NSFetchRequest<Mood>(entityName: "Mood") let asyncRequest = NSAsynchronousFetchRequest(
+fetchRequest: fetchRequest) { result in
+if let result = result.􏰀nalResult { // 获取到结果了
+} }
+try! context.execute(asyncRequest)
+```
+
+### 内存考量
+为了减小内存消耗和回应内存警告的处理，可以使用 `context` 的 `refreshAllObject()` 方法来将不包含待保存改变的对象惰值化。
