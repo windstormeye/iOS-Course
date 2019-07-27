@@ -92,3 +92,84 @@ struct MyView : View {
 * Reducer 是一个函数，它接受 Action 和当前 State 作为参数，返回一个新的 State。
 * 由于 Reducer 是纯函数，就可以保证同样的State，必定得到同样的 View。但也正因为这一点，Reducer 函数里面不能改变 State，必须返回一个全新的对象。
 * 最好把 State 对象设成只读。你没法改变它，要得到新的 State，唯一办法就是生成一个新对象。这样的好处是，任何时候，与某个 View 对应的 State 总是一个不变的对象。
+
+### 在使用 `HStack` 时如何使用设置两个元素左右布局
+
+```swift
+HStack(alignment: .center) {
+    Image("5")
+        .resizable()
+        .frame(width: 50.0, height: 50.0)
+    
+    // 重点
+    Spacer()
+    
+    Button(action: {
+        
+    }) {
+        Image(systemName: "paperplane.fill")
+            .imageScale(.large)
+            .foregroundColor(.primary)
+    }
+}
+```
+
+### 把 `SwiftUI` 页面嵌入到 `UIKit` 页面中
+* `UIViewController` -> `UIHostingController`
+* `UIView` -> `UIHostingView`
+
+
+### 在 `SwiftUI` 中如何设置代理
+因为 `SwiftUI` 中没有 `TextView`，如果我们非要一个 `TextView` 只能从 `UIKit` 中「嫁接」一个包装过的 `TextView`过去，而不创建一个 `UITextView`。
+
+经过一番操作后，把 `TextView` 创建出来了，但是发现需要获取一些例如「开始编辑」、「正在编辑」的状态，这个时候就需要 `Coordinator` 去协助了，
+
+```swift
+struct MASTextView: UIViewRepresentable {
+    let now = Date()
+    
+    var isBeginEditng = false
+    var nowTimeString: String {
+        get {
+            let dformatter = DateFormatter()
+            dformatter.dateFormat = "yyyy年MM月dd日 HH:mm"
+            return dformatter.string(from: now)
+        }
+    }
+    
+    // 显示声明协调器
+    func makeCoordinator() -> MASTextView.Coordinator {
+        Coordinator(self)
+    }
+    
+    func makeUIView(context: Context) -> UITextView {
+        let tv = UITextView()
+        tv.tintColor = .black
+        tv.font = UIFont.systemFont(ofSize: 18)
+        tv.delegate = context.coordinator
+        
+        tv.text = "在 \(nowTimeString) 写下"
+        return tv
+    }
+
+    func updateUIView(_ uiView: UITextView, context: Context) {
+        
+    }
+    
+    class Coordinator: NSObject, UITextViewDelegate {
+        var textView: MASTextView
+        
+        init(_ textView: MASTextView) {
+            self.textView = textView
+        }
+        
+        func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+            if !self.textView.isBeginEditng {
+                self.textView.isBeginEditng = true
+                textView.text = ""
+            }
+            return true
+        }
+    }
+}
+```
