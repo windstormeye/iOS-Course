@@ -82,3 +82,27 @@ Core Animation 在 `RubLoop` 中注册了一个 `Observer`，监听到 `BeforeWa
 * 异步任务回调主线程是模型 Core Animation，在 `runloop` 注册 `BeforeWaiting` 或者 `Exit` 事件，优先级比 Core Animation 更低。收到事件后执行提交任务。
 
 ![ASDK 的核心](https://i.loli.net/2019/07/12/5d28a27df1e6888480.png)
+
+
+### 键盘选择 `return` 时，回收键盘
+点击k键盘 `return` 键时，会输入一个 `\n`，然后实现 `textView` 每次内容改变获取改变内容回调的方法，识别 `\n`，取消对应的 `textView` 成为第一响应者。
+
+```swift
+func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    if text == "\n" {
+        textView.resignFirstResponder()
+        return false
+    }
+    return true
+}
+```
+
+### `makeUIView`
+该方法是 `SwiftUI` 在使用 `UIKit` 组件时，创建视图所调用。
+
+### `updateUIView`
+刚方法时 `SwiftUI` 更新 `UIKit` 组件数据时，自动调用的方法。比如 `UIKit` 组件绑定了 `SwiftUI` 的一个变量 `textString`，当 `SwiftUI` 改变 `textString` 值时，`UIKit` 组件将调用 `updateUIView` 方法。
+
+使用类似 `UITextView` 之类的输入组件可能看不出有什么效果，但如果像使用类似官方那般的 `MapKit` 相关组件时，因为我们并不能把外部的经纬度直接绑定到 `mapView` 的经纬度上，得调用 `mapView` 经纬度的 `setter` 方法，所以需要把这部分 `setter` 方法逻辑写在 `updateUIView` 中。
+
+这样就完成了当外部修改 `SwiftUI` 和 `UIKit` 使用`@Binding` 关键字修饰的关联变量的值时，就会得到正确的修改。
