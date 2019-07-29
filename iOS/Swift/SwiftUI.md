@@ -173,3 +173,21 @@ struct MASTextView: UIViewRepresentable {
     }
 }
 ```
+
+### 设置 `BindableObject` 时的一些问题
+```swift
+class AritcleManager: BindableObject {
+    var willChange = PassthroughSubject<Void, Never>()
+    
+    var article = [Article]() {
+        willSet {
+            willChange.send(())
+        }
+    }
+}
+```
+
+上述代码中 `PassthroughSubject` 里的 `Void` 和 `Never` 是什么意思？
+* `Void`。指明我们要在数据改变时传递什么值，因为在例如用 `BindableObject` 来实现用户管理类，在用户管理类中又有用户的 `viewModel` 和 `token`，当用户退出登录时，`token` 清空，`viewModel` 也要清空；用户再次登录时，`token` 被赋值，`viewModel` 也拿到了新用户的信息数据，此时只需要监听 `token` 的变化，并把 `viewModel` 发布出去即可。
+* `Never`。指明我们是否要连带错误类型也通知出去。`Never` 表示通知时什么错误类型也不带上，可以按照需求定义为 `NetworkError`。
+
