@@ -133,3 +133,8 @@ Core Data 默认创建出来的实体是**自动生成代码**，如果我们想
 
 ![手动管理实体代码生成器](https://i.loli.net/2019/07/28/5d3dbd6b7947f91326.png)
 
+
+### NSFetchResultController 获取数据
+* 第一次初始化时，可以通过 `try! fetchedResultsController.performFetch()` 来获取数据，正常执行完方法后即可拿到数据。`NSFetchedResultsController` 既是 fetch request 的包装，也是一个获取数据用的 container，我们可以从中获取到数据。
+
+* 后续再执行增删时，通过代理响应数据变化。
