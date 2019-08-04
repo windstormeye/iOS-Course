@@ -191,3 +191,7 @@ class AritcleManager: BindableObject {
 * `Void`。指明我们要在数据改变时传递什么值，因为在例如用 `BindableObject` 来实现用户管理类，在用户管理类中又有用户的 `viewModel` 和 `token`，当用户退出登录时，`token` 清空，`viewModel` 也要清空；用户再次登录时，`token` 被赋值，`viewModel` 也拿到了新用户的信息数据，此时只需要监听 `token` 的变化，并把 `viewModel` 发布出去即可。
 * `Never`。指明我们是否要连带错误类型也通知出去。`Never` 表示通知时什么错误类型也不带上，可以按照需求定义为 `NetworkError`。
 
+### 千万注意代码是有顺序的
+如果我们想要给一个 `View` 添加触摸事件，会下意识的按照 `UIKit` 的做法去做，可能设置这个 `View` 的 `frame` 属性，也可能先给这个 `View` 这个添加触摸手势，在 `UIKit` 中代码的先后顺序显得不是那么重要。
+
+但在 `SwiftUI` 中就非常重要了，必须先设置好 `View` 的 `frame` 才能添加成功触摸手势，要不会失效。
