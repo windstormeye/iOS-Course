@@ -195,3 +195,6 @@ class AritcleManager: BindableObject {
 如果我们想要给一个 `View` 添加触摸事件，会下意识的按照 `UIKit` 的做法去做，可能设置这个 `View` 的 `frame` 属性，也可能先给这个 `View` 这个添加触摸手势，在 `UIKit` 中代码的先后顺序显得不是那么重要。
 
 但在 `SwiftUI` 中就非常重要了，必须先设置好 `View` 的 `frame` 才能添加成功触摸手势，要不会失效。
+
+### 当遇到单个 `View` 无法撑起整个布局
+善用 `Spacer()`
