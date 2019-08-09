@@ -598,3 +598,35 @@ if (item.asset) {
 
 115. 转屏逻辑可以写在 `layoutSubView时` 中。因为每次 `frame` 切换都会导致该方法的调用。
 	* 当时如果视图的 `frame` 为 0，则不会被调用
+
+116. 使用以下名称开头的方法名意味着自己生成的对象只有自己持有：
+* `alloc`
+* `new`
+* `copy`
+* `mutableCopy`
+
+当对方法进行命名时，如果出现了下列类似的方法名，也意味着自己生成并持有对象：
+* `allocMyObject`
+* `newThisObject`
+* `copyThis`
+* `mutableCopyYourObject`
+
+117. 调用类似 `[NSMutableArray array]` 方法使得取的对象存在，但自己不持有对象：
+
+  ```objc
+  - (id)objc {
+    id obj = [[NSObject alloc] init];
+    // 自己持有对象
+    [obj autorelease];
+    // 取得的对象存在，但自己不持有对象
+    return obj;
+  }
+  ```
+118. 想要让自己原本并不持有的对象，变为持有，给该对象加上一个 `[obj retain]` 进行持有。
+
+119. 重复释放或释放了自己不持有的对象，会导致崩溃。
+
+120. `dealloc` 方法到底什么时候调用？
+每次执行单次 `[obj release]` 或系统自动执行统一 `release` 时，判断某个对象的 `retainCount` 是否为 0，为 0 则手动调用 `[self release]` 方法，`free()` 掉该对象的内存。
+
+121. Apple 通过散列表来管理引用计数。表 `key` 为内存块地址的散列值，`value` 为内存块的引用计数。这么做可以通过计数表的各个记录追溯到各对象的内存块，即使出现故障导致对象占用的内存块损坏，但只要引用计数没有被破坏，就能够确认各内存块的位置。
