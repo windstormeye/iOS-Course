@@ -630,3 +630,36 @@ if (item.asset) {
 每次执行单次 `[obj release]` 或系统自动执行统一 `release` 时，判断某个对象的 `retainCount` 是否为 0，为 0 则手动调用 `[self release]` 方法，`free()` 掉该对象的内存。
 
 121. Apple 通过散列表来管理引用计数。表 `key` 为内存块地址的散列值，`value` 为内存块的引用计数。这么做可以通过计数表的各个记录追溯到各对象的内存块，即使出现故障导致对象占用的内存块损坏，但只要引用计数没有被破坏，就能够确认各内存块的位置。
+
+122. OC 中同时重写 `setter` 和 `getter` 需要把属性改为 `@dynamic` 修饰，告知 Xcode 不要帮我自动生成。
+
+123. 该方法返回 `autorelease` 对象。
+
+  ```objc
+  id array = [NSMutableArray arrayWithCapacity:1];
+  // 相当于
+  id array = [[NSMutableArray alloc] initWithCapacity:1] autorelease];
+  ```
+
+  124. 调用 `[obj autorelease]` 本质上是调用：
+
+  ```objc
+  - (id)autorelease {
+    [NSAutoreleasePool addObject:self];
+  }
+  ```
+
+  为了能够高效地运行应用程序中频繁调用的 `autorelease` 方法，使用了 `IMP Caching` 的机制，在框架初始化的时候对其结果值进行缓存。运行效率一般是其它方法的 2 倍。
+
+124. 如果嵌套生成多个 `NSAutoreleasePool` 对象，`[obj autorelease]` 会使用最内侧的 `NSAutoreleasePool` 对象。
+
+125. `NSAutoreleasePool` 的 `drain` 方法实现细节：
+* 调用 `drain` 方法，本质上是在调用 `[self dealloc]` 方法。
+* 调用 `[self dealloc]` 方法，本质上是在调用 `[self emptyPool]` 和 `[array release]`，清空 pool 和自己本身管理对象数组的 release。
+* 调用 `[self emptyPool]` 本质上是在循环遍历对象数组中 `autorelease` 添加进来的对象的 `[obj release]` 方法。
+
+总的来说，就是会让每个对象都会被 `release`。
+
+126. 对 `[NSAutoreleasePoolObjc autorelease]` 会怎样？
+
+运行时会发生异常，因为 `NSAutoreleasePool` 类中已经重载了 `autorelease` 方法，运行时会报错。
