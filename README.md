@@ -137,6 +137,16 @@ Weex | [Weex新手记](./Weex/Weex新手记.md)
 ---- | ----
 基础 | [Cocos 基础](Game/Cocos/basic.md)
 
+## 🌄 图形学 & 视觉
+类型 | 文章
+--- | ---
+basic | [基础知识](CV/basic.md)
+
+## 🔗 区块链
+类型 | 文章
+--- | ---
+basic | [基础知识](Blockchain/basic.md)
+
 ## 🧮 AI
 类型 | 文章
 ---- | ----
