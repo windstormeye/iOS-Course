@@ -50,7 +50,7 @@ struct MyView : View {
 * 不要出现多个状态同步管理，使用 @Binding 共享一个 Source of truth。
 * 对于系统环境使用 @Enviroment 管理。
 * 对于需要共享的不可变数据使用 @EnviromemntObject 管理。
-* @Binding 具有引用语义，可以很好的和 @Binding @objectBinding * * @State 协作，避免出现多个数据不同步。
+* @Binding 具有引用语义，可以很好的和 @Binding @objectBinding @State 协作，避免出现多个数据不同步。
 
 ### SwiftUI 如何进行渲染子元素
 1. 父视图为子视图提供预估尺寸

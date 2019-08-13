@@ -670,3 +670,39 @@ if (item.asset) {
 
 * 这个方法会在类的第一个方法调用前被调用。首先会先调用父类的 `initialize` 方法，如果子类没有实现 `initialize` 方法,那么父类会多次触发这个方法,为了避免这种情况的发生，可以在实现的方法里面添加一个判断。`initialize` 其实可以被认为是延迟加载的方法，类加载的时候并不会执行这个方法，只有当类实例化的时候，或者类的第一个方法被调用的时候才会执行这个方法。
 * `load` 方法通常用来进行 `Method Swizzle`，`initialize` 方法一般用于初始化全局变量或静态变量。
+
+129. `__autoreleasing` 一个有趣的地方：
+```objc
+NSError *error = nil;
+BOOL result = [pbj performOperationWithError:&error];
+```
+
+该方法的声明为：
+
+```objc
+- (BOOL) performOperationWithError:(NSError **)error;
+```
+
+`id` 的指针或对象的指针会默认加上 `__autoreleasing` 修饰符，所以等同于以下代码：
+
+```objc
+- (BOOL) performOpertaionWithError:(NSError * __autoreleasing *)error;
+```
+
+但是如果是这样直接赋值的话，会产生编译器错误：
+
+```objc
+NSError *error = nil;
+NSError **pError = &error;
+```
+
+因为赋值给对象指针时，所有权修饰符必须一致，修改：
+
+```objc
+NSError *error = nil;
+NSError * __strong *pError = &error;
+```
+
+对于其它所有权修饰符也是一样的。
+
+130. 以 `init` 开始的方法的规则要比 `alloc\new\copy\mutableCopy` 更严格。该方法必须是实例方法，并且必须要返回对象。返回的对象应为 `id` 类型或该方法声明类的对象类型，或者是该类的超类或子类。该返回的对象不注册到 `autoreleasepool` 上，基本只对 `alloc` 方法返回值的对象进行初始化处理并返回该对象。
