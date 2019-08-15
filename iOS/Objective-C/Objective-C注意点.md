@@ -735,3 +735,5 @@ id __weak obj1 = obj0
 可见，大量使用 `__weak` 修饰符的对象会消耗对应的 CPU 资源，只需要在避免循环引用时使用该修饰符。
 
 137. 每使用一个被 `__weak` 修饰符修饰的对象时，都会被加入到 `autoreleasepool` 中，为了避免这个问题，可以先把其用 `__strong` 修饰符修饰的对象接一下。
+
+138. 做埋点时如果不能保证取的值都是存在的话，使用字典 `setValue：forKey：` 中 value 能够为 nil，但是当 value 为 nil 的时候，会自动调用`removeObject：forKey` 方法。

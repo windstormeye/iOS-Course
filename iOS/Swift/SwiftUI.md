@@ -198,3 +198,13 @@ class AritcleManager: BindableObject {
 
 ### 当遇到单个 `View` 无法撑起整个布局
 善用 `Spacer()`
+
+### SwiftUI 的重新预览问题
+* Xcode 的预览使用了动态替换 `body` 属性的特性，但是它有一些局限，当 `body` 以外的部分被改变时，将导致 `ContentView` 需要整个重新编译时，比如在 `body` 之外添加一个存储属性 `var a = 2333`，必须再次点击 Resume 按钮才能重新开始预览。
+
+### 圆角设置
+`cornerRadius` 通过包装的方式为 `View` 添加圆角，并返回**新的 `View`**。
+
+### `ForEach` 遍历怎么做到不需要写 `id:\.balabala`
+* `ForEach` 是个 `DynamicViewContent` 类型，所以在实现 `List` 的侧滑删除时，需要把内容到 `ForEach` 中进行处理，因为 `onDelete` 事件要求 `DynamicViewContent` 类型。
+* `ForEach` 用来列举元素，并生成对应的 view collection 类型，🉑️一个数组，且数组中的元素需要满足 `Identifiable` 协议。如果数组元素不满足 `Identifiable` 协议，需要使用 `ForEach(_:id:)` 来通过某个支持 `Hashable` 的 key path 获取一个等效的元素是 `Identifiable` 的数组。
