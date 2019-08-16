@@ -208,3 +208,48 @@ class AritcleManager: BindableObject {
 ### `ForEach` 遍历怎么做到不需要写 `id:\.balabala`
 * `ForEach` 是个 `DynamicViewContent` 类型，所以在实现 `List` 的侧滑删除时，需要把内容到 `ForEach` 中进行处理，因为 `onDelete` 事件要求 `DynamicViewContent` 类型。
 * `ForEach` 用来列举元素，并生成对应的 view collection 类型，🉑️一个数组，且数组中的元素需要满足 `Identifiable` 协议。如果数组元素不满足 `Identifiable` 协议，需要使用 `ForEach(_:id:)` 来通过某个支持 `Hashable` 的 key path 获取一个等效的元素是 `Identifiable` 的数组。
+
+### `@State` 的一些细节
+和一般的存储属性不同，`@State` 修饰的值，在 SwiftUI 内部会被自动转换为一对 setter 和 getter，对这个属性进行赋值的操作将会触发 `View` 的刷新，它的 `body` 会再次被调用，底层渲染引擎会找出洁面上与这个值相关的的更改部分，并进行刷新。
+### 为什么不能对各个层级的组件都使用 `@State` ？
+* `@State` 仅能在属性本身被设置时触发 UI 刷新，所以一般会直接拿一个值类型变量用于记录状态；
+* 但值类型的变量在多个组件层级之间进行传递时，该值将会遵循值语义发生复制，而不是引用。导致每个组件的状态值都不一样。
+* `@Binding` 就是用来解决这个问题的。所做的事情时将值语义属性「转换」为引用语义。
+    * 对 `@Binding` 的属性进行赋值，改变的将不是属性本身，而是它的引用，这个改变将被向外传递。
+    * 所以是，每个组件如果需要被其它组件里的值影响，都需要使用 `@Bingding` 去修饰。
+
+### 在传递属性的时候，在前面加上一个美元符号 `$`。
+在 Swift5 中，在一个 `@` 符号修饰的属性前几上 `$` 所取得的值，称之为**投影属性**（projecttion property）。
+    * 不是所有的 `@`  属性都有提供 `$` 的投影访问方式。
+    * `$var` 将 `State` 转换成了引用语义的 `Binding`，并向下传递。
+
+### `@` 属性在 Swift 中的正式名称是属性包装（property Wrapper）。
+
+### 使用 `ObservableObject` 有两种写法：
+```swift
+let objectWillChange = PassthroughSubject<Void, Never>() 
+var obj: objModel = ObjModel() {
+        willSet { objectWillChange.send() 
+    } 
+} 
+```
+
+```swift
+@Published var brain: CalculatorBrain = .left("0") 
+```
+
+### 多个 State 发送改变时，SwiftUI 要怎么变化？
+我的猜测：在当前 `RunLoop` 中，收到多个 State 的改变，在该 `RunLoop` 结束时用最后一个 State 进行计算。
+
+### `Publisher` 可以发布的事件类型
+* 类型为 Output 的新值:这代表事件流中出现了新的值。
+* 类型为 Failure 的错误:这代表事件流中发生了问题，事件流到此终止。 
+* 完成事件:表示事件流中所有的元素都已经发布结束，事件流到此终止。
+
+我们将最终会终结的事件流称为**有限事件流**，而将不会发出 failure 或者 finished 的事件流 称为**无限事件流**。
+
+### 多个 `Publisher` 怎么办？
+通过一系列组合，我们可以得到一个响应式的 `Publisher` 链条:当链条最上端的 `Publisher` 发布某个事件后，链条中的各个 `Operator` 对事件和数据进行处理。在链条的末端我们希望最终能得到可以直接驱动 UI 状态的事件和数据。
+
+
+

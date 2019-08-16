@@ -737,3 +737,18 @@ id __weak obj1 = obj0
 137. 每使用一个被 `__weak` 修饰符修饰的对象时，都会被加入到 `autoreleasepool` 中，为了避免这个问题，可以先把其用 `__strong` 修饰符修饰的对象接一下。
 
 138. 做埋点时如果不能保证取的值都是存在的话，使用字典 `setValue：forKey：` 中 value 能够为 nil，但是当 value 为 nil 的时候，会自动调用`removeObject：forKey` 方法。
+
+
+139. 现在的 `blocks` 并没有实现对 C 语言数组的截获，可以使用指针解决。
+
+```objc
+const char *text = "hello";
+void (^blk)(void) = ^ {
+  printf("%c\n", text[2]);
+}
+```
+
+140. `block` 会被转换为 C 语言源码编译。同时也为 OC 的对象。
+
+141. 所谓“截获自动变量值”意味着在执行 `block` 语法时，`block` 语法表达式所使用的自动变量值被保存到 `block` 的结构体实例中（`block` 本身）。
+
