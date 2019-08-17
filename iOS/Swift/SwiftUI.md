@@ -251,5 +251,104 @@ var obj: objModel = ObjModel() {
 ### 多个 `Publisher` 怎么办？
 通过一系列组合，我们可以得到一个响应式的 `Publisher` 链条:当链条最上端的 `Publisher` 发布某个事件后，链条中的各个 `Operator` 对事件和数据进行处理。在链条的末端我们希望最终能得到可以直接驱动 UI 状态的事件和数据。
 
+### `sink`
+可以通过 `sink` 订阅 Publisher 事件。Subscriber 可以指定想要接收的新值的个数，这不仅在订阅初期可以通过 `Subscription.request` 来告知 Publisher，也可以通过 `Subscriber.receive` 返回特定的 `Subscribers.Demand` 值来指定接下来能够处理的值的个数。通 过这些机制，Combine 将可以实现背压 (Backpressure)。`.unlimited` 表示不设上限，但当上游 Publisher 的值生产速度大于下游的消费速度时，下游的缓冲区就会发生溢出。指定合适的背压策略，通过控制上限，可以让系统下游不发生崩溃的同时，有机会对部分溢出事件做额外处理 (比如丢弃或者告 知上游不要再接受新的事件)。
+
+在客户端开发中，需要处理背压的场景非常有限，但是在服务端开发处理大 规模数据时，这会是无法绕过机制。
+
+### `assign`
+通过 `assign` 绑定 Publisher 值。Combine 里还有另一个内建的 Subscriber: `Subscribers.Assign`，它可以用来将 Publisher 的输出值通过 key path 绑定到一个 对象的属性上去。
+
+* 注意 assign 所 接受的第一个参数的类型为 ReferenceWritableKeyPath，也就是说，只有 class 上 用 var 声明的属性可以通过 assign 来直接赋值。
+* assign 的另一个 “限制” 是，上游 Publisher 的 `Failure` 的类型必须是 `Never`。如果 上游 Publisher 可能会发生错误，我们则必须先对它进行处理，比如使用 `replaceError` 或者 `catch` 来把错误在绑定之前就 “消化” 掉。
 
 
+### Subject
+`sink` 提供了由函数响应式向指令式编程转变的露肩的话，`Subject` 则补全了这条通路的另一侧：它让你可以将传统的指令式异步 API 里的事件和信号转换到响应式的世界中去。
+
+Combine 中内置提供了两种常用的 `Subject` 类型：`PassthroughSubject` 和 `CurrentValueSubject`。
+
+* `PassthroughSubject` 简单地将通过 `send` 接收到的事件转 发给下游的其他 Publisher 或 Subscriber。
+
+* `CurrentValueSubject` 则会包装和持有一个值，并在 设置该值时发送事件并保留新的值。
+
+### Scheduler
+如果说 `Publisher` 决定了发布怎样的 (what) 事件流的话，`Scheduler` 所要解决的就 是两个问题：在什么地方 (where)，以及在什么时候 (when) 来发布事件和执行代码。
+
+* Combine 里提供了 `receive(on:options:) ` 来让下游在指定的线程中接收事件。
+* `RunLoop` 就是一个实现了 `Scheduler` 协议的类型，它知道要如何执行后续的订阅任务。
+* 比较常见的两种操作是 `delay` 和 `debounce`。`delay` 简单地将所有事件按照一定事件 延后。`debounce` 则是设置了一个计时器，在事件第一次到来时，计时器启动。在计 时器有效期间，每次接收到新值，则将计时器时间重置。当且仅当计时窗口中没有新 的值到来时，最后一次事件的值才会被当作新的事件发送出去。
+* 它们都是 Publisher 上的扩展方 法，并返回一个新的 Publisher。
+
+### `Operator`
+在 `Publisher` 上也存在一个 `map` 函数，我们可以通过类似的方式，对 output 的元素进行变形:
+
+```swift
+check("Map") {
+    // " 注意我们是在 `Publisher` 上调用了 `map`
+    [1,2,3]
+        .publisher
+        .map{$0*2}
+}
+```
+
+* 经过 `reduce` 变形后，新的 `Publisher` 只会在接到上游发出的 `finished` 事件后，才会将 `reduce` 后的结果发布出来。
+
+### `scan`
+类一边进行重复操作，一边将每一步中间状态发送出去的场景十 分普遍，因此 `Combine` 内置提供了 `scan` 这个 `Operator`。
+
+`scan` 一个最常见的使用场景是在某个下载任务执行期间，接受 `URLSession` 的数据 回调，将接收到的数据量做累加来提供一个下载进度条的界面。
+
+### 为 `Array` 标准库添加 `scan` 操作
+有些情况下，除了最终的结果，我们也有可能会想要把中途的过程保存下来。在 `Array` 中，这种操作一般叫做 `scan`。这个方法在标准库中并不存在，不过我们可以很 容易地添加一个:
+
+```swift
+extension Sequence {
+public func scan<ResultElement>(
+_ initial: ResultElement,
+_ nextPartialResult: (ResultElement, Element) !" ResultElement ) !" [ResultElement] {
+var result: [ResultElement] = []
+forxinself{
+            result.append(nextPartialResult(result.last ?? initial, x))
+        }
+        return result
+    } 
+}
+```
+
+调用该方法的方式和 reduce 几乎相同: 
+
+```swift
+[1,2,3,4,5].scan(0, +)
+// " [1, 3, 6, 10, 15]
+```
+
+### `compactMap`
+它的作用是将 `map` 结果中那些 `nil` 的元素去除掉，这个操
+作通常会 “压缩” 结果，让其中的元素数减少。
+
+```swift
+["1", "2", "3", "cat", "5"]
+    .publisher
+    .compactMap { Int($0) }
+```
+
+直接使用 Swift 进行函数式编程是这样的：
+
+```swift
+["1", "2", "3", "cat", "5"]
+    .publisher
+    .map { Int($0) } .filter { $0 !" nil } .map { $0! }
+```
+
+### `flatMap`
+`flatMap` 的变形闭包里需要返回 一个 `Publisher`。也就是说，`flatMap` 将会涉及两个 `Publisher`:一个是 `flatMap` 操作本身所作用的外层 `Publisher`，一个是 `flatMap` 所接受的变形闭包中返回的内层 `Publisher`。flatMap 将外层 Publisher 发出的事件中的值传递给内层 `Publisher`，然 后汇总内层 `Publisher` 给出的事件输出，作为最终变形后的结果。
+
+### `removeDuplicates`
+```swift
+["S", "Sw", "Sw", "Sw", "Swi","Swif", "Swift", "Swift", "Swif"]
+    .publisher
+    .removeDuplicates()
+```
+
+上例中，“Sw” 连续出现了三次，“Swift” 出现了两次，而经过移除操作后，我们得到 的是一系列没有重复的字符串事件。`removeDuplicates` 经常被用来减少那些非常消 耗资源的操作，比如由事件触发造成的网络请求或者图片渲染。如果当作为源头的 数据没有改变时，所预期得到的结果也不会变化的话，那么就没有必要去重复这样 操作。在源头将重复的事件移除，可以让下游的事件流也变得简单。
