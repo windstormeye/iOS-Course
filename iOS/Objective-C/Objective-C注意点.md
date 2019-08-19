@@ -752,3 +752,42 @@ void (^blk)(void) = ^ {
 
 141. 所谓“截获自动变量值”意味着在执行 `block` 语法时，`block` 语法表达式所使用的自动变量值被保存到 `block` 的结构体实例中（`block` 本身）。
 
+142. iOS 13 中返回的 `device token` 变化异常。
+iOS 13 之前，基本上都是这么去获取的 device token：
+
+```objc
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSString *deviceTokenString = [[[[deviceToken description]
+                                     stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                                    stringByReplacingOccurrencesOfString: @">" withString: @""]
+                                   stringByReplacingOccurrencesOfString: @" " withString: @""];
+}
+```
+
+```shell
+<baac4207 4eb30c26 264b43b7 7cedf1ba 643da57b 1bdd6356 9ef43b5c aa5b6c30>
+```
+
+iOS 13 后，变为了
+
+```objc
+{length = 32, bytes = 0x778a7995 29f32fb6 74ba8167 b6bddb4e ... b4d6b95f 65ac4587 }
+```
+
+
+所以我们需要这么做，并且该代码也是向下兼容的：
+
+```objc
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
+{
+    const unsigned *tokenBytes = [deviceToken bytes];
+    NSString *deviceTokenString = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                                   ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                                   ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                                   ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+
+}
+```
+
+143. URL 中的 `?` 是保留字符，所以在判断 URL 中最后一位是不是 `?` 没有必要，直接看当前 URL 是否包含 `?`，即可判断。
