@@ -394,3 +394,22 @@ combineLatest 被用来处理多个可变状态，在其中某一个状态发生
 ### `throttle`
 它在收到一个事件后开始计时，并忽略计时周期内的后续输入。
 
+### 每一个 `@State` 都是一个数据源
+
+### * 当 `Text` 布局约束太小，以至于产生了异常的内容缩减
+例如缩减了尾部文字，但我们却想要缩减头部文字，此时可以使用 `View` 的 `layoutPriority(1)` 方法从默认的 0 更改为 1。
+
+### 如果想要 `Image` 和 `Text` 进行同一个基线进行对齐
+* 可以对 `Image` 使用 `.alighnmentGuide` 自定义基线距离。
+* 文本基线对齐的方法：`HStack(alignment: .lastTextBaseline) {}`
+
+![自定义对齐](https://i.loli.net/2019/08/20/3TZrl7QOIXEcW8s.png)
+
+![自定义对齐的使用](https://i.loli.net/2019/08/20/Efe61CyhBqK9AmH.png)
+
+
+### 图形绘制
+当需要绘制大量的内容时，比如一组图形或一组文字，可以使用 `.drawingGroup` 进行，开启后，将会把绘制任务丢到 `Metal` 里使用 GPU 进行绘制加速。
+
+![图形绘制](https://i.loli.net/2019/08/20/vJVx9UGD3l2qkZN.png)
+
