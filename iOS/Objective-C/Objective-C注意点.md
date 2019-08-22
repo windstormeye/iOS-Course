@@ -800,3 +800,36 @@ iOS 13 后，变为了
 
 147. 本地的 @2x 和 @3x 转成 webp 以后，调用的时候是否要判断设备分辨率，根据不同的设备分辨率调用不同倍数的 webp。
 
+148. 在多个 Block 中使用 `__block` 变量时，因为最先会将所有的 Block 配置在栈上，所以 `__block` 变量也会配置在栈上。在任何一个 Block 从栈复制到堆时，`__block` 变量也会一并从栈复制到堆并被该 Block 所持有。当剩下的 Block 从栈复制到堆时，被复制的 Block 持有 `__block` 变量，并增加 `__block` 变量的引用计数。
+
+149. 什么时候栈上的 Block 会被复制到堆上呢？
+* 调用 Block 的 `copy` 方法；
+* 将 Block 作为函数返回值；
+* 将 Block 赋值给附有 __strong 修饰符 `id` 类型的类或 Block 类型成员变量时；
+* 方法名中含有 `usingBlock` 的 Cocoa 框架方法或 GCD 的 API 中传递 Block 时。
+
+150. 推荐调用 Block 的 `copy` 方法
+* 将 Block 作为函数返回值；
+* 将 Block 赋值给附有 __strong 修饰符 `id` 类型的类或 Block 类型成员变量时；
+* 方法名中含有 `usingBlock` 的 Cocoa 框架方法或 GCD 的 API 中传递 Block 时。
+
+151. 当监控系统内存的县城发现某 App 内存有压力，发出通知，内存有压力的 App 就会去执行对于的代理，也就是 `didReceiveMemoryWarning` 代理。通过这个代理，可以获得最后一个编写逻辑代码释放内存的机会。这段代码的执行，有可能会避免 App 被系统强杀。
+
+152. iOS 系统内核里有一个数组，用于维护线程的优先级。这个优先级规定就是：内核用线程的优先级是最高的，操作系统的优先级其次，App 的优先级排在最后。且前台 App 的优先级高于后台 App。线程使用优先级时，CPU 占用多的线程的优先级会被降低。
+
+153. 系统因为内存占用原因强杀 App 前，至少有 6s 的时间可以用来做优先级判断，`JetSamEvent` 日志在这段时间内生成。
+
+* 在收到内存警告时，如何获取当前 app 的内存？
+
+```objc
+struct mach_task_basic_info info;
+mach_msg_type_number_t size = sizeof(info);
+kern_return_t kl = task_info(mach_task_self(), MACH_TASK_BASIC_INFO, (task_info_t)&info, &size);
+```
+
+```objc
+float used_mem = info.resident_size;
+NSLog(@" 使用了 %f MB 内存 ", used_mem / 1024.0f / 1024.0f)
+```
+
+154. NSLog 实际上是一个 C 函数。它的作用是输出信息到标准的 Error 控制台和系统日志中，在内部实现上，实际上是用 ASL （Apple System Logger）的 API，将日志消息直接存储在磁盘上。
