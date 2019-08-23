@@ -833,3 +833,9 @@ NSLog(@" 使用了 %f MB 内存 ", used_mem / 1024.0f / 1024.0f)
 ```
 
 154. NSLog 实际上是一个 C 函数。它的作用是输出信息到标准的 Error 控制台和系统日志中，在内部实现上，实际上是用 ASL （Apple System Logger）的 API，将日志消息直接存储在磁盘上。
+
+155. ARC 有效时，`id` 类型以及对象类型变量必定附加所有权修饰符，却省为 `__strong`。
+
+156. 推荐通过 `copy` 方法来持有 block，把 block 从栈上复制到堆上。 
+
+157. **ARC 无效时**，`__block` 说明符被用来避免 Block 中的循环引用。因为 Block 从栈复制到堆时，不会被 `retain`，反之会被 `retain`。
