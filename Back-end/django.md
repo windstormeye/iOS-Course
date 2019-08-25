@@ -470,3 +470,15 @@ current_drink_score.score = Decimal(str(10))
 from django.db.models import Q
 myapps = App.objects.filter(~Q(name= ''))
 ```
+
+### 如果出现了本地的 `django_migrations` 和服务器的 `django_migrations` 记录不一致
+
+导致执行 `migrate` 时各个 app 的上下游依赖出现问题，报错：
+
+```shell
+django.db.migrations.exceptions.InconsistentMigrationHistory: Migration user_avatar.0001_initial is applied before its dependency user.0002_auto_20190705_2356 on database 'default'.
+```
+
+这是因为在 `django_migrations` 表中有可能因为 `user_avatar.0001_initial` 已经有记录了，且依赖 `user.0002_auto_20190705_2356`，但此时 `user.0002_auto_20190705_2356` 并未生成。
+
+解决办法：把 `user_avatar.0001_initial` 这条记录删掉，但非常不好。
