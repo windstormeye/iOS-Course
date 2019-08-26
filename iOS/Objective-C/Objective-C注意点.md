@@ -862,3 +862,8 @@ NSLog(@" 使用了 %f MB 内存 ", used_mem / 1024.0f / 1024.0f)
 
 164. 判断耗电量可以从 CPU 使用量入手。
 
+165. `dispatch_after` 函数并不是在指定时间后执行处理，而只是在指定时间追加处理到 `Dispatch Queue`。
+
+166. 通过 `Dispatch Group` 可以统一管理 GCD，在其中各个 GCD 执行完后处理或者设置等待时间。
+
+167. 如果想提高文件读取速度，可以尝试使用 `Dispatch I/O`。
