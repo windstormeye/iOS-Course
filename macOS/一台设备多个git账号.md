@@ -21,7 +21,7 @@ $ git config --global user.email "your email"
 ```shell
 $ cd ~/.ssh
 # cat 出来的内容全部复制
-$ cat id_rsa_pjhubs
+$ cat id_rsa_pjhubs.pub
 ```
 
 ## 本地识别
