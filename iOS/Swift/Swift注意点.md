@@ -1039,4 +1039,5 @@ print("Name is \(name)") // Name is Them
 ### `==` 和 `===`
 Swift 用 `===` 来确定两个比较的对象是否为同一个对象，引用的同一个指针地址。`==` 比较的是值本身
 
-## 
+## 获取当前视图上的 `UIView` 截图
+调用 `toContainer.snapshotView(afterScreenUpdates: false)` 方法即可。

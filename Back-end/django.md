@@ -482,3 +482,6 @@ django.db.migrations.exceptions.InconsistentMigrationHistory: Migration user_ava
 这是因为在 `django_migrations` 表中有可能因为 `user_avatar.0001_initial` 已经有记录了，且依赖 `user.0002_auto_20190705_2356`，但此时 `user.0002_auto_20190705_2356` 并未生成。
 
 解决办法：把 `user_avatar.0001_initial` 这条记录删掉，但非常不好。
+
+### 直接  copy 别人的 django 文件夹
+如果是直接 copy 了别人的 django 文件夹，可能会出现它的 env 与本机的各种不匹配问题，需要删除重新生成
