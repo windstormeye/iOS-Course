@@ -9,9 +9,9 @@ $ git config --global user.email
 $ git config --global --unset user.name
 $ git config --global --unset user.email
 
-# 通过以下语句设置的账户信息
-$ git config --global user.name "your name"
-$ git config --global user.email "your email"
+# 通过以下语句设置的不同文件夹下的账户信息
+$ git config user.name "your name"
+$ git config user.email "your email"
 ```
 
 ## 重新生成新的 ssh_key
@@ -21,7 +21,7 @@ $ git config --global user.email "your email"
 ```shell
 $ cd ~/.ssh
 # cat 出来的内容全部复制
-$ cat id_rsa_pjhubs
+$ cat id_rsa_pjhubs.pub
 ```
 
 ## 本地识别
