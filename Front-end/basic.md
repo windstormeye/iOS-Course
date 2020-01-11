@@ -64,7 +64,8 @@
 
 
 * CSS :root 伪类选择器？
-
+    * :root 这个 CSS 伪类匹配文档树的根元素。对于 HTML 来说，:root 表示 <html> 元素，除了优先级更高之外，与 html 选择器相同。
+    * CSS 伪类 是添加到选择器的关键字，指定要选择的元素的特殊状态。例如，:hover 可被用于在用户将鼠标悬停在按钮上时改变按钮的颜色。
 
 # Applied Visual Design
 * text-align: justify;
@@ -74,6 +75,12 @@
 * <strong> 标签可以替代 CSS 属性 font-weight: bold; 作用。
 * <u> 标签加下划线
 * <em> 加斜体
+* <hr> 加横线
+* 所有的 CSS 属性设置后都必须添加分号。
+* position: relative
+    * 让元素脱离当前的文档流，但盒子原先占据的位置还在，适合做微调。
+* float 属性把当前元素推出文档流。
+* z-index 属性可以调整元素和元素之间在 z 轴上的位置
 
 
 
