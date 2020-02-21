@@ -30,6 +30,7 @@ UML | [UML](./基础知识/UML.md)
 
 类型   | 文章
 ----- | -----
+短代码 | [iOS 短代码](./iOS/code.md)
 基础知识 | [基础知识](./iOS/basic.md)
 Swift |[OC 转 Swift 注意点](./iOS/Swift/OC转Swift.md)
 Swift | [Swift 注意点](./iOS/Swift/Swift注意点.md)

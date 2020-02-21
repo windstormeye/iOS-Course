@@ -867,7 +867,6 @@ NSLog(@" 使用了 %f MB 内存 ", used_mem / 1024.0f / 1024.0f)
 166. 通过 `Dispatch Group` 可以统一管理 GCD，在其中各个 GCD 执行完后处理或者设置等待时间。
 
 167. 如果想提高文件读取速度，可以尝试使用 `Dispatch I/O`。
-<<<<<<< HEAD
 
 168. 使用 `CADisplayLink` 的获取屏幕刷新的方法
 ```swift
@@ -893,7 +892,7 @@ class ViewController: UIViewController {
 
 }
 ```
-=======
+
 168. 多播代理
 * https://juejin.im/post/5bd6842f6fb9a05d0045f925
 * https://www.jianshu.com/p/8f2b9d6b9c85
@@ -904,4 +903,3 @@ class ViewController: UIViewController {
 * 多播确实能够解决一些一对多订阅的问题
 * 可以在 `prepareForReuse` 方法中做一些重用前的操作。
 * 苹果用 `NS_ASSUME_NONNULL_BEGIN`，`NS_ASSUME_NONNULL_END` 这两个宏来统一给属性和方法参数和返回值加上`nonnull` 修饰，`NS_ASSUME_NONNULL_BEGIN` 和 `NS_ASSUME_NONNULL_END` 之间，定义的所有对象属性和方法默认都是 `nonnull`。
->>>>>>> 82f297be3adbcb44f8165a52d684d2159429e74b
