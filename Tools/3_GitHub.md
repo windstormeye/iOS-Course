@@ -62,4 +62,17 @@ GitHub，全球最大的同性交友网站。。。其实应该说是全球最�
 * [Pluralsight – Github：初学者指南](https://www.pluralsight.com/blog/software-development/github-tutorial)
 
 
+## 子模块 git submodule
+**为什么需要？**
 
+一般情况下不同的语言下都会有自身的三方库依赖管理工具，如 Swift 的 Swift Package Manager，Ruby 的 Ruby Gem 等等，但依旧存在某些语言不提供官方默认的依赖管理工具，需要开发者自行处理依赖关系，如 C++ 等。
+
+这种情况下可以通过 git submodule 子模块的形式单独依赖完整的 git 仓库，且拥有完整的 git history，集成进主仓时也仅通过文件夹的方式引入到主仓目录下，与平常直接引入全部文件的方式无异。
+
+**使用**
+
+细节可参考
+
+[Git 工具 - 子模块](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97)
+
+[Using Git Submodules With Xcode — Tutorial For iOS](https://medium.com/@aestusLabs/using-git-submodules-with-xcode-tutorial-for-ios-dcfc28a82c20)
