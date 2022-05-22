@@ -984,7 +984,6 @@ func scrollViewDidScroll(_ scrollView: UIScrollView) {
 ```swift
 // MARK: Section mark
 // MARK: - Section mark with a separator line
-// TODO: Do something soon
 // FIXME: Fix this code
 ```
 

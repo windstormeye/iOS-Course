@@ -321,7 +321,6 @@ Widget _buildDetails(Movie movie) {
   }
 
   return new Container(
-    //TODO: 这需要根据屏幕宽度进行设置
       width: 230.0,
       child: new Text(detailsString,
         softWrap: true,
