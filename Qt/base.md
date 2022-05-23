@@ -43,7 +43,19 @@ VS - file - Open - CMake
 
 ### QFuture
 
-基于 `Qt::Concurrent` 实现。
+* 基于 `Qt::Concurrent` 实现。
+* QFuture 运行线程同步的获得一个或多个在将来某个时间点才准备好的结果。
+* 这些结果可以时任何具有默认构造函数和拷贝构造函数的类型。
+* 如果在调用该类的 `result()`、`resultAt()`、`results()` 函数时某个结果还不可用，QFuture 会等待直到结果可用。
+* 可用使用 `isResualtReadyAy()` 来判断某个结果是否已经准备好。
+* `waitForFinished()` 函数调用会导致调用线程阻塞来等待异步计算结束，以确保所有的结果都是可用的。
 
-TODO: 
-工程里没有搜到用该方式的地方，需研究。可参考[这篇文章](https://blog.csdn.net/Amnes1a/article/details/65630701)
+`QFuture` 不支持信号和槽，`QFutureWatcher` 可支持，可读取到任务状态。
+
+
+工程里没有搜到用该方式的地方，可参考文章：
+* [使用QFuture类监控异步计算的结果](https://blog.csdn.net/Amnes1a/article/details/65630701)
+* [QFuture的使用：多线程与进度条](https://blog.csdn.net/gongjianbo1992/article/details/106957888/)
+
+
+            auto asset = QSharedPointer<VideoAsset>(new VideoAsset(urlFileName, url, QDir::toNativeSeparators("file:" + coverImageFilePath)));
