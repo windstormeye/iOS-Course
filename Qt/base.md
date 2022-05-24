@@ -58,4 +58,3 @@ VS - file - Open - CMake
 * [QFuture的使用：多线程与进度条](https://blog.csdn.net/gongjianbo1992/article/details/106957888/)
 
 
-            auto asset = QSharedPointer<VideoAsset>(new VideoAsset(urlFileName, url, QDir::toNativeSeparators("file:" + coverImageFilePath)));
