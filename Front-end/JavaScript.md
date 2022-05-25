@@ -20,3 +20,25 @@
 
 ## 连接两个数组
 不可使用 `+=`，而是 `concat`。
+
+## 基础语法
+
+### ES6
+
+#### 数组展开
+可用使用 `...` 对一维数组下另外塞入的完整一维数组进行进行展开，防止变为二维数组。
+
+```js
+ES6 扩展运算符...可以将两重数组转换为单层数组:
+[].concat(...[1, [2, 3, [4]], "a", "b", ["c", "d"], [["d"],"e"], "f"]);  // [1, 2, 3, Array(1), "a", "b", "c", "d", Array(1), "e", "f"]
+
+// 利用 some 方法，我们可以实现多重转换为单层：
+
+function flatten(origin) { while(origin.some(item=> Array.isArray(item))) {
+        origin = [].concat(...origin);
+    } return origin;
+}
+
+var arr = [1, [2, 3, [4]], "a", "b", ["c", "d"], [["d"],"e"], "f"];  
+console.log(flatten(arr)) // [1, 2, 3, 4, "a", "b", "c", "d", "d", "e", "f"]
+```

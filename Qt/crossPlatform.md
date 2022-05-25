@@ -13,6 +13,9 @@
 
 最后再执行 `cmake --install .` 即可拿到二进制包，集成只 Qt Creator 或 CMakeLists 中写明版本即可。
 
+### 通过 MaintenaceTool 工具安装
+可以下载到完整的二进制包，避免本地 build 过程耗时将近 2 小时。
+
 ## 路径转换
 
 因为历史原因 win 平台上文件路径都是以 `/` 反斜杠切割，除此之外的所有系统均以 `\` 正斜杆来切割。在 Qt 中为了解决不同平台之间的路径切割符的问题，可用使用 `QDir::toNativeSeparators()` 方法进行转换
