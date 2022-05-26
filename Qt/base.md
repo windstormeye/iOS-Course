@@ -56,5 +56,3 @@ VS - file - Open - CMake
 工程里没有搜到用该方式的地方，可参考文章：
 * [使用QFuture类监控异步计算的结果](https://blog.csdn.net/Amnes1a/article/details/65630701)
 * [QFuture的使用：多线程与进度条](https://blog.csdn.net/gongjianbo1992/article/details/106957888/)
-
-
