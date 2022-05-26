@@ -1,3 +1,40 @@
+## 内存管理
+
+### Qt 对象树内存管理机制
+Qt 是一个基于 C++ 的跨平台 GUI 框架，C++ 本身是没有自动垃圾回收机制的，但 Qt 为了解决 C++ 中大量重复性的 `new` 和 `delete`，引入了“对象树”的“半自动内存管理机制”。在 Qt 中所有的 C++ 类如果想要利用上 Qt 的对象树内存管理机制，需要派生自 `QObject`。`QObject` 中有 `parent` 字段标记了其父对象指针，以及 `list` 容器对象保存了所有子对象指针。如果一个对象的 `parent` 非 0，则该对象 `parent` 在执行析构时会析构该对象。
+
+可以手动设置一个对象的 `parent` 对象，需要注意二者需要在同一线程。
+
+### 利用智能指针优化内存管理
+
+```C++
+#include <QApplication>
+#include <QLabel>
+
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+    QLabel *label = new QLabel("PJHubs");
+    label->show();
+    return app.exec();
+}
+```
+
+在 QtWidgets 下这是一份非常典型的内存泄露代码，修复该问题可以有：
+
+* 将 label 对象分配到 stack 中而不是 heap（堆）中。
+* 给 label 设置标记位 `Qt::WA_DeleteOnClose`。
+* 手动调用 `delete`。
+* 使用智能指针。
+
+前三种比较熟悉了，而使用智能指针可以写出以下逻辑：
+
+```C++
+std::auto_ptr<QLabel> label(new QLabel("PJHubs"));
+```
+
+详见[这篇文章](https://blog.csdn.net/L_Andy/article/details/107645633)。
+
+
 ## 工程配置
 
 ### 使用 VS 进行开发
