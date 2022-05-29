@@ -171,6 +171,7 @@ UI | [UI](./Qt/UI.md)
 跨平台 | [跨平台、本地编译 Qt 等](./Qt/crossPlatform.md)
 优化 | [性能、UI 优化等](./Qt/opt.md)
 C++ | [技巧、难点等](/Qt/C%2B%2B.md)
+工程配置 | [工程配置](/Qt/project.md)
 
 ## 测试
 类型 | 文章
