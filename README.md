@@ -61,6 +61,7 @@ Swift | [SwiftUI](./iOS/Swift/SwiftUI.md)
 Swift | [有趣的代码段](./iOS/Swift/code.md)
 UI | [UI 相关](./iOS/UI.md)
 Swift | [Core Data](./iOS/Swift/CoreData.md)
+Swift | [Playgrounds](./iOS/Swift/Playgrounds.md)
 
 ## macOS
 
