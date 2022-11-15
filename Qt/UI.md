@@ -15,3 +15,28 @@ MouseArea{
 ```
 
 `cursorShape` 可以修改鼠标光标移动到 `Item` 上时的样式
+
+## 布局
+
+### GridView
+
+使用 `gridView` 时需要给对应的 delegate 包一层 `Component`，这样才能在其中拿到对应数据源子项的 model，否则会提示找不到 model。
+
+```qml
+Component {
+    id: item
+    ImageBrowserItemView {
+        id: itemView
+        coverUrl: asset.fileUrl
+    }
+}
+
+GridView {
+    id: gridView
+    model: viewModel
+    delegate: item
+    cellWidth: 80
+    cellHeight: gridView.height
+    anchors.fill: parent
+    }
+```
