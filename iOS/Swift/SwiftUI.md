@@ -5,6 +5,13 @@
 
 ### Live Mode 情况下只是展示 UI，逻辑实际上并不能跑
 
+### Scene
+`Scene` 一个 App 中可以有多个 `Scene`，一个 `Scene` 下也可以有多个 `View`。目前为止，官方提供的三种 `Scene` 类型为
+
+* `WindowGroup`。绝大多数时候都使用它
+* `Settings`。需要对当前 app 进行一些配置时
+* `DocumentGroup`。需要对文件做一些配置，可以包在其下，具备了基本的文件操作，如撤回和回退等。
+
 ### `some View` 这一行代码是什么意思？
 `Swift 5.1` 中新增了一个**不透明结果类型**。在 `SwiftUI` 中，同样也都是几乎所有的系统组件都继承自 `View` 这个**协议**，但 `View` 本身却带有个 `associatedtype` 关联类型，带有关联类型的协议不能作为**类型**来使用，返回一个 `View` 时必须指定该 `View` 的类型。
 
@@ -18,6 +25,10 @@
 * 方法使用者依旧无法知道类型，（使用方不透明）
 * 编译器知情具体类型，因此可以使用类型推断。
 
+具体细节可看[这个视频](https://www.bilibili.com/video/BV1CG411776w/?spm_id_from=333.788&vd_source=beeffc73c4661fe63439d618b05342c6)，里面有用 Playground 演示代码。
+
+### 熟悉 SwiftUI 具备的能力
+当你还并不了解 SwiftUI 到底都具备哪些能力时，在打开 Canvas 预览后在 Xcode 右上角区域点击“+”，打开 Snippets，你会看到截止到你的 Xcode 当前版本为止所支持的所有 SwiftUI 基础 `View` 和 `Layout`，很香，有时间就多看看，帮助很大。
 
 ### 加入现有的 `UIViewController`
 ```swift
@@ -413,3 +424,9 @@ combineLatest 被用来处理多个可变状态，在其中某一个状态发生
 
 ![图形绘制](https://i.loli.net/2019/08/20/vJVx9UGD3l2qkZN.png)
 
+
+
+## 参考资料
+
+* [100 Days of SwiftUI](https://www.hackingwithswift.com/100/swiftui)
+* [ChaoCode - Youbute](https://www.youtube.com/@ChaoCode)
