@@ -11,3 +11,18 @@ return intValue != 0
 // or
 (intValue != 0)
 ```
+
+### Swift 做域
+```swift
+extension Tracker {
+    struct SVE {}
+}
+
+extension Tracker.SVE {
+    func xxx() {
+
+    }
+}
+
+Tracker.SVE.xxx()
+```
