@@ -26,3 +26,9 @@ extension Tracker.SVE {
 
 Tracker.SVE.xxx()
 ```
+
+### `@PropertyWrapper` 如何使用
+
+详见：[https://medium.com/@EvangelistApps/property-wrappers-in-swift-51cee87e2c32](https://medium.com/@EvangelistApps/property-wrappers-in-swift-51cee87e2c32)
+
+简单来说其本质也是方法，只不过这个方法是编译器确认，能够在写代码的时候就调用，加入了检查环节，保证未开始构建时就能够发现问题。
